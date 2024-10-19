@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import './App.css'
-import TodoForm from './Todos/TodoForm';
-import AppHeader from './Header/AppHeader';
-import Sidebar from './Sidebar/Sidebar';
+
+import Sidebar from './components/Sidebar';
 import { Content } from 'antd/es/layout/layout';
+import AppHeader from './components/Header';
+import TodoForm from './components/Todos';
 
 function App() {
 

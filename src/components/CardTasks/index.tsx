@@ -1,143 +1,60 @@
 import React, { useState } from 'react';
-import { LikeOutlined, MessageOutlined, StarOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import {
+  LikeOutlined,
+  MessageOutlined,
+  StarOutlined,
+  InfoCircleOutlined,
+} from '@ant-design/icons';
 import { Avatar, Card, Col, Row, Space, Modal, Button, Tooltip } from 'antd';
-import styled, { css } from 'styled-components';
+import {
+  Category,
+  CategoryLine,
+  CreatorTag,
+  NoTagsMessage,
+  PaperCard,
+  StatusIndicator,
+  TagChip,
+  TagContainer,
+  ModalContent,
+  Title,
+  Description,
+  Content,
+  CreationDate,
+  ExpirationDate,
+} from './Card.styles';
 
-// Card styles
-const PaperCard = styled(Card)`
-  border-radius: 12px;
-  margin-bottom: 16px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background: #ffffff;
+type Tag = {
+  name: string;
+  color: string;
+};
 
-  &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    transform: translateY(-6px) scale(1.03);
-    border: 2px solid #1890ff;
-  }
+type Item = {
+  title: string;
+  avatar: string;
+  description: string;
+  content: string;
+  image: string;
+  expired: boolean;
+  completed: boolean;
+  expirationDate: string | null;
+  creationDate: string;
+  categories: string[];
+  tags: Tag[];
+  creator: string;
+};
 
-  ${(props) =>
-    props.expired &&
-    css`
-      background: #ffcccc;
-      opacity: 0.7;
-      pointer-events: none;
-    `}
-
-  ${(props) =>
-    !props.expirationDate &&
-    css`
-      border: 2px solid #ffa940;
-      box-shadow: 0 4px 20px rgba(255, 169, 64, 0.5);
-    `}
-`;
-
-// Category and tag styles
-const CategoryLine = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 8px 0;
-`;
-
-const Category = styled.span`
-  background: #e6f7ff;
-  color: #1890ff;
-  padding: 5px 10px;
-  border-radius: 12px;
-  font-size: 12px;
-  margin: 4px 2px;
-  border: 1px solid #1890ff;
-  max-width: 100px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  &:hover {
-    background: #1890ff;
-    color: #fff;
-  }
-`;
-
-const TagContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 8px;
-  max-height: 40px; // Limit height for overflow
-  overflow: hidden; // Hide overflowing tags
-`;
-
-const TagChip = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${(props) => props.color || '#ccc'};
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: 16px;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-
-// No Tags/Categories message
-const NoTagsMessage = styled.div`
-  margin-top: 8px;
-  font-size: 14px;
-  color: #999;
-  text-align: center;
-`;
-
-// Creator tag styles
-const CreatorTag = styled.div`
-  display: flex;
-  align-items: center;
-  background: #fff0f6;
-  color: #ff4d4f;
-  padding: 5px 10px;
-  border-radius: 12px;
-  font-size: 12px;
-  margin-top: 8px;
-
-  img {
-    border-radius: 50%;
-    margin-right: 8px;
-    width: 20px;
-    height: 20px;
-  }
-`;
-
-// Status indicators
-const StatusIndicator = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: ${(props) => (props.expired ? '#ff4d4f' : '#52c41a')};
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-`;
-
-// Main component
-const IconText = ({ icon, text }) => (
+const IconText: React.FC<{ icon: React.ElementType; text: string }> = ({ icon, text }) => (
   <Space>
     {React.createElement(icon)}
     {text}
   </Space>
 );
 
-const UserGrid = () => {
-  const [visible, setVisible] = useState(false);
-  const [currentItem, setCurrentItem] = useState(null);
+const CardTasks: React.FC = () => {
+  const [visible, setVisible] = useState<boolean>(false);
+  const [currentItem, setCurrentItem] = useState<Item | null>(null);
 
-  const showModal = (item) => {
+  const showModal = (item: Item) => {
     setCurrentItem(item);
     setVisible(true);
   };
@@ -147,7 +64,7 @@ const UserGrid = () => {
     setCurrentItem(null);
   };
 
-  const data = Array.from({ length: 23 }).map((_, i) => ({
+  const data: Item[] = Array.from({ length: 23 }).map((_, i) => ({
     title: `Ant Design Part ${i}`,
     avatar: `https://api.dicebear.com/7.x/miniavs/svg?seed=${i}`,
     description: 'Ant Design, a design language for background applications.',
@@ -163,7 +80,7 @@ const UserGrid = () => {
       { name: `Tag ${i + 1}`, color: '#ffa940' },
       { name: `Super Long Tag Name ${i + 2}`, color: '#1890ff' },
       { name: `Another Tag ${i + 3}`, color: '#8c7ae6' },
-      { name: `Final Tag ${i + 4}`, color: '#44bd32' }
+      { name: `Final Tag ${i + 4}`, color: '#44bd32' },
     ],
     creator: `Usuário ${i}`,
   }));
@@ -197,7 +114,7 @@ const UserGrid = () => {
                 title={<a href={`https://ant.design`}>{item.title}</a>}
                 description={item.description}
               />
-              
+
               <CategoryLine>
                 {item.categories.length > 0 ? (
                   item.categories.slice(0, 3).map((category, catIndex) => (
@@ -215,12 +132,12 @@ const UserGrid = () => {
                 <img src={item.avatar} alt="Creator" />
                 Criado por: {item.creator}
               </CreatorTag>
-              <div style={{ marginTop: 8, fontSize: '14px', color: '#666' }}>
+              <Content>
                 {item.content}
-              </div>
-              <div style={{ fontSize: '12px', color: '#999' }}>
+              </Content>
+              <CreationDate>
                 Criado em: {item.creationDate} | {item.expirationDate ? `Expira em: ${item.expirationDate}` : 'Sem Data'}
-              </div>
+              </CreationDate>
               <StatusIndicator expired={item.expired}>
                 {item.expired ? 'Expirado' : 'Ativo'}
               </StatusIndicator>
@@ -254,20 +171,20 @@ const UserGrid = () => {
         footer={<Button onClick={handleCancel} type="primary">Fechar</Button>}
       >
         {currentItem && (
-          <>
+          <ModalContent>
             <img
               alt="example"
               src={currentItem.image}
               style={{ width: '100%', borderRadius: '12px', marginBottom: '16px' }}
             />
-            <h3 style={{ color: '#333' }}>{currentItem.title}</h3>
-            <p style={{ color: '#777' }}>{currentItem.description}</p>
-            <p style={{ color: '#555' }}>{currentItem.content}</p>
-            <p style={{ color: '#999' }}>Criado em: {currentItem.creationDate}</p>
+            <Title>{currentItem.title}</Title>
+            <Description>{currentItem.description}</Description>
+            <Content>{currentItem.content}</Content>
+            <CreationDate>Criado em: {currentItem.creationDate}</CreationDate>
             {currentItem.expirationDate ? (
-              <p style={{ color: '#999' }}>Data de expiração: {currentItem.expirationDate}</p>
+              <ExpirationDate>Data de expiração: {currentItem.expirationDate}</ExpirationDate>
             ) : (
-              <p style={{ color: '#ff4d4f' }}>Este item não possui data de expiração.</p>
+              <ExpirationDate error>Este item não possui data de expiração.</ExpirationDate>
             )}
             <CreatorTag>
               <img src={currentItem.avatar} alt="Creator" />
@@ -296,11 +213,11 @@ const UserGrid = () => {
                 <NoTagsMessage>Sem Tags</NoTagsMessage>
               )}
             </TagContainer>
-          </>
+          </ModalContent>
         )}
       </Modal>
     </>
   );
 };
 
-export default UserGrid;
+export default CardTasks;
