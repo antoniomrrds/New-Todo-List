@@ -7,9 +7,9 @@ export type CreateTask = {
     description: string;
     isCompleted: boolean;
     status: number;
-    createdAt: string;
-    updatedAt: string;
+
 };
+
 
 export type Task = {
     id: number;
@@ -21,6 +21,9 @@ export type Task = {
     status: number;
     createdAt: string;
     updatedAt: string;
+    expirationDate: string | null;
+    avatar: string | null;
+    image: string | null;
     createdAtFormatted: string;
     updatedAtFormatted: string;
 };
