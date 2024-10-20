@@ -1,27 +1,30 @@
 import React, { useState } from "react";
 import { message, Space, Empty } from "antd";
-import {
-    SearchOutlined, PlusOutlined, FilterOutlined
-} from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined, FilterOutlined } from '@ant-design/icons';
 import { StyledButton, StyledInput } from "./TodoForm.styles";
 import AddTaskModal from "./AddTaskModal";
 import FilterTasksModal from "./FilterTasksModal";
-import CardTasks from "../CardTasks";
+import { useQuery } from "react-query";
+import { Task, taskservices } from "../../api/services/tasks";
+import { AxiosError } from "axios";
 
 const TodoForm: React.FC = () => {
+    const { data: tasks = [], isLoading, error } = useQuery<Task[], AxiosError>("tasks", taskservices.getAllTasks);
+
     const [searchTerm, setSearchTerm] = useState<string>("");
-    const [tasks, setTasks] = useState<string[]>([]);
     const [addTaskVisible, setAddTaskVisible] = useState<boolean>(false);
     const [filterVisible, setFilterVisible] = useState<boolean>(false);
 
-    const onAddTaskFinish = (values: { task: string }) => {
-        setTasks([...tasks, values.task]);
-        message.success(`Tarefa adicionada: ${values.task}`);
+    if (isLoading) return <div>Carregando...</div>;
+    if (error) return <div>Erro: {error.message}</div>;
+
+    const onAddTaskFinish = (task: Task) => {
+        message.success(`Tarefa adicionada: ${task.title}`);
         setAddTaskVisible(false);
     };
 
-    const onFilterFinish = (values: { filter: string }) => {
-        message.info(`Filtrando por: ${values.filter}`);
+    const onFilterFinish = (filter: any) => {
+        message.info(`Filtrando por: ${filter}`);
         setFilterVisible(false);
     };
 
@@ -34,9 +37,9 @@ const TodoForm: React.FC = () => {
         setSearchTerm(e.target.value);
     };
 
-    const handleSearchSubmit = () => {
-        message.info(`Buscando por: ${searchTerm}`);
-    };
+    const filteredTasks = tasks.filter(task =>
+        task.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <>
@@ -46,10 +49,9 @@ const TodoForm: React.FC = () => {
                         placeholder="Buscar Tarefas"
                         value={searchTerm}
                         onChange={handleSearchChange}
-                        onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
-                        onBlur={handleSearchSubmit}
+                        onKeyDown={(e) => e.key === "Enter" && message.info(`Buscando por: ${searchTerm}`)}
                     />
-                    <StyledButton type="default" icon={<SearchOutlined />} onClick={handleSearchSubmit} />
+                    <StyledButton type="default" icon={<SearchOutlined />} onClick={() => message.info(`Buscando por: ${searchTerm}`)} />
                 </Space.Compact>
                 <StyledButton type="default" onClick={showFilterModal} icon={<FilterOutlined />}>
                     Filtrar
@@ -60,21 +62,19 @@ const TodoForm: React.FC = () => {
             </Space>
 
             <AddTaskModal
-                visible={addTaskVisible}
+                open={addTaskVisible}
                 onCancel={handleAddTaskCancel}
                 onFinish={onAddTaskFinish}
             />
 
             <FilterTasksModal
-                visible={filterVisible}
+                open={filterVisible}
                 onCancel={handleFilterCancel}
                 onFinish={onFilterFinish}
             />
 
-            <CardTasks />
-
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh', flexDirection: 'column' }}>
-                {tasks.length === 0 ? (
+                {filteredTasks.length === 0 ? (
                     <Empty
                         image={Empty.PRESENTED_IMAGE_SIMPLE}
                         description="Nenhuma tarefa encontrada"
@@ -84,13 +84,11 @@ const TodoForm: React.FC = () => {
                         </StyledButton>
                     </Empty>
                 ) : (
-                    <div>
-                        <ul>
-                            {tasks.map((task, index) => (
-                                <li key={index}>{task}</li>
-                            ))}
-                        </ul>
-                    </div>
+                    <ul>
+                        {filteredTasks.map(task => (
+                            <li key={task.id}>{task.title}</li>
+                        ))}
+                    </ul>
                 )}
             </div>
         </>

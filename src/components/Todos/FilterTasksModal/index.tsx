@@ -3,19 +3,19 @@ import { Form, Space } from "antd";
 import { CloseOutlined, FilterOutlined } from '@ant-design/icons';
 import { StyledButton, StyledInput, StyledModal } from "../TodoForm.styles";
 
-interface FilterTasksModalProps {
-    visible: boolean;
+type FilterTasksModalProps = {
+    open: boolean;
     onCancel: () => void;
     onFinish: (values: { filter: string }) => void;
 }
 
-const FilterTasksModal: React.FC<FilterTasksModalProps> = ({ visible, onCancel, onFinish }) => {
+const FilterTasksModal: React.FC<FilterTasksModalProps> = ({ open, onCancel, onFinish }) => {
     const [form] = Form.useForm();
 
     return (
         <StyledModal
             title={null}
-            visible={visible}
+            open={open}
             footer={null}
             onCancel={onCancel}
             closable={false}
