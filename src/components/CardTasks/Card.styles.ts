@@ -1,4 +1,5 @@
-import { Card, CardProps } from 'antd';
+import { Card, CardProps, Typography } from 'antd';
+const { Text } = Typography;
 import styled, { css } from 'styled-components';
 
 interface PaperCardProps extends CardProps {
@@ -6,7 +7,6 @@ interface PaperCardProps extends CardProps {
   expirationDate?: string | null;
 }
 
-// Category and tag styles
 export const CategoryLine = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -36,8 +36,8 @@ export const TagContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-top: 8px;
-  max-height: 40px; // Limit height for overflow
-  overflow: hidden; // Hide overflowing tags
+  max-height: 40px;
+  overflow: hidden;
 `;
 
 export const TagChip = styled.div`
@@ -56,7 +56,6 @@ export const TagChip = styled.div`
   }
 `;
 
-// No Tags/Categories message
 export const NoTagsMessage = styled.div`
   margin-top: 8px;
   font-size: 14px;
@@ -64,8 +63,26 @@ export const NoTagsMessage = styled.div`
   text-align: center;
 `;
 
-// Creator tag styles
 export const CreatorTag = styled.div`
+  display: flex;
+  align-items: center;
+  background: #fff0f6;
+  color: #ff4d4f;
+  padding: 8px 12px; // Aumentar o padding
+  border-radius: 12px;
+  font-size: 14px; // Aumentar o tamanho da fonte
+  margin-top: 8px;
+  font-family: 'Arial', sans-serif; // Fonte mais legível
+
+  img {
+    border-radius: 50%;
+    margin-right: 8px;
+    width: 24px; // Aumentar o tamanho do avatar
+    height: 24px; // Aumentar o tamanho do avatar
+  }
+`;
+
+export const CreatorName = styled.span`
   display: flex;
   align-items: center;
   background: #fff0f6;
@@ -81,21 +98,44 @@ export const CreatorTag = styled.div`
     width: 20px;
     height: 20px;
   }
+  .creator-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 40%;
+  }
+
+  .creator-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 40%;
+  }
 `;
 
-// Card styles
+export const CreatorText = styled.span`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40%;
+  padding-right: 5px;
+  
+`;
+
 export const PaperCard = styled(Card)<PaperCardProps>`
   border-radius: 12px;
   margin-bottom: 16px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   background: #ffffff;
+  min-height: 300px; // Define uma altura mínima
+  width: 250px;
+  
 
   &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); // Sombra mais sutil
+    transform: translateY(-4px) scale(1.02); // Movimento mais suave
     border: 2px solid #1890ff;
   }
 
@@ -115,7 +155,6 @@ export const PaperCard = styled(Card)<PaperCardProps>`
     `}
 `;
 
-// Status indicators
 export const StatusIndicator = styled.div<{ expired?: boolean }>`
   position: absolute;
   top: 10px;
@@ -128,7 +167,6 @@ export const StatusIndicator = styled.div<{ expired?: boolean }>`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-
 export const ModalContent = styled.div`
   padding: 16px;
 `;
@@ -138,22 +176,24 @@ export const Title = styled.h3`
   margin: 0 0 8px;
 `;
 
-export const Description = styled.p`
-  color: #777;
-  margin: 0 0 8px;
-`;
-
-export const Content = styled.p`
-  color: #555;
-  margin: 0 0 8px;
+export const Description = styled(Text)`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  max-width: 100%;
 `;
 
 export const CreationDate = styled.p`
   color: #999;
-  margin: 0;
+  margin: 4px 0; // Espaçamento entre as datas
+  font-size: 14px; // Aumentar o tamanho da fonte
 `;
 
 export const ExpirationDate = styled.p<{ error?: boolean }>`
   color: ${(props) => (props.error ? '#ff4d4f' : '#999')};
-  margin: 0;
+  margin: 4px 0; // Espaçamento entre as datas
+  font-size: 14px; // Aumentar o tamanho da fonte
 `;
+
+

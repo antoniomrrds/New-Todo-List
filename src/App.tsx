@@ -21,7 +21,7 @@ function App() {
         <Layout style={{ minHeight: '100vh' }}>
           <AppHeader />
           <Layout>
-            <Sidebar />
+            {/* <Sidebar /> */}
             <Content style={{ padding: '20px' }}>
               <Routes>
                 <Route path="/todo" element={<TodoForm />} />
