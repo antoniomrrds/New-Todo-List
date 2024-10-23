@@ -59,6 +59,7 @@ const ContainerSection = styled.section`
 
 const TasksContainer = styled.div`
   display: flex;
+  gap: 16px;
   /* background-color: yellow  ; */
   flex-wrap: wrap; /* Allow wrapping of cards */
   justify-content: center; /* Center align cards */

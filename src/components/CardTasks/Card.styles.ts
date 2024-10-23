@@ -1,5 +1,4 @@
-import { Card, CardProps, Typography } from 'antd';
-const { Text } = Typography;
+import { Card, CardProps } from 'antd';
 import styled, { css } from 'styled-components';
 
 interface PaperCardProps extends CardProps {
@@ -82,7 +81,7 @@ export const CreatorTag = styled.div`
   }
 `;
 
-export const CreatorName = styled.span`
+export const CreatorName = styled.div`
   display: flex;
   align-items: center;
   background: #fff0f6;
@@ -91,6 +90,7 @@ export const CreatorName = styled.span`
   border-radius: 12px;
   font-size: 12px;
   margin-top: 8px;
+  
 
   img {
     border-radius: 50%;
@@ -98,12 +98,7 @@ export const CreatorName = styled.span`
     width: 20px;
     height: 20px;
   }
-  .creator-text {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 40%;
-  }
+
 
   .creator-name {
     white-space: nowrap;
@@ -121,21 +116,19 @@ export const CreatorText = styled.span`
   padding-right: 5px;
   
 `;
-
 export const PaperCard = styled(Card)<PaperCardProps>`
-  border-radius: 12px;
-  margin-bottom: 16px;
-  position: relative;
+  border-radius: 12px;  
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background: #ffffff;
-  min-height: 300px; // Define uma altura mínima
-  width: 250px;
+  max-width: 490px;
+  display: flex;
+  flex-direction: row;
   
 
   &:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); // Sombra mais sutil
-    transform: translateY(-4px) scale(1.02); // Movimento mais suave
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px) scale(1.02);
     border: 2px solid #1890ff;
   }
 
@@ -176,13 +169,6 @@ export const Title = styled.h3`
   margin: 0 0 8px;
 `;
 
-export const Description = styled(Text)`
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  -webkit-line-clamp: 2;
-  max-width: 100%;
-`;
 
 export const CreationDate = styled.p`
   color: #999;
@@ -196,4 +182,20 @@ export const ExpirationDate = styled.p<{ error?: boolean }>`
   font-size: 14px; // Aumentar o tamanho da fonte
 `;
 
+export const Img = styled.img`
+  max-width: 124px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
 
+`;
+
+export const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  width: 100%;
+  height: 100%;
+  position: relative; /* Para posicionar o overlay */
+`;
