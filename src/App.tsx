@@ -4,11 +4,11 @@ import { Layout } from 'antd';
 
 import './App.css'
 
-import Sidebar from './components/Sidebar';
 import { Content } from 'antd/es/layout/layout';
 import AppHeader from './components/Header';
 import TodoForm from './components/Todos';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import AppFooter from './components/Footer';
 
 
 const queryClient = new QueryClient();
@@ -28,6 +28,7 @@ function App() {
               </Routes>
             </Content>
           </Layout>
+          < AppFooter/>
         </Layout>
       </Router>
     </QueryClientProvider >
