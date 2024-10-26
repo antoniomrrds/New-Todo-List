@@ -28,7 +28,7 @@ const CardTasks: React.FC<{ data: Task[] }> = ({ data }) => {
           text={task.expired ? 'Expirado' : 'Ativo'}
           color={task.expired ? 'red' : 'green'}
         >
-          <Styled.PaperCard hoverable
+          <Styled.PaperCard 
             cover={
               <Styled.DateContainer>
                 <Styled.DayOverlay>{new Date(task.createdAt).getDate()}</Styled.DayOverlay>
