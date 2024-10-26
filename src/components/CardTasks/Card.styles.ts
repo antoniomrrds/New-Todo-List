@@ -1,37 +1,41 @@
-import { Card, CardProps } from 'antd';
+import { Card } from 'antd';
 import styled from 'styled-components';
 
-interface PaperCardProps extends CardProps {
-  expired?: boolean;
-}
 
-export const PaperCard = styled(Card)<PaperCardProps>`
+
+
+export const PaperCard = styled(Card)`
+
   border-radius: 12px;
+ 
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background: #ffffff;
-  position: relative;
-  display: flex;
-  flex-direction: column;
 `;
 
 export const DateContainer = styled.div`
-  position: relative;
-  background: rgba(0, 0, 0, 0.5);
-  color: #ffffff;
-  padding: 10px;
-  border-radius: 12px 12px 0 0;
+  background: rgba(0, 0, 0, 0.6);
+  height: 100%;
+  color: whitesmoke;
+  padding: 25px 0 25px 0;
   text-align: center;
+  &:hover {
+    pointer-events: painted;
+  }
 `;
 
 export const CreationDate = styled.p`
   margin: 0;
   font-size: 12px;
+
 `;
 
 export const DayOverlay = styled.span`
   font-size: 32px;
   font-weight: bold;
+  &:hover {
+    pointer-events: painted;
+    color: yellow;
+ 
+  }
 `;
 
 export const CreatorName = styled.div`
@@ -57,24 +61,13 @@ export const CreatorName = styled.div`
   }
 `;
 
-export const StatusIndicator = styled.div<{ expired?: boolean }>`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: ${(props) => (props.expired ? '#ff4d4f' : '#52c41a')};
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-`;
-
-
 export const CardsContainer = styled.section`
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-gap: 20px;
-justify-content: flex-start;
-margin: 0 auto;
-padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 20px;
+ 
+  justify-content: flex-start;
+  margin: 0 auto;
+
+
 `;
