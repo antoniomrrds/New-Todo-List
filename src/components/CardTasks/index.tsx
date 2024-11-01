@@ -18,7 +18,7 @@ type Task = {
 const avatar = 'https://api.dicebear.com/7.x/miniavs/svg?seed=${id}';
 
 const CardTasks: React.FC<{ data: Task[] }> = ({ data }) => {
-  data = [...exampleTasks, ...value];
+  // data = [...exampleTasks, ...value];
 
   return (
     <Styled.CardsContainer>
@@ -28,7 +28,7 @@ const CardTasks: React.FC<{ data: Task[] }> = ({ data }) => {
           text={task.expired ? 'Expirado' : 'Ativo'}
           color={task.expired ? 'red' : 'green'}
         >
-          <Styled.PaperCard hoverable
+          <Styled.PaperCard 
             cover={
               <Styled.DateContainer>
                 <Styled.DayOverlay>{new Date(task.createdAt).getDate()}</Styled.DayOverlay>
