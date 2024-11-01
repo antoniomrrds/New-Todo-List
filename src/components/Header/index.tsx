@@ -19,7 +19,7 @@ const items = [
   },
   {
     key: 'learn',
-    icon: <BookOutlined />,
+    icon: <BookOutlined  />,
     label: 'Learn',
   },
 ];
