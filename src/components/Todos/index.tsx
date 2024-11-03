@@ -23,11 +23,13 @@ const StyledContainer = styled.main`
 `;
 
 const TaskContent = styled.div`
+padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center; 
     align-items: center; 
-    height: 100%; 
+    
+    height: ${({ theme }) => theme.container.fullHeight}; 
 `;
 
 const SearchContainer = styled.div`

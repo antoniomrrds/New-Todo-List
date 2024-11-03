@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import AppFooter from "@/components/Footer";
-import {AppHeader} from "@/components/header"; 
-import { HeroBullets } from '@/components/hero-bullets';
-import {FeaturesHero} from '@/components/features-hero'
+import {AppHeader} from "@/components/Header"; 
+import AppFooter from '@/components/Footer';
+
 
 const PageWrapper = styled.div`
   display: flex;
@@ -25,8 +24,11 @@ const ContentWrapper = styled.div`
 
 export const HomePage: React.FC = () => {
     return (
-
+      <>
+       <AppHeader/>
       <div>oi</div>
+      <AppFooter/>
+      </>
         // <PageWrapper>
         //     <AppHeader />
         //     <HeroBullets

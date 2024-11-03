@@ -8,6 +8,7 @@ const StyledAlert = styled(Alert)`
     margin: 20px auto;
     padding: 20px;
     font-size: 18px;
+
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 
