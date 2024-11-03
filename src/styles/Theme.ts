@@ -3,7 +3,8 @@ export const theme = {
     primaryColor: '#059669', // Cor primária
     secondaryColor: '#191D23', 
     tertiaryColor: '#ECFDF5', // Cor secundária
-    quaternaryColor: '#D1FAE5'
+    quaternaryColor: '#D1FAE5',
+    quinaryColor: '#c1d6cc', // Cor terciária
   },
   shades: {
     dark: '#000000', // Preto
@@ -25,7 +26,9 @@ export const theme = {
     fontSizeMedium: '1rem', // 16px
     fontSizeLarge: '1.125rem', // 18px
     fontSizeXlarge: '1.5rem', // 24px
-    fontSizeXXlarge: '6rem', // 96px
+    fontSizeXXlarge: '2rem', // 32px
+    fontSizeXXXlarge: '3rem', // 48px
+    fontSizeHuge: '6rem', // 96px
     fontFamily: {
       inter: '"Inter", sans-serif', // Fonte Inter
       arial: '"Arial", sans-serif', // Fonte Arial

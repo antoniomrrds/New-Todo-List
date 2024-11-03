@@ -5,17 +5,21 @@ import { Layout, Menu as MenuAntd, Drawer as DrawerAntd, Button } from 'antd';
 export const Header = styled(Layout.Header)`
     background: ${({ theme }) => theme.colors.secondaryColor};
     display: flex;
+    
     align-items: center;
     justify-content: space-between;
     padding: 0;
     max-width: ${({ theme }) => theme.container.maxWidth};
     margin: 0 auto;
     width: 100%;
+    position: relative;
+    z-index:2;
 `;
 
 export const Logo = styled.img`
     margin-left: 20px;
     height: 40px;
+    cursor: pointer;    
 `;
 
 export const MenuButton = styled(Button)`
@@ -99,7 +103,8 @@ export const Menu = styled(MenuAntd)`
 `;
 
 export const Container = styled.div`
-    width: 100%;
+    width: 100%;  
+     z-index:2;
     background: ${({ theme }) => theme.colors.secondaryColor};
     border-bottom: 2px solid ${({ theme }) => theme.colors.primaryColor};
 `;

@@ -49,12 +49,7 @@ export const Container = styled.div`
     padding: 20px;
 `;
 
-type ImageProps = {
-    src: string;
-    alt: string;
-};
-
-export const Image = styled.img<ImageProps>`
+export const Image = styled.img`
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;

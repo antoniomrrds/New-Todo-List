@@ -61,12 +61,14 @@ export const AppHeader: React.FC = () => {
     onClose();
     navigate(`/${key === 'home' ? '' : key}`);
   };
-
+  const handleNavigateHome = () => {
+    navigate('/');
+}
 
   return (
     <S.Container>
       <S.Header>
-        <S.Logo src={logo} alt="Logo" />
+        <S.Logo src={logo} onClick={handleNavigateHome} alt="Logo" />
         <S.Menu
           selectedKeys={[selectedKey]}
           items={items.map(item => ({
