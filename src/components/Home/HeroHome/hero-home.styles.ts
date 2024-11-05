@@ -6,7 +6,7 @@
      max-width: ${({ theme }) => theme.container.maxWidth};
      width: ${({ theme }) => theme.container.fullWidthPercentage};
      height: 526px ;
-     padding: ${({ theme }) => theme.container.padding};
+     padding: 5px;
      display: flex;
      justify-content: center;
      align-items: center;
@@ -15,10 +15,13 @@
      background-color: ${({ theme }) => theme.colors.primaryColor} !important;
     overflow: hidden; 
     margin: 0 auto;
+    gap: 20px;
     border-radius: 10px; 
     transition: all 0.3s ease;
+    
    
     ${media.tablet`
+
       height: 378px;
     `}
   `;
@@ -37,7 +40,6 @@
   `;
 
   export const Title = styled.h1`
-    margin: 0;
     color: ${({ theme }) => theme.colors.secondaryColor}!important;
     font-family: ${({ theme }) => theme.typography.fontFamily.inter};
     font-size: clamp(20px, 8vw + 1rem, 80px); 
@@ -51,28 +53,31 @@
       -1px 1px 0 ${({ theme }) => theme.colors.quinaryColor},
       1px 1px 0 ${({ theme }) => theme.colors.quinaryColor};
 
-    ${media.laptop`
-      font-size: clamp(18px, 6vw + 1rem, 72px); 
-    `}
-
+      ${media.laptopL`
+  font-size: clamp(16px, 5vw + 1rem, 72px);
+`}
+${media.laptop`
+  font-size: clamp(16px, 5vw + 1rem, 60px);
+`}
     ${media.tablet`
       font-size: clamp(16px, 5vw + 1rem, 38px);
     `}
 
     ${media.mobileXL`
-      font-size: clamp(14px, 4vw + 1rem, 28px);
+      font-size: clamp(14px, 4vw + 1rem, 30px);
     `}
 
 
   `;
 
   export const Description = styled.p`
-    margin: 0;
     color: ${({ theme }) => theme.colors.quaternaryColor};
     font-family: ${({ theme }) => theme.typography.fontFamily.inter};
     font-size: clamp(12px, 4vw + 1rem, 20px);
-    width: 100%; 
+
     font-weight: regular;
+
+    
     ${media.tablet`
       font-size: clamp(10px, 3vw + 1rem, 16px); 
     `}
@@ -95,7 +100,11 @@
       padding: 20px;
       border-radius: 8px;
       transition: all 0.3s ease;
-      margin-top: 20px;
+   
+      ${media.tablet`
+
+      font-size: clamp(10px, 3vw + 1rem, 16px); 
+    `}
       
       &:hover {
           background-color: ${({ theme }) => theme.colors.secondaryColor} !important;

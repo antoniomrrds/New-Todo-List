@@ -13,7 +13,7 @@ export const Footer = styled.footer`
   color: ${({ theme }) => theme.colors.primaryColor};
   font-weight: bold;
   font-family: ${({ theme }) => theme.typography.fontFamily.inter};
-  font-size: ${({ theme }) => theme.typography.fontSizeLarge};
+  font-size: ${({ theme }) => theme.typography.fontSizeMedium};
     &:hover {
       color: ${({ theme }) => theme.colors.quaternaryColor};
     }

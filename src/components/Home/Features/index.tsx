@@ -23,15 +23,18 @@ export const FeaturesHome: React.FC = () => {
                 listFeatures.map((feature) => (
                   
                     <S.Section key={feature.title}>
+                       
+
+                        <S.ListContainer>
                         <S.Title>{feature.title}</S.Title>
-                        <ul>
                             {feature.items.map((item, index) => (
                                 <S.List key={index}>
                                     <S.CheckCircleIcon  />
                                     {item}
                                 </S.List>
                             ))}
-                        </ul>
+                        </S.ListContainer>
+                           
                     </S.Section>
                 ))
               }
