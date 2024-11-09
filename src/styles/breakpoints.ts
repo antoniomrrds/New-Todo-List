@@ -14,7 +14,7 @@ interface Size {
   largeDesktop: string; // 2560px
 }
 
-const size: Size = {
+export const size: Size = {
   mobileS: '320px',     // Tela móvel pequena
   mobileM: '375px',     // Tela móvel média
   mobileL: '425px',     // Tela móvel grande
@@ -28,7 +28,7 @@ const size: Size = {
 };
 
 // Dispositivo e feedback
-const device = {
+export const device = {
   mobileS: `(max-width: ${size.mobileS})`,
   mobileM: `(max-width: ${size.mobileM})`,
   mobileL: `(max-width: ${size.mobileL})`,

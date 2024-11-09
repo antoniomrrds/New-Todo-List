@@ -27,7 +27,6 @@ const FilterTasksModal: React.FC<FilterTasksModalProps> = ({ open, onCancel, onF
                     type="text"
                     icon={<CloseOutlined />}
                     onClick={onCancel}
-                    style={{ color: 'red' }}
                 />
             </div>
             <Form form={form} onFinish={onFinish} layout="vertical">

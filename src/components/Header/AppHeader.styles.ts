@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Layout, Menu as MenuAntd, Drawer as DrawerAntd, Button } from 'antd';
+import { device, size } from "@/styles/breakpoints";
 
 
 export const Header = styled(Layout.Header)`
@@ -33,7 +34,7 @@ export const MenuButton = styled(Button)`
         opacity: 0.8;
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: ${size.tablet}) {
         display: none;
     }
 `;
@@ -97,14 +98,14 @@ export const Menu = styled(MenuAntd)`
         color: ${({ theme }) => theme.colors.primaryColor} !important;
     }
 
-    @media (max-width: 768px) {
+    @media ${device.tablet} {
         display: none;
     }
 `;
 
 export const Container = styled.div`
-    width: 100%;  
-     z-index:2;
+    width: ${({ theme }) => theme.container.fullWidthPercentage};  
+    z-index:2;
     background: ${({ theme }) => theme.colors.secondaryColor};
     border-bottom: 2px solid ${({ theme }) => theme.colors.primaryColor};
 `;

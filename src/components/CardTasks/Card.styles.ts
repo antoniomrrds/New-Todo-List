@@ -1,13 +1,10 @@
 import { Card } from 'antd';
 import styled from 'styled-components';
 
-
-
-
 export const PaperCard = styled(Card)`
 
   border-radius: 12px;
-  border: 1px solid ${({theme}) => theme.colors.primary};
+  border: 1px solid ${({theme}) => theme.colors.primaryColor};
   overflow: hidden;
   &:hover {
     transition: transform 0.2s;
@@ -21,9 +18,9 @@ export const DateContainer = styled.div`
   height: 100%;
   color: whitesmoke;
   padding: 25px 0 25px 0;
-  background: ${({theme}) => theme.colors.Secundary};
-  color: ${({theme}) => theme.colors.primary};
-  border-bottom: solid 5px  ${({theme}) => theme.colors.primary};
+  background: ${({theme}) => theme.colors.secondaryColor};
+  color: ${({theme}) => theme.colors.primaryColor};
+  border-bottom: solid 5px  ${({theme}) => theme.colors.primaryColor};
   text-align: center;
   &:hover {
     pointer-events: painted;
@@ -33,7 +30,6 @@ export const DateContainer = styled.div`
 export const CreationDate = styled.p`
   margin: 0;
   font-size: 12px;
-
 `;
 
 export const DayOverlay = styled.span`
@@ -41,8 +37,6 @@ export const DayOverlay = styled.span`
   font-weight: bold;
   &:hover {
     pointer-events: painted;
-    
- 
   }
 `;
 
@@ -62,7 +56,7 @@ export const CreatorName = styled.div`
   }
   
   .creator-name {
-    color: ${({theme}) => theme.colors.primary};
+    color: ${({theme}) => theme.colors.primaryColor};
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -77,6 +71,4 @@ export const CardsContainer = styled.section`
   padding: 20px;
   justify-content: flex-start;
   margin: 0 auto;
-
-
 `;

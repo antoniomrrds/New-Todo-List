@@ -1,12 +1,11 @@
-// src/App.tsx
 import { RouterProvider } from 'react-router-dom'
 import {  ConfigProvider, theme as themeAntd } from 'antd';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import './App.css';
-import { theme } from './styles/Theme';
+import { theme } from '@/styles/Theme';
 
 import { ThemeProvider } from 'styled-components';
-import { router } from './routes';
+import { router } from '@/routes';
 
 const queryClient = new QueryClient();
 
