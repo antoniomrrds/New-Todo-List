@@ -1,85 +1,47 @@
-import styled from 'styled-components';
-import { Button } from 'antd';
+import { theme } from "@/styles/Theme";
+import { Form, ThemeConfig } from "antd";
+import styled from "styled-components";
 
-export const ButtonCancel = styled(Button)`
-    && {
-        border-radius: 4px;
-        padding: 8px 16px;
-        border: none; // Remover borda padrão
-        background-color: #f44336; // Vermelho
-        color: white;
-        transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
-
-        &:hover {
-            background-color: #d32f2f !important; // Vermelho escuro no hover
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
-            transform: scale(1.05) !important;
-            color: white !important; // Garante que a cor do texto permaneça branca
-        }
-
-        &:active {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
-            transform: scale(0.98) !important;
-        }
-
-        &.disabled {
-            background-color: rgba(244, 67, 54, 0.5); // Cor semi-transparente
-            color: rgba(255, 255, 255, 0.5);
-            cursor: not-allowed;
-            pointer-events: none;
-            transition: none;
-
-            &:hover {
-                background-color: rgba(244, 67, 54, 0.5) !important;
-                color: rgba(255, 255, 255, 0.5) !important;
-                box-shadow: none !important;
-                transform: none !important;
-            }
-        }
+export const FormItem = styled(Form.Item)`
+     margin-bottom: 5px;
+    .ant-form-item-label {
+        padding: 0px !important;
     }
 `;
 
+export const themeAntdConfigButtonSuccess: ThemeConfig = {
+    components: {
+        Button: {
+          defaultHoverBorderColor: theme.colors.neutral.neutral100,
+          colorBorder: theme.colors.neutral.neutral100,
+        borderColorDisabled:theme.colors.success.successGreen100,
+        colorTextDisabled:  theme.shades.light,
+        colorBgContainerDisabled: theme.colors.success.successGreen300,
+        fontFamily: theme.typography.fontFamily.manrope,
+        fontWeight: 500,
+        colorBgBase: theme.colors.success.successGreen700, // Cor de fundo
+        defaultColor: theme.shades.light,
+        defaultHoverColor: theme.shades.light, // Cor do texto (ajustado aqui)
+        defaultHoverBg: theme.colors.success.successGreen700,
+        defaultActiveColor: theme.shades.light,// Cor de fundo no hover
+        algorithm: true,  // Habilitar o algoritmo de tema
+        },
+      },
+    };
 
-
-export const ButtonPrimary = styled(Button)`
-&& {
-        border-radius: 4px;
-        padding: 8px 16px;
-        transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
-        border: none; // Remover a borda padrão
-    }
-
-    &.ant-btn-primary {
-        background-color: #1976d2;
-        color: white;
-        transition: opacity 0.3s, background-color 0.3s; // Adicionando transição
-
-        &:hover {
-            background-color: #1565c0; // Efeito de hover quando habilitado
-            color: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            transform: scale(1.05);
-            font-weight: bold;
-        }
-
-        &:active {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            transform: scale(0.98);
-        }
-
-        &.disabled {
-            background-color: rgba(25, 118, 210, 0.5); // Cor semi-transparente
-            color: rgba(255, 255, 255, 0.5); // Texto desbotado
-            cursor: not-allowed; // Cursor de não permitido
-            transition: none; // Remove transições para o estado desabilitado
-
-            &:hover {
-                background-color: rgba(25, 118, 210, 0.5); // Manter a cor semi-transparente
-                color: rgba(255, 255, 255, 0.5); // Manter o texto desbotado
-                box-shadow: none; // Remover sombra
-                transform: none; // Remover transformação
-            }
-        }
-    }
-
-    `
+export const themeAntdConfigButtonCancel: ThemeConfig = {
+    components: {
+      Button: {
+        defaultHoverBorderColor: theme.colors.neutral.neutral100,
+        colorBorder: theme.colors.neutral.neutral100,
+      fontFamily: theme.typography.fontFamily.manrope,
+      fontWeight: 600,
+      colorBgBase: theme.colors.neutral.neutral100, // Cor de fundo
+      defaultColor:theme.colors.neutral.neutral500,
+      defaultHoverColor: theme.colors.neutral.neutral500, // Cor do texto (ajustado aqui)
+      defaultHoverBg: theme.colors.neutral.neutral100,
+      defaultActiveColor: theme.colors.neutral.neutral500,// Cor de fundo no hover
+      algorithm: true,  // Habilitar o algoritmo de tema
+      },
+    },
+  };

@@ -1,5 +1,5 @@
 import { RouterProvider } from 'react-router-dom'
-import {  ConfigProvider, theme as themeAntd } from 'antd';
+import {  ConfigProvider } from 'antd';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import './App.css';
 import { theme } from '@/styles/Theme';
@@ -10,18 +10,18 @@ import { router } from '@/routes';
 const queryClient = new QueryClient();
 
 function App() {
+  
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
 
-        <ConfigProvider
+        <ConfigProvider 
+        wave={{ disabled: true }}
           theme={{
-            ...themeAntd,
-            token: {
-              colorPrimary: theme.colors.primaryColor,
-              // colorBgBase: theme.colors.secondaryColor,
+            token: { 
+              colorPrimary: theme.colors.success.successGreen700,
+              colorError: theme.colors.error.errorRed500, 
             },
-
           }}
         >
           <RouterProvider router={router} />

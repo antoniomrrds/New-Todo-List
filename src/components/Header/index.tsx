@@ -11,9 +11,9 @@ const items = [
     label: 'Home',
   },
   {
-    key: 'features',
+    key: 'tasks',
     icon: <AppstoreAddOutlined />,
-    label: 'Features',
+    label: 'tasks',
   },
   {
     key: 'learn',

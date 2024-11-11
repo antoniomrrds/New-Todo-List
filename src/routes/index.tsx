@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/features",
+    path: "/tasks",
     element: (
       <>
         <AppHeader />

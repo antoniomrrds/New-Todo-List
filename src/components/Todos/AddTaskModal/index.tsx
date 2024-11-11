@@ -1,73 +1,27 @@
 import React from "react";
-import { Space } from "antd";
-import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
-import { StyledButton, StyledInput, StyledModal } from "../TodoForm.styles";
-import styled from 'styled-components';
-
-// Validator
+import { CheckOutlined, CloseOutlined, PlusOutlined, WarningOutlined } from '@ant-design/icons';
+import { Button, ConfigProvider, Input, Form, Modal, Row, Col, Switch, DatePicker } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import * as Styled from "./AddTasks.styles";
+import * as S from "./AddTasks.styles";
+import Title from "antd/es/typography/Title";
+import { taskSchema } from "./validators";
 
-// Definindo o esquema de validação usando Zod
-const taskSchema = z.object({
-    task: z.string()
-        .min(5, "A tarefa deve ter pelo menos 5 caracteres!")
-        .nonempty("Por favor, insira uma tarefa!"),
-});
+type FormData = {
+    task: string;
+    description: string;
+    isActive: boolean;
+    expirationDate: Date | null;     
+};
 
 interface AddTaskModalProps {
     open: boolean;
     onCancel: () => void;
-    onFinish: (values: { task: string }) => void;
+    onFinish: (values: FormData) => void;
 }
 
-// Styled Components
-const ModalHeader = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`;
-
-const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-`;
-
-const FormItem = styled.div`
-    margin-bottom: 16px;
-`;
-
-const Label = styled.label`
-    display: block;
-    margin-bottom: 8px;
-`;
-
-const Required = styled.span`
-    color: red;
-`;
-
-const ErrorMessage = styled.div`
-    color: red;
-    margin-top: 8px;
-`;
-
-const ButtonGroup = styled(Space)`
-    display: flex;
-    justify-content: flex-end; /* Alinha os botões à direita */
-    margin-top: 16px; /* Espaço acima dos botões */
-`;
-
-
-
-type FormData = {
-    task: string;
-  };
-
-
 const AddTaskModal: React.FC<AddTaskModalProps> = ({ open, onCancel, onFinish }) => {
-    const { control, handleSubmit, reset, formState: { errors, isValid } } = useForm({
+    const { control, handleSubmit, reset, formState: { errors, isValid } } = useForm<FormData>({
         resolver: zodResolver(taskSchema),
         mode: "onChange",
     });
@@ -78,65 +32,176 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ open, onCancel, onFinish })
     };
 
     return (
-        <StyledModal
+        <Modal
             title={null}
             open={open}
+            centered
             footer={null}
             onCancel={handleCancel}
             closable={false}
             maskClosable={false}
+            styles={{
+                mask: { backdropFilter: 'blur(10px)' },
+            }}
         >
-            <ModalHeader>
-                <h2>Adicionar Nova Tarefa</h2>
-                <StyledButton
-                    type="text"
-                    icon={<CloseOutlined />}
-                    onClick={handleCancel}
-                    style={{ color: 'red' }}
-                />
-            </ModalHeader>
-            
-            <Form onSubmit={handleSubmit((data) => {
+            <Row justify="space-between">
+                <Col>
+                    <Title level={4}>Adicionar Nova Tarefa</Title>
+                </Col>
+                <Col>
+                    <Button
+                        color="danger"
+                        type="primary"
+                        icon={<CloseOutlined />}
+                        onClick={handleCancel}
+                    />
+                </Col>
+            </Row>
+
+            <Form layout="vertical" onFinish={handleSubmit((data) => {
+                console.log('Data:', data);
                 onFinish(data);
                 reset();
             })}>
-                <FormItem>
-                    <Label>
-                        Nova Tarefa  <Required>*</Required>
-                    </Label>
+                <Row gutter={16}>
+                    {/* Campo Título */}
+                    <Col span={20}>
+                        <S.FormItem
+                            label="Título"
+                            name="task"
+                            required
+                            validateStatus={errors.task ? "error" : undefined}
+                            help={errors.task && (
+                                <span>
+                                    <WarningOutlined style={{ color: 'red', marginRight: 5 }} />
+                                    {errors.task.message as string || ""}
+                                </span>
+                            )}
+                        >
+                            <Controller
+                                name="task"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        {...field}
+                                        id="task"
+                                        placeholder="Digite o título da tarefa"
+                                        showCount
+                                        maxLength={20}
+                                    />
+                                )}
+                            />
+                        </S.FormItem>
+                    </Col>
+
+                    {/* Campo Switch Ativo */}
+                    <Col span={4}>
+                        <S.FormItem
+                            label="Ativo"
+                            name="isActive"
+                            valuePropName="checked"
+                        >
+                            <Controller
+                                name="isActive"
+                                control={control}
+                                render={({ field }) => (
+                                    <Switch
+                                        {...field}
+                                        id="isActive"
+                                        checked={field.value}
+                                        defaultChecked
+                                        checkedChildren={<CheckOutlined />}
+                                        unCheckedChildren={<CloseOutlined />}
+                                        onChange={(checked) => field.onChange(checked)}
+                                    />
+                                )}
+                            />
+                        </S.FormItem>
+                    </Col>
+                </Row>
+
+                {/* Descrição */}
+                <S.FormItem
+                    label="Descrição"
+                    name="description"
+                    required
+                    validateStatus={errors.description ? "error" : undefined}
+                    help={errors.description && (
+                        <span>
+                            <WarningOutlined style={{ color: 'red', marginRight: 5 }} />
+                            {errors.description.message as string || ""}
+                        </span>
+                    )}
+                >
                     <Controller
-                        name="task"
+                        name="description"
                         control={control}
                         render={({ field }) => (
-                            <StyledInput
+                            <Input
                                 {...field}
-                                placeholder="Digite sua tarefa"
-                                className={`ant-input ${errors.task ? 'error-input' : ''}`}
-                                onBlur={field.onBlur}
+                                id="description"
+                                placeholder="Digite a descrição"
+                                showCount
                             />
                         )}
                     />
-                    {errors.task && <ErrorMessage>{errors.task.message}</ErrorMessage>}
-                </FormItem>
-                <ButtonGroup>
-                    <Styled.ButtonCancel
-                        onClick={handleCancel}
-                        icon={<CloseOutlined />}
-                    >
-                        Cancelar
-                    </Styled.ButtonCancel>
-                    <Styled.ButtonPrimary
-                        type="primary"
-                        htmlType="submit"
-                        icon={<PlusOutlined />}
-                        disabled={!isValid} // Desabilitar se não for válido
-                        className={!isValid ? 'disabled' : ''} // Adicionando classe para o estilo desabilitado
-                    >
-                        Criar Tarefa
-                    </Styled.ButtonPrimary>
-                </ButtonGroup>
+                </S.FormItem>
+
+                {/* Data de Expiração */}
+                <S.FormItem
+                    label="Data de Expiração"
+                    name="expirationDate"
+                    validateStatus={errors.expirationDate ? "error" : undefined}
+                    help={errors.expirationDate && (
+                        <span>
+                            <WarningOutlined style={{ color: 'red', marginRight: 5 }} />
+                            {errors.expirationDate.message as string || ""}
+                        </span>
+                    )}
+                >
+                    <Controller
+                        name="expirationDate"
+                        control={control}
+                        render={({ field }) => (
+                            <DatePicker
+                                {...field}
+                                id="expirationDate"
+                                placeholder="Selecione a data de expiração"
+                                format="DD/MM/YYYY"
+                                style={{ width: '100%' }}
+                                allowClear
+                            />
+                        )}
+                    />
+                </S.FormItem>
+
+                <Row justify="end" gutter={6}>
+                    <Col>
+                        <ConfigProvider theme={S.themeAntdConfigButtonCancel}>
+                            <Button
+                                color="primary"
+                                onClick={handleCancel}
+                                icon={<CloseOutlined />}
+                            >
+                                Cancelar
+                            </Button>
+                        </ConfigProvider>
+                    </Col>
+                    <Col>
+                        <ConfigProvider theme={S.themeAntdConfigButtonSuccess}>
+                            <Button
+                                color="primary"
+                                htmlType="submit"
+                                disabled={!isValid}
+                                icon={<PlusOutlined />}
+                            >
+                                Criar Tarefa
+                            </Button>
+                        </ConfigProvider>
+                    </Col>
+                </Row>
             </Form>
-        </StyledModal>
+        </Modal>
     );
 };
 

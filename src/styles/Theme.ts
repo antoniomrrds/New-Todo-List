@@ -1,10 +1,31 @@
 export const theme = {
   colors: {
-    primaryColor: '#059669', // Cor primária
+    primaryColor: '#059669', 
     secondaryColor: '#191D23', 
     tertiaryColor: '#ECFDF5', // Cor secundária
     quaternaryColor: '#D1FAE5',
     quinaryColor: '#c1d6cc', // Cor terciária
+    success: {
+
+      successGreen50: "#ecfdf5",
+      successGreen100: "#d1fae5",
+      successGreen200: "#a7f3d0",
+      successGreen300: "#6ee7b7",
+      successGreen400: "#34d399",
+      successGreen500: "#10B981",
+      successGreen600: "#059669",
+      successGreen700: "#047857",
+      successGreen800: "#065F46",
+      successGreen900: "#064E3B"
+    },
+    error: {
+      errorRed500: "#ef4444"
+    },
+    neutral: {
+      neutral100:'#e7eaee' ,
+      neutral500:'#64748B',
+      neutral600: '#4B5768'
+    }
   },
   shades: {
     dark: '#000000', // Preto
@@ -32,6 +53,7 @@ export const theme = {
     fontFamily: {
       inter: '"Inter", sans-serif', // Fonte Inter
       arial: '"Arial", sans-serif', // Fonte Arial
+      manrope: '"Manrope", sans-serif', // Fonte Manrope
     },
     lineHeight: '1.5', // Altura da linha
   },
