@@ -22,9 +22,15 @@ export const theme = {
       errorRed500: "#ef4444"
     },
     neutral: {
-      neutral100:'#e7eaee' ,
-      neutral500:'#64748B',
-      neutral600: '#4B5768'
+      neutral100: '#e7eaee' ,
+      neutral200: "#D0D5DD",
+      neutral300: "#B8C0CC",
+      neutral400: "#A0ABBB",
+      neutral500: '#64748B',
+      neutral600: '#4B5768',
+      neutral700: "#323A46",
+      neutral800: "#191D23",
+      neutral900: "#0D0F11"
     }
   },
   shades: {
