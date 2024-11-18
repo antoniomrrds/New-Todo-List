@@ -9,7 +9,6 @@ const cleanDescription = (html: string) => {
   return text;
 };
 
-
 const formatExpirationDateTime = (date: string, time: string, format: string) => {
   const dateFormatted = dayjs(date, 'DD-MM-YYYY').format('DD-MM-YYYY');
   const timeFormatted = dayjs(time, 'HH:mm:ss').format('HH:mm:ss');
@@ -19,6 +18,13 @@ const formatExpirationDateTime = (date: string, time: string, format: string) =>
 
 const isDateOrDayjs = (val: any) => {
   return val instanceof Date || dayjs(val).isValid();
+};
+
+const isFutureDate = (date: string, time: string) => {
+  const currentDateTime = dayjs();
+  const expirationDateTime = dayjs(`${date} ${time}`, 'DD-MM-YYYY HH:mm:ss'); 
+
+  return expirationDateTime.isAfter(currentDateTime, 'minute'); 
 };
 
 export const taskSchema = Yup.object({
@@ -41,8 +47,14 @@ export const taskSchema = Yup.object({
     .nullable()
     .notRequired()
     .test('is-date-or-dayjs', 'A data de expiração deve ser uma data válida', isDateOrDayjs)
+    .test('is-future-date', 'A data de expiração não pode ser anterior à data atual', (value, context) => {
+      if (value && context.parent.expirationTime) {
+        return isFutureDate(dayjs(value).format('DD-MM-YYYY'), context.parent.expirationTime); 
+      }
+      return true;
+    })
     .when('showExpiration', (showExpiration, schema) => {
-      return showExpiration[0]
+      return showExpiration
         ? schema.required('A data de expiração é obrigatória')
         : schema.nullable().optional().notRequired();
     }),
@@ -50,19 +62,19 @@ export const taskSchema = Yup.object({
   expirationTime: Yup.string()
     .nullable()
     .when('showExpiration', (showExpiration, schema) => {
-      return showExpiration[0]
+      return showExpiration
         ? schema.required('A hora de expiração é obrigatória')
         : schema.nullable().optional().notRequired();
     }),
 
-    expirationDateTime: Yup.string().nullable().notRequired(),
+  expirationDateTime: Yup.string().nullable().notRequired(),
 
 }).transform((_, originalObject) => {
   if (originalObject.showExpiration && originalObject.expirationDate && originalObject.expirationTime) {
 
     const expirationDate = dayjs(originalObject.expirationDate).isValid()
-    ? originalObject.expirationDate
-    : dayjs(originalObject.expirationDate); 
+      ? originalObject.expirationDate
+      : dayjs(originalObject.expirationDate);
 
     const formattedExpiration = formatExpirationDateTime(
       expirationDate,
