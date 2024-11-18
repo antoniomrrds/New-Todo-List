@@ -3,7 +3,7 @@ import {  ConfigProvider } from 'antd';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import './App.css';
 import { theme } from '@/styles/Theme';
-
+import ptBR from 'antd/es/locale/pt_BR'; 
 import { ThemeProvider } from 'styled-components';
 import { router } from '@/routes';
 
@@ -16,6 +16,7 @@ function App() {
       <ThemeProvider theme={theme}>
 
         <ConfigProvider 
+        locale={ptBR}
         wave={{ disabled: true }}
           theme={{
             token: { 
