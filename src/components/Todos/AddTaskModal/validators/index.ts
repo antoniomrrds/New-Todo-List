@@ -9,13 +9,12 @@ const cleanDescription = (html: string) => {
   return text;
 };
 
-const formatExpirationDateTime = (date: string, time: string, format: string) => {
-  const dateFormatted = dayjs(date).format('DD-MM-YYYY');
-  const timeFormatted = dayjs(time, 'HH:mm:ss').format('HH:mm:ss');
 
-  // Combina data e hora conforme o formato desejado
-  console.log("🚀 ~ formatExpirationDateTime ~ `${dateFormatted} ${timeFormatted}`:", `${dateFormatted} ${timeFormatted}`)
-  return dayjs(`${dateFormatted} ${timeFormatted}`).format(format);
+const formatExpirationDateTime = (date: string, time: string, format: string) => {
+  const dateFormatted = dayjs(date, 'DD-MM-YYYY').format('DD-MM-YYYY');
+  const timeFormatted = dayjs(time, 'HH:mm:ss').format('HH:mm:ss');
+  const combinedDateTime = `${dateFormatted} ${timeFormatted}`;
+  return dayjs(combinedDateTime, 'DD-MM-YYYY HH:mm:ss').format(format);
 };
 
 const isDateOrDayjs = (val: any) => {
@@ -51,15 +50,28 @@ export const taskSchema = Yup.object({
   expirationTime: Yup.string()
     .nullable()
     .when('showExpiration', (showExpiration, schema) => {
-
       return showExpiration[0]
         ? schema.required('A hora de expiração é obrigatória')
         : schema.nullable().optional().notRequired();
     }),
 
+    expirationDateTime: Yup.string().nullable().notRequired(),
 
+}).transform((_, originalObject) => {
+  if (originalObject.showExpiration && originalObject.expirationDate && originalObject.expirationTime) {
+
+    const expirationDate = dayjs(originalObject.expirationDate).isValid()
+    ? originalObject.expirationDate
+    : dayjs(originalObject.expirationDate); 
+
+    const formattedExpiration = formatExpirationDateTime(
+      expirationDate,
+      originalObject.expirationTime,
+      'DD-MM-YYYY HH:mm:ss'
+    );
+    return { ...originalObject, expirationDateTime: formattedExpiration };
+  }
+  return originalObject;
 });
-
-
 
 export type CreateTask = Yup.InferType<typeof taskSchema>;
