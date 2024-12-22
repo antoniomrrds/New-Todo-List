@@ -2,9 +2,8 @@ import { createBrowserRouter } from 'react-router-dom'
 import { HomePage } from '@/pages/Home';
 import { AppHeader } from '@/components/Header';
 import { NotFoundPage } from '@/pages/NotFound';
-import TodoForm from '@/components/Todos';
-import AppFooter from '@/components/Footer';
-
+import { AddTodoPage } from '@/pages/Todo/Add';
+import { TodoHomePage } from '@/pages/Todo';
 
 export const router = createBrowserRouter([
   {
@@ -14,14 +13,18 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/tasks",
-    element: (
-      <>
-        <AppHeader />
-        <TodoForm />
-        <AppFooter />
-      </>
-    ),
+    path: "/todo",
+    children: [
+      {
+        path: "",
+        element: <TodoHomePage />
+      },
+      {
+        path: "add",
+        element: <AddTodoPage />
+      },
+
+    ],
   },
   {
     path: "/learn",

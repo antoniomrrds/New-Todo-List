@@ -1,17 +1,17 @@
 import axiosInstance from "../../http/axiosInstance";
 
 export type CreateTask = {
-    idTag: number | null;
-    idCategory: number | null;
+    idTag: number[] | null | undefined;
+    idCategory: number[] | null | undefined;
     title: string;
     description: string;
     isCompleted: boolean;
-    status: number;
-
+    Active: boolean;
+    expirationDate: string | null;
 };
 
 
-export type Task = {
+export type ToDo = {
     id: number;
     idTag: number | null;
     idCategory: number | null;
@@ -22,27 +22,23 @@ export type Task = {
     createdAt: string;
     updatedAt: string;
     expirationDate: string | null;
-    avatar: string | null;
     image: string | null;
     createdAtFormatted: string;
     updatedAtFormatted: string;
 };
 
 export const taskservices = {
-    getAllTasks: async (): Promise<Task[]> => {
-        const response = await axiosInstance.get<Task[]>('/task');
+    getAllTasks: async (): Promise<ToDo[]> => {
+        const response = await axiosInstance.get<ToDo[]>('/todo');
         return response.data;
     },
-    createTask: async (task: CreateTask) => {
-        return await axiosInstance.post('/task', task);
+    createTask: async (toDo: CreateTask) => {
+        return await axiosInstance.post('/todo', toDo);
     },
-    updateTask: async (task: Task) => {
-        return await axiosInstance.put(`/task/${task.id}`, task);
+    updateTask: async (toDo: ToDo) => {
+        return await axiosInstance.put(`/todo/${toDo.id}`, toDo);
     },
     deleteTask: async (id: number) => {
-        return await axiosInstance.delete(`/task/${id}`);
-    },
-    filterTasks: async (filter: any) => {
-        return await axiosInstance.post('/task/filter', filter);
-    },
+        return await axiosInstance.delete(`/todo/${id}`);
+    }
 };

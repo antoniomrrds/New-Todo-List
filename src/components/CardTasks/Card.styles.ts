@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const PaperCard = styled(Card)`
 
   border-radius: 12px;
-  border: 1px solid ${({theme}) => theme.colors.primaryColor};
+  border: 1px solid ${({theme}) => theme.colors.success.successGreen600};
   overflow: hidden;
   &:hover {
     transition: transform 0.2s;

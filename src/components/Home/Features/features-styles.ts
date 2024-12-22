@@ -1,6 +1,6 @@
-import { device } from "@/styles/breakpoints";
 import styled from "styled-components";
 import { CheckCircleFilled } from '@ant-design/icons';
+import { device } from "@/styles/breakpoints";
 
 export const Container = styled.section`
   position: relative;

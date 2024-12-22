@@ -8,10 +8,10 @@ import { FeaturesHome } from '@/components/Home/Features';
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ocupa toda a altura da tela */
+  min-height: 100vh; 
   
   background-color: ${({ theme }) => theme.colors.secondaryColor};
-  position: relative; /* Adiciona um contexto para posicionamento absoluto */
+  position: relative; 
    
 `;
 
@@ -21,7 +21,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  flex: 1; /* Faz o conteúdo ocupar o espaço disponível */
+  flex: 1; 
   padding: 20px;
 `;
 
@@ -30,13 +30,10 @@ export const HomePage: React.FC = () => {
   return (
     <PageWrapper>
       <AppHeader />
-      {/* <FeaturesHero/> */}
-           <ContentWrapper>
+        <ContentWrapper>
         <HeroHome />
         <FeaturesHome/>
-
-              {/* <HeroBullets /> */}
-           </ContentWrapper>
+        </ContentWrapper>
       <AppFooter />
     </PageWrapper>
   );

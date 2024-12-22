@@ -36,11 +36,10 @@ export const Modal = styled(ModalAntd) <ModalProps>`
 
 export const FormItem = styled(Form.Item)`
      margin-bottom: 5px;
-      color: ${({ theme }) => theme.colors.success.successGreen700}!important;
+     color: ${({ theme }) => theme.colors.success.successGreen700}!important;
     .ant-form-item-label {
         padding: 0px !important;
     }
-
 `;
 export const Title = styled(TitleAntd)`
   margin: 0px !important;

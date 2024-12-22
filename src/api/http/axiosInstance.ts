@@ -9,10 +9,9 @@ const axiosInstance = axios.create({
 
 // Interceptor de resposta para lidar com erros
 axiosInstance.interceptors.response.use(
-    response => response,
+    response =>  response,
     (error: AxiosError) => {
         let errorMessage = "Ocorreu um erro inesperado. Tente novamente.";
-
         if (error.response) {
             switch (error.response.status) {
                 case 404:

@@ -1,6 +1,6 @@
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Col, ConfigProvider, Row } from "antd";
-import * as S from "./Button-styles";
+import * as S from "./button-styles";
 import React from "react";
 
 type ButtonModalProps = {
