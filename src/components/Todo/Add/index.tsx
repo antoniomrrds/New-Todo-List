@@ -1,12 +1,10 @@
 import { WarningOutlined } from '@ant-design/icons';
-import {  Form, Row, Col, DatePicker, TimePicker, DatePickerProps, TimePickerProps, Select, SelectProps, Skeleton } from 'antd';
+import { Form, Row, Col, TimePicker, TimePickerProps, Select, SelectProps, Skeleton } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as S from "@/components/Todo/Add/AddTasks.styles"; // Ajuste conforme sua estrutura de styles
 import dayjs from 'dayjs'; // Importando dayjs para manipular as datas
-import ReactQuill from "react-quill-new";
 
-import 'react-quill-new/dist/quill.snow.css';
 import { CreateToDo, taskSchema } from "./validators";
 import { useQuery } from "react-query";
 import { Category, categoryservices } from "@/api/services/category";
@@ -14,9 +12,11 @@ import { AxiosError } from "axios";
 import { ButtonModal } from "./ButtonModal";
 import * as G from "@/styles/global-styles";
 import { BreadCrumb, BreadcrumbItems } from "@/components/shared/BreadCrumb";
-import SwitchFieldCustom from '@/components/shared/Form/SwitchField';
+import SwitchFieldCustom from '@/components/shared/Form/Switch';
 import { useNavigate } from 'react-router-dom';
-import FormInput from '@/components/shared/Form/FormInput';
+import { FormInputCustom } from '@/components/shared/Form/Input';
+import { DatePickerField } from './DatePickerField';
+import { TextEditor } from '@/components/shared/Form/TextEditor';
 
 const items: BreadcrumbItems = [
   { title: 'Todo', href: '/todo' },
@@ -58,11 +58,6 @@ const AddTodo: React.FC = () => {
 
   const showExpiration = watch("showExpiration", false);
 
-  const onChangeDatePicker: DatePickerProps['onChange'] = (date) => {
-    if (date) {
-      setValue('expirationDate', date);
-    }
-  };
 
   const onChangeTimePicker: TimePickerProps['onChange'] = (_, timeString) => {
     if (typeof timeString === "string") {
@@ -90,14 +85,14 @@ const AddTodo: React.FC = () => {
           <Form layout="vertical" onFinish={handleSubmit(onFinishHandler)}>
             <Row gutter={16}>
               <Col xs={24} sm={20}>
-                <FormInput
+                <FormInputCustom
                   name="task"
                   control={control}
                   label="Título"
                   maxLength={100}
                   placeholder="Digite o título da tarefa"
                   required
-                  errors={errors }
+                  errors={errors}
                 />
               </Col>
 
@@ -106,38 +101,20 @@ const AddTodo: React.FC = () => {
                   label="Ativo"
                   defaultChecked={true}
                   name="isActive"
-                  control={control} errors={errors }
+                  control={control} errors={errors}
                   tooltip='Marque como Ativo para poder mostrar na busca default.' />
               </Col>
             </Row>
-            <S.FormItem
-              label="Descrição"
+
+            <TextEditor
               name="description"
+              control={control}
+              label="Descrição"
+              placeholder="Digite a descrição aqui"
               required
-              validateStatus={errors.description ? "error" : undefined}
-              help={errors.description && (
-                <span>
-                  <WarningOutlined style={{ color: 'red', marginRight: 5 }} />
-                  {errors.description?.message || ""}
-                </span>
-              )}
-            >
-              <Controller
-                name="description"
-                control={control}
-                render={({ field }) => (
-                  <ReactQuill
-                    {...field}
-                    id="description"
-                    onChange={(value) => {
-                      setValue('description', value);
-                    }}
-                    placeholder="Digite a descrição aqui"
-                    value={field.value || ''}  // Garantir que o valor é passado corretamente
-                  />
-                )}
-              />
-            </S.FormItem>
+              errors={errors}
+              setValue={setValue}
+            />
             <Row gutter={16}>
               <Col xs={24} sm={12}>
                 <SwitchFieldCustom
@@ -163,34 +140,12 @@ const AddTodo: React.FC = () => {
             {showExpiration && (
               <Row gutter={16}>
                 <Col xs={24} md={12}>
-                  <S.FormItem
-                    label="Data de Expiração"
+                  <DatePickerField
                     name="expirationDate"
-                    validateStatus={errors.expirationDate ? "error" : undefined}
-                    help={errors.expirationDate && (
-                      <span>
-                        <WarningOutlined style={{ color: 'red', marginRight: 5 }} />
-                        {errors.expirationDate?.message || ""}
-                      </span>
-                    )}
-                  >
-                    <Controller
-                      name="expirationDate"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          id="expirationDate"
-                          placeholder="Selecione a data de expiração"
-                          format="DD/MM/YYYY"
-                          value={field.value ? dayjs(field.value) : null}
-                          onChange={onChangeDatePicker}
-                          style={{ width: '100%' }}
-                          allowClear
-                        />
-                      )}
-                    />
-                  </S.FormItem>
+                    label="Data de Expiração"
+                    control={control}
+                    errors={errors}
+                  />
                 </Col>
 
                 <Col xs={24} md={12}>

@@ -1,15 +1,16 @@
 import { Switch } from 'antd';
 import { Controller, FieldValues, Control, Path, FieldErrors } from 'react-hook-form';
-import { CheckOutlined, CloseOutlined, WarningOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import * as S from '@/components/shared/Form/form-styles';
+import { FieldError, getValidateStatus } from '@/components/shared/Form';
 
 interface SwitchFieldProps<T extends FieldValues> {
     label: string;
-    name: Path<T>; // Utilizando o tipo Path para garantir que o nome seja uma chave do formulário
-    control: Control<T>; // Tipo Control genérico para aceitar qualquer tipo de controle de formulário
+    name: Path<T>; 
+    control: Control<T>; 
     tooltip?: string;
     errors:  FieldErrors<T>; 
-    FormItemComponent?: React.ElementType;
+    FormItemStyled?: React.ElementType;
     SwitchComponent?: React.ElementType;
     defaultChecked?: boolean;
 }
@@ -21,22 +22,18 @@ const SwitchFieldCustom = <T extends FieldValues>({
     tooltip,
     errors,
     defaultChecked = false,
-    FormItemComponent = S.FormItem,
+    FormItemStyled = S.FormItem,
     SwitchComponent = Switch,
 }: SwitchFieldProps<T>) => {
     return (
-        <FormItemComponent
+        <FormItemStyled
             label={label}
+            
             name={name}
             valuePropName="checked"
             tooltip={tooltip}
-            validateStatus={errors[name] ? "error" : undefined}
-            help={errors[name] && (
-                <span>
-                    <WarningOutlined style={{ color: 'red', marginRight: 5 }} />
-                    {errors[name]?.message  as React.ReactNode  || ""}
-                </span> 
-            )}
+            validateStatus={getValidateStatus(name, errors)}
+            help={<FieldError name={name} errors={errors} />}
         >
             <Controller
                 name={name}
@@ -51,7 +48,7 @@ const SwitchFieldCustom = <T extends FieldValues>({
                     />
                 )}
             />
-        </FormItemComponent>
+        </FormItemStyled>
     );
 };
 

@@ -1,32 +1,36 @@
-// FormInput.tsx
 import { Input } from 'antd';
 import { Control, Controller, FieldErrors, FieldValues, Path } from 'react-hook-form';
-import { WarningOutlined } from '@ant-design/icons';
 import * as S from '@/components/shared/Form/form-styles';
+import { FieldError, getValidateStatus } from '@/components/shared/Form';
 
-
-interface FormInputProps <T extends FieldValues>  {
+interface FormInputProps<T extends FieldValues> {
   name: Path<T>;
   control: Control<T>;
   label: string;
   maxLength?: number;
   placeholder: string;
   required?: boolean;
-  errors: FieldErrors<T>; 
+  FormItemStyled?: React.ElementType;
+  errors: FieldErrors<T>;
 }
 
-const FormInput = <T extends FieldValues> ({ name, control, label, maxLength, placeholder, required, errors }: FormInputProps<T>) => (
-  <S.FormItem
+export const FormInputCustom = <T extends FieldValues>({
+  name,
+  control,
+  label,
+  maxLength,
+  placeholder,
+  required = false,
+  errors,
+  FormItemStyled = S.FormItem,
+}: FormInputProps<T>) => (
+  <FormItemStyled
     label={label}
     name={name}
     required={required}
-    validateStatus={errors[name] ? "error" : undefined}
-    help={errors[name] && (
-      <span>
-        <WarningOutlined style={{ color: 'red', marginRight: 5 }} />
-        {errors[name]?.message as React.ReactNode || ""}
-      </span>
-    )}
+
+    validateStatus={getValidateStatus(name, errors)}
+    help={<FieldError name={name} errors={errors} />}
   >
     <Controller
       name={name}
@@ -41,7 +45,6 @@ const FormInput = <T extends FieldValues> ({ name, control, label, maxLength, pl
         />
       )}
     />
-  </S.FormItem>
+  </FormItemStyled>
 );
 
-export default FormInput;
