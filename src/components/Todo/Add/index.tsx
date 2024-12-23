@@ -1,49 +1,37 @@
-import { WarningOutlined } from '@ant-design/icons';
-import { Form, Row, Col, TimePicker, TimePickerProps, Select, SelectProps, Skeleton } from 'antd';
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as S from "@/components/Todo/Add/AddTasks.styles"; // Ajuste conforme sua estrutura de styles
-import dayjs from 'dayjs'; // Importando dayjs para manipular as datas
+import { Form, Row, Col, Skeleton } from 'antd';
 
-import { CreateToDo, taskSchema } from "./validators";
+import { CreateToDo, taskSchema } from "@/components/Todo/Add/validators";
+import { yupResolver } from '@hookform/resolvers/yup';
+
+
+import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
+
 import { useQuery } from "react-query";
-import { Category, categoryservices } from "@/api/services/category";
 import { AxiosError } from "axios";
+
 import { ButtonModal } from "./ButtonModal";
 import * as G from "@/styles/global-styles";
 import { BreadCrumb, BreadcrumbItems } from "@/components/shared/BreadCrumb";
-import SwitchFieldCustom from '@/components/shared/Form/Switch';
-import { useNavigate } from 'react-router-dom';
-import { FormInputCustom } from '@/components/shared/Form/Input';
-import { DatePickerField } from './DatePickerField';
-import { TextEditor } from '@/components/shared/Form/TextEditor';
+import {
+  FormInputCustom,
+  SwitchFieldCustom,
+  DatePickerCustom,
+  TextEditorCustom,
+  SelectFieldCustom,
+  TimePickerCustom
+} from '@/components/shared/Form';
+import { Category, categoryservices, Tag, tagservices } from '@/api/services';
 
 const items: BreadcrumbItems = [
   { title: 'Todo', href: '/todo' },
   { title: 'Adicionar Tarefa' },
 ]
 
-const tagsMock = [
-  { id: 1, name: 'Urgente' },
-  { id: 2, name: 'Importante' },
-  { id: 3, name: 'Pendência' },
-  { id: 4, name: 'Fácil' },
-  { id: 5, name: 'Longo Prazo' }
-];
+export const AddTodo: React.FC = () => {
 
-const sharedProps: SelectProps = {
-  mode: 'multiple',
-  style: { width: '100%' },
-  placeholder: 'Select Item...',
-  maxTagCount: 'responsive',
-  allowClear: true,
-};
-
-
-
-const AddTodo: React.FC = () => {
-
-  const { data: categories = [], isLoading, error } = useQuery<Category[], AxiosError>('categories', categoryservices.getAllCategories);
+  const { data: categories = [],  isLoading:isLoadingCategories   , error:errorCategories } = useQuery<Category[], AxiosError>('categories', categoryservices.getAllCategories);
+  const { data: tags = [] , isLoading: isLoadingTags , error: errorTags} = useQuery<Tag[], AxiosError>('tags', tagservices.getAllTags);
   const navigate = useNavigate();
 
   const { control, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<CreateToDo>({
@@ -59,13 +47,6 @@ const AddTodo: React.FC = () => {
   const showExpiration = watch("showExpiration", false);
 
 
-  const onChangeTimePicker: TimePickerProps['onChange'] = (_, timeString) => {
-    if (typeof timeString === "string") {
-      setValue('expirationTime', timeString);
-    }
-  };
-
-
   const onFinishHandler = (data: CreateToDo) => {
     console.log('Dados enviados:', data);
     reset();
@@ -73,14 +54,12 @@ const AddTodo: React.FC = () => {
 
 
   return (
-
     <G.StyledContainer>
       <BreadCrumb items={items} />
-      <G.CardMain title="Adicionar Tarefa"
-        hoverable>
+      <G.CardMain title="Adicionar Tarefa" hoverable>
         <Skeleton
           active
-          loading={isLoading}
+          loading={isLoadingCategories && isLoadingTags}
         >
           <Form layout="vertical" onFinish={handleSubmit(onFinishHandler)}>
             <Row gutter={16}>
@@ -95,7 +74,6 @@ const AddTodo: React.FC = () => {
                   errors={errors}
                 />
               </Col>
-
               <Col xs={24} sm={4}>
                 <SwitchFieldCustom
                   label="Ativo"
@@ -105,8 +83,7 @@ const AddTodo: React.FC = () => {
                   tooltip='Marque como Ativo para poder mostrar na busca default.' />
               </Col>
             </Row>
-
-            <TextEditor
+            <TextEditorCustom
               name="description"
               control={control}
               label="Descrição"
@@ -134,121 +111,49 @@ const AddTodo: React.FC = () => {
                   errors={errors}
                   tooltip="Selecione para marcar a tarefa como concluída"
                 />
-
               </Col>
             </Row>
             {showExpiration && (
               <Row gutter={16}>
                 <Col xs={24} md={12}>
-                  <DatePickerField
+                  <DatePickerCustom
                     name="expirationDate"
                     label="Data de Expiração"
                     control={control}
                     errors={errors}
+
                   />
                 </Col>
-
                 <Col xs={24} md={12}>
-                  <S.FormItem
-                    label="Hora de Expiração"
+                  <TimePickerCustom
                     name="expirationTime"
-                    validateStatus={errors.expirationTime ? "error" : undefined}
-                    help={errors.expirationTime && (
-                      <span>
-                        <WarningOutlined style={{ color: 'red', marginRight: 5 }} />
-                        {errors.expirationTime?.message || ""}
-                      </span>
-                    )}
-                  >
-                    <Controller
-                      name="expirationTime"
-                      control={control}
-                      render={({ field }) => (
-                        <TimePicker
-                          {...field}
-                          id="expirationTime"
-                          placeholder="Selecione a hora"
-                          format="HH:mm:ss"
-                          value={field.value ? dayjs(field.value, "HH:mm:ss") : null}
-                          onChange={onChangeTimePicker}
-                          defaultOpenValue={dayjs('00:00:00', 'HH:mm:ss')}
-                          style={{ width: '100%' }}
-                          allowClear
-                        />
-                      )}
-                    />
-                  </S.FormItem>
+                    label="Hora de Expiração"
+                    control={control}
+                    errors={errors}
+                  />
                 </Col>
               </Row>
             )}
             <Row gutter={16}>
               <Col xs={24} md={12}>
-                <S.FormItem
-                  label="Categorias"
+                <SelectFieldCustom
                   name="categories"
-                  required
-                  validateStatus={errors.categories ? "error" : undefined}
-                  help={errors.categories && (
-                    <span>
-                      <WarningOutlined style={{ color: 'red', marginRight: 5 }} />
-                      {errors.categories?.message || ""}
-                    </span>
-                  )}
-                >
-                  <Controller
-                    name="categories"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        {...sharedProps}
-                        placeholder="Selecione as categorias"
-                      >
-                        {categories.map((category) => (
-                          <Select.Option key={category.id} value={category.id} label={category.name}>
-                            {category.name}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    )}
-                  />
-                </S.FormItem>
+                  control={control}
+                  errors={errors}
+                  label="Categorias"
+                  options={categories}
+                  placeholder="Selecione as categorias"
+                />
               </Col>
-
               <Col xs={24} md={12}>
-                <S.FormItem
-                  label="Tags"
+                <SelectFieldCustom
                   name="tags"
-                  required
-                  validateStatus={errors.tags ? "error" : undefined}
-                  help={errors.tags && (
-                    <span>
-                      <WarningOutlined style={{ color: 'red', marginRight: 5 }} />
-                      {errors.tags?.message || ""}
-                    </span>
-                  )}
-                >
-                  <Controller
-                    name="tags"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        mode="multiple"
-                        allowClear
-                        placeholder="Selecione as tags"
-                        optionLabelProp="label"
-                        style={{ width: '100%' }}
-                      >
-                        {tagsMock.map((tag) => (
-                          <Select.Option key={tag.id} value={tag.id} label={tag.name}>
-                            {tag.name}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    )}
-                  />
-                </S.FormItem>
+                  control={control}
+                  errors={errors}
+                  label="Tags"
+                  options={tags}
+                  placeholder="Selecione as tags"
+                />
               </Col>
             </Row>
             <ButtonModal handleCancel={handleCancel} />
@@ -256,8 +161,6 @@ const AddTodo: React.FC = () => {
         </Skeleton>
       </G.CardMain>
     </G.StyledContainer>
-
   );
 };
 
-export default AddTodo;

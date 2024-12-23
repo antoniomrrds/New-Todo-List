@@ -1,9 +1,9 @@
 import React from "react";
-import {  Empty, Button, Skeleton, Layout } from "antd";
+import { Empty, Button, Skeleton, Layout } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import FilterTasksModal from "./FilterTasksModal";
-import { ToDo } from "../../api/services/tasks";
+import { ToDo } from "../../api/services/toDo";
 import { AxiosError } from "axios";
 import ErrorCard from "../Error/ErrorCard";
 import CardTasks from "../CardTasks";

@@ -1,4 +1,4 @@
-import { ToDo } from "@/api/services/tasks";
+import { ToDo } from "@/api/services/toDo";
 import { FilterOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons"
 import { Button, Input, InputProps, message } from "antd"
 import React from "react";
@@ -37,32 +37,32 @@ type ToDoSearchBarProps = {
 }
 
 
-export const ToDoSearchBar :React.FC<ToDoSearchBarProps> = ({
-    toDos , 
-    searchTerm , 
-    handleSearchChange , 
-    showFilterModal ,
+export const ToDoSearchBar: React.FC<ToDoSearchBarProps> = ({
+    toDos,
+    searchTerm,
+    handleSearchChange,
+    showFilterModal,
     handleNavigateAdd }) => {
 
     return (
-            <SearchContainer>
-                <StyledInput
-                    placeholder="Buscar Tarefas"
-                    value={searchTerm}
-                    allowClear
-                    onChange={handleSearchChange}
-                    onKeyDown={(e) => e.key === "Enter" && message.info(`Buscando por: ${searchTerm}`)}
-                    enterButton={<SearchOutlined />}
-                />
-                <Button type="default" onClick={showFilterModal} icon={<FilterOutlined />}>
-                    Filtrar
+        <SearchContainer>
+            <StyledInput
+                placeholder="Buscar Tarefas"
+                value={searchTerm}
+                allowClear
+                onChange={handleSearchChange}
+                onKeyDown={(e) => e.key === "Enter" && message.info(`Buscando por: ${searchTerm}`)}
+                enterButton={<SearchOutlined />}
+            />
+            <Button type="default" onClick={showFilterModal} icon={<FilterOutlined />}>
+                Filtrar
+            </Button>
+            {toDos.length > 0 && (
+                <Button type="primary" onClick={handleNavigateAdd} icon={<PlusOutlined />}>
+                    Criar Nova Tarefa
                 </Button>
-                {toDos.length > 0 && (
-                    <Button type="primary" onClick={handleNavigateAdd} icon={<PlusOutlined />}>
-                        Criar Nova Tarefa
-                    </Button>
-                )}
-            </SearchContainer>
-            
+            )}
+        </SearchContainer>
+
     )
 }

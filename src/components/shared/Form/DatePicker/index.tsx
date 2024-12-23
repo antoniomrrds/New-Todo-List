@@ -1,9 +1,8 @@
-// DatePickerField.tsx
 import React from "react";
 import { Control, Controller, FieldErrors, FieldValues, Path } from "react-hook-form";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { WarningOutlined } from "@ant-design/icons";
+import { FieldError, getValidateStatus } from '@/components/shared/Form';
 import * as S from '@/components/shared/Form/form-styles';
 
 
@@ -16,7 +15,7 @@ interface DatePickerFieldProps<T extends FieldValues> {
   onChange?: (date: dayjs.Dayjs | null) => void;
 }
 
-export const DatePickerField = <T extends FieldValues> ({ 
+export const DatePickerCustom = <T extends FieldValues> ({ 
     name,
     label,
     control, 
@@ -27,13 +26,8 @@ export const DatePickerField = <T extends FieldValues> ({
   <FormItemStyled
     label={label}
     name={name}
-    validateStatus={errors[name] ? "error" : undefined}
-    help={errors[name] && (
-      <span>
-        <WarningOutlined style={{ color: "red", marginRight: 5 }} />
-        {errors[name]?.message as React.ReactNode || ""}
-      </span>
-    )}
+    validateStatus={getValidateStatus(name, errors)}
+    help={<FieldError name={name} errors={errors} />}
   >
     <Controller
       name={name}

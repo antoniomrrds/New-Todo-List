@@ -16,7 +16,7 @@ interface FormInputProps<T extends FieldValues> {
   setValue: UseFormSetValue<T>
 }
 
-export const TextEditor = <T extends FieldValues>({
+export const TextEditorCustom = <T extends FieldValues>({
   name,
   control,
   label,

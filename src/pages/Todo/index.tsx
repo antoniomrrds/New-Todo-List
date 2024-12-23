@@ -5,7 +5,7 @@ import { Content } from "antd/es/layout/layout";
 import TodoManager from "@/components/Todo";
 import { ToDoSearchBar } from "@/components/Todo/SearchBar";
 import { AxiosError } from "axios";
-import { taskservices, ToDo } from "@/api/services/tasks";
+import { taskservices, ToDo } from "@/api/services/toDo";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -18,16 +18,16 @@ export const TodoHomePage = () => {
     const { data: toDos = [], isLoading, error } = useQuery<ToDo[], AxiosError>("tasks", taskservices.getAllTasks);
     const navigate = useNavigate();
     const location = useLocation();
-    
-    const[ searchTerm, setSearchTerm] = useState<string>("");
-    const[filterVisible, setFilterVisible] = useState<boolean>(false);
-    
+
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [filterVisible, setFilterVisible] = useState<boolean>(false);
+
     const showFilterModal = () => setFilterVisible(true);
     const handleFilterCancel = () => setFilterVisible(false);
-    
+
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-           setSearchTerm(e.target.value);
-       };
+        setSearchTerm(e.target.value);
+    };
 
     const onFilterFinish = (filter: any) => {
         message.info(`Filtrando por: ${filter}`);
@@ -46,7 +46,7 @@ export const TodoHomePage = () => {
         <StyledLayout>
             <AppHeader />
 
-            <ToDoSearchBar 
+            <ToDoSearchBar
                 toDos={toDos}
                 handleSearchChange={handleSearchChange}
                 searchTerm={searchTerm}
@@ -54,7 +54,7 @@ export const TodoHomePage = () => {
                 showFilterModal={showFilterModal}
             />
             <Content
-             
+
             >
                 <TodoManager
                     error={error as AxiosError}

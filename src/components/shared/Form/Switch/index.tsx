@@ -15,7 +15,7 @@ interface SwitchFieldProps<T extends FieldValues> {
     defaultChecked?: boolean;
 }
 
-const SwitchFieldCustom = <T extends FieldValues>({
+export const SwitchFieldCustom = <T extends FieldValues>({
     label,
     name,
     control,
@@ -52,4 +52,3 @@ const SwitchFieldCustom = <T extends FieldValues>({
     );
 };
 
-export default SwitchFieldCustom;
