@@ -117,8 +117,8 @@ export const AddTodo: React.FC = () => {
          size='large'
          delay={500}>
           <Form layout="vertical" onFinish={handleSubmit(onFinishHandler)}>
-            <Row gutter={16}>
-              <Col xs={24} sm={20}>
+          <Row gutter={[8,8]} >
+            <Col xs={24} sm={20}>
                 <FormInputCustom
                   name="title"
                   control={control}
@@ -156,8 +156,8 @@ export const AddTodo: React.FC = () => {
               errors={errors}
               setValue={setValue}
             />
-            <Row gutter={16}>
-              <Col xs={24} sm={12}>
+            <Row gutter={[8,8]} >
+            <Col xs={24} sm={12}>
                 <SwitchFieldCustom
                   label="Mostrar Data de Expiração"
                   name="showExpiration"
@@ -204,7 +204,7 @@ export const AddTodo: React.FC = () => {
                 </Col>
               </Row>
             )}
-            <Row gutter={16}>
+            <Row gutter={[8,8]} >
               <Col xs={24} md={12}>
                 <SelectFieldCustom
                   name="categories"
