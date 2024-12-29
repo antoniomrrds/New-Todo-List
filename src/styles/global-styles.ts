@@ -1,11 +1,21 @@
 import { Card, Layout } from "antd";
 import styled, { createGlobalStyle } from "styled-components";
+import { theme } from "./Theme";
 export const GlobalStyle = createGlobalStyle`
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
     }
+    .ant-notification-notice-error {
+    background-color: ${theme.colors.error.errorRed100};
+    border-radius: 8px;
+
+  }
+  .ant-notification-notice-description{
+    width:  100%;
+    margin: 0 !important
+  }
 `;
 
 export const CardMain = styled(Card)`
@@ -20,14 +30,13 @@ export const CardMain = styled(Card)`
   }
 `;
 
-
 export const StyledLayout = styled(Layout)`
-  min-height: 100dvh; 
+  min-height: 100dvh;
 `;
 
 export const StyledContainer = styled.main`
-  max-width: ${({ theme }) => theme.container.maxWidth}; 
+  max-width: ${({ theme }) => theme.container.maxWidth};
   margin: 0px auto;
   min-width: ${({ theme }) => theme.container.minWidth};
-  padding: ${({ theme }) => theme.spacing.small}; 
+  padding: ${({ theme }) => theme.spacing.small};
 `;

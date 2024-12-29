@@ -3,12 +3,13 @@ import { Empty, Button, Skeleton, Layout } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import FilterTasksModal from "./FilterTasksModal";
-import { ToDo } from "../../api/services/toDo";
 import { AxiosError } from "axios";
 import ErrorCard from "../Error/ErrorCard";
 import CardTasks from "../CardTasks";
 import { Content } from "antd/es/layout/layout";
 import { StyledContainer } from "@/styles/global-styles";
+
+import { ToDo } from "@/api/toDo/types";
 
 const TaskContent = styled(Content)`
   display: flex;
@@ -18,6 +19,7 @@ type ToDoList = {
     toDos: ToDo[];
     isLoading: boolean;
     filterVisible: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onFilterFinish: (filter: any) => void;
     error: AxiosError;
     searchTerm: string;
@@ -54,7 +56,6 @@ const TodoManager: React.FC<ToDoList> = ({
                     onCancel={handleFilterCancel}
                     onFinish={onFilterFinish}
                 />
-
                 {isLoading ? (
                     // <TaskContent>
                     //     <Spin size="large" />

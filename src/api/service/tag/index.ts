@@ -1,4 +1,4 @@
-import axiosInstance from "@/api/http/axiosInstance";
+import {axiosInstance} from "@/api/http/axios";
 
 export type CreateTag = {
     name: string;
@@ -20,7 +20,6 @@ export type Tag = {
 export const tagservices = {
     getAllTags: async (): Promise<Tag[]> => {
         const response = await axiosInstance.get<Tag[]>('/tag');
-        console.log(response);
         return response.data;
     },
     createTag: async (tag: CreateTag) => {

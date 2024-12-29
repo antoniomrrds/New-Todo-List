@@ -1,21 +1,23 @@
 import AppFooter from "@/components/Footer";
 import { AppHeader } from "@/components/Header";
 import { StyledLayout } from "@/styles/global-styles";
+
 import { Content } from "antd/es/layout/layout";
-import TodoManager from "@/components/Todo";
-import { ToDoSearchBar } from "@/components/Todo/SearchBar";
-import { AxiosError } from "axios";
-import { taskservices, ToDo } from "@/api/services/toDo";
-import { useQuery } from "react-query";
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { message } from "antd";
 
+import TodoManager from "@/components/Todo";
+import { ToDoSearchBar } from "@/components/Todo/SearchBar";
 
+
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { useQueryTodos } from "@/api/toDo";
+import { AxiosError } from "axios";
 
 
 export const TodoHomePage = () => {
-    const { data: toDos = [], isLoading, error } = useQuery<ToDo[], AxiosError>("tasks", taskservices.getAllTasks);
+    const { errorToDos, toDos, isLoadingToDos } = useQueryTodos();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -38,7 +40,6 @@ export const TodoHomePage = () => {
     const handleNavigateAdd = () => {
         const currentPath = location.pathname;
         const newPath = `${currentPath}/add`;
-        console.log('new', newPath, 'current', currentPath);
         navigate(newPath);
     }
 
@@ -57,9 +58,9 @@ export const TodoHomePage = () => {
 
             >
                 <TodoManager
-                    error={error as AxiosError}
+                    error={errorToDos as AxiosError}
                     toDos={toDos}
-                    isLoading={isLoading}
+                    isLoading={isLoadingToDos}
                     searchTerm={searchTerm}
                     handleNavigateAdd={handleNavigateAdd}
                     filterVisible={filterVisible}

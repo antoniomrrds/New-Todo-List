@@ -1,66 +1,41 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
+import { CompletionStatus, TodoStatus } from '@/components/Todo/Add/enum';
+import { cleanDescription, formatExpirationDateTime, getEnumValuesAsNumbers, isDateOrDayjs, isFutureDate } from '@/utils';
 
 export type expirationDate = string | Date | dayjs.Dayjs;
 
-const cleanDescription = (html: string) => {
-  const text = html.replace(/<[^>]+>/g, "").trim();
-  return text;
-};
-
-// Adicionando a validação para categorias e tags
-const isValidIdArray = (arr: any) => {
-  return Array.isArray(arr) && arr.every(id => typeof id === 'number' && id > 0); // Garantir que cada item seja um ID válido (número positivo)
-};
-
-const formatExpirationDateTime = (date: string, time: string, format: string) => {
-  const dateFormatted = dayjs(date, 'DD-MM-YYYY').format('DD-MM-YYYY');
-  const timeFormatted = dayjs(time, 'HH:mm:ss').format('HH:mm:ss');
-  const combinedDateTime = `${dateFormatted} ${timeFormatted}`;
-  return dayjs(combinedDateTime, 'DD-MM-YYYY HH:mm:ss').format(format);
-};
-
-const isDateOrDayjs = (val: any) => {
-  return val instanceof Date || dayjs(val).isValid();
-};
-
-const isFutureDate = (date: string, time: string) => {
-  const currentDateTime = dayjs();
-  const expirationDateTime = dayjs(`${date} ${time}`, 'DD-MM-YYYY HH:mm:ss');
-
-  return expirationDateTime.isAfter(currentDateTime, 'minute');
-};
-
-export const taskSchema = Yup.object({
+export const todoValidationSchema = Yup.object({
   showExpiration: Yup.boolean().default(false),
 
-  task: Yup.string()
-    .required("A tarefa é obrigatória!")
-    .min(5, "A tarefa deve ter pelo menos 5 caracteres!"),
+  title: Yup.string()
+    .trim()
+    .required("O Titulo é obrigatório!")
+    .min(5, "O título deve ter no mínimo 5 caracteres."),
 
   description: Yup.string()
+    .trim()
     .required("A descrição é obrigatória!")
     .min(5, "A descrição deve ter pelo menos 5 caracteres!")
-    .test('min-cleaned-description', 'A descrição deve ter pelo menos 5 caracteres.', (value) => {
-      return cleanDescription(value || '').length > 4;
-    }),
+    .test('min-cleaned-description', 'A descrição deve ter pelo menos 5 caracteres.', (value) =>  cleanDescription(value || '').length > 4),
+    
+  isActive: Yup
+    .number()
+    .oneOf(getEnumValuesAsNumbers(TodoStatus), 'O campo Ativo deve ser 0 (Inativo) ou 1 (Ativo)') 
+    .required('O campo Ativo é obrigatório')
+    .default(TodoStatus.Active),
 
-  isActive: Yup.boolean().default(true),
-  isCompleted: Yup.boolean().default(true),
+  isCompleted: Yup
+    .number()
+    .oneOf(getEnumValuesAsNumbers(CompletionStatus), 'O campo Concluído deve ser 0 (Incompleto) ou 1 (Completo)')
+    .required('O campo Concluído é obrigatório')
+    .default(CompletionStatus.Incomplete),
 
-
-  // Validação para categorias (um array de IDs)
   categories: Yup.array()
-    .of(Yup.number().positive().required("O ID da categoria é obrigatório"))
-    .test('is-valid-id-array', 'As categorias precisam ser um array de IDs válidos', isValidIdArray)
-    .nullable(),
+    .default([]),
 
-  // Validação para tags (um array de IDs)
   tags: Yup.array()
-    .of(Yup.number().positive().required("O ID da tag é obrigatório"))
-    .test('is-valid-id-array', 'As tags precisam ser um array de IDs válidos', isValidIdArray)
-    .nullable(),
+    .default([]),
 
   expirationDate: Yup.mixed<expirationDate>()
     .nullable()
@@ -73,15 +48,17 @@ export const taskSchema = Yup.object({
       return true;
     })
     .when('showExpiration', (showExpiration, schema) => {
-      return showExpiration
+      const isRequired = showExpiration[0] === true;
+      return isRequired
         ? schema.required('A data de expiração é obrigatória')
         : schema.nullable().optional().notRequired();
     }),
 
   expirationTime: Yup.string()
     .nullable()
-    .when('showExpiration', (showExpiration, schema) => {
-      return showExpiration
+    .when('showExpiration', (showExpiration , schema) => {
+      const isRequired = showExpiration[0] === true;
+      return isRequired
         ? schema.required('A hora de expiração é obrigatória')
         : schema.nullable().optional().notRequired();
     }),
@@ -89,8 +66,7 @@ export const taskSchema = Yup.object({
   expirationDateTime: Yup.string().nullable().notRequired(),
 
 }).transform((_, originalObject) => {
-  if (originalObject.showExpiration && originalObject.expirationDate && originalObject.expirationTime) {
-
+  if (originalObject.showExpiration) {
     const expirationDate = dayjs(originalObject.expirationDate).isValid()
       ? originalObject.expirationDate
       : dayjs(originalObject.expirationDate);
@@ -100,9 +76,11 @@ export const taskSchema = Yup.object({
       originalObject.expirationTime,
       'DD-MM-YYYY HH:mm:ss'
     );
-    return { ...originalObject, expirationDateTime: formattedExpiration };
+    return { ...originalObject, expirationDateTime: formattedExpiration  }; 
   }
+
+  
   return originalObject;
 });
 
-export type CreateToDo = Yup.InferType<typeof taskSchema>;
+export type CreateToDoYup = Yup.InferType<typeof todoValidationSchema>;

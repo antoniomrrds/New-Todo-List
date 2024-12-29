@@ -28,7 +28,6 @@ export const SwitchFieldCustom = <T extends FieldValues>({
     return (
         <FormItemStyled
             label={label}
-            
             name={name}
             valuePropName="checked"
             tooltip={tooltip}
@@ -44,7 +43,7 @@ export const SwitchFieldCustom = <T extends FieldValues>({
                         defaultChecked={defaultChecked}
                         checkedChildren={<CheckOutlined />}
                         unCheckedChildren={<CloseOutlined />}
-                        onChange={(checked: boolean) => field.onChange(checked)}
+                        onChange={(checked: boolean) => field.onChange(checked)} 
                     />
                 )}
             />

@@ -1,35 +1,41 @@
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Col, ConfigProvider, Row } from "antd";
+import { Button as ButtonAntd, Col, ConfigProvider, Row } from "antd";
 import * as S from "./button-styles";
 import React from "react";
+import { useBreakpoint } from "@ant-design/pro-components";
 
-type ButtonModalProps = {
+type ButtonProps = {
     handleCancel: () => void;
+    isLoading: boolean;
 }
 
-export const ButtonModal: React.FC<ButtonModalProps> = ({handleCancel}) => {
-    return (
-        <Row justify="end" gutter={6}>
+export const ButtonGroup: React.FC<ButtonProps> = ({handleCancel, isLoading }) => {
+  const screens = useBreakpoint(); 
+  console.log('a',screens);
+  return (
+        <Row justify="end" gutter={[8,8]} style={{ marginTop: 16 }}>
         <Col>
           <ConfigProvider theme={S.themeAntdConfigButtonCancel}>
-            <Button
+            <ButtonAntd
               color="primary"
               onClick={handleCancel}
               icon={<CloseOutlined />}
+              
             >
               Cancelar
-            </Button>
+            </ButtonAntd>
           </ConfigProvider>
         </Col>
-        <Col>
+        <Col >
           <ConfigProvider theme={S.themeAntdConfigButtonSuccess}>
-            <Button
+            <ButtonAntd
               color="primary"
               htmlType="submit"
+              loading={isLoading}
               icon={<PlusOutlined />}
             >
               Criar Tarefa
-            </Button>
+            </ButtonAntd>
           </ConfigProvider>
         </Col>
       </Row>

@@ -1,3 +1,4 @@
+
 export const theme = {
   colors: {
     primaryColor: '#059669', 
@@ -19,7 +20,16 @@ export const theme = {
       successGreen900: "#064E3B"
     },
     error: {
-      errorRed500: "#ef4444"
+      errorRed50:  "#FEF2F2",
+      errorRed100: "#FEE2E2",
+      errorRed200: "#FECACA",
+      errorRed300: "#FCA5A5",
+      errorRed400: "#F87171",
+      errorRed500: "#ef4444",
+      errorRed600: "#DC2626",
+      errorRed700: "#B91C1C",
+      errorRed800: "#991B1B",
+      errorRed900: "#7F1D1D"
     },
     neutral: {
       neutral100: '#e7eaee' ,

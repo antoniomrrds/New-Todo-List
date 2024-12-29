@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export const HeroHome = () => {
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate('/tasks');
+    navigate('/todo');
   }
   return (
     <S.Container>

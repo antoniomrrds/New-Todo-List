@@ -28,7 +28,6 @@ export const FormInputCustom = <T extends FieldValues>({
     label={label}
     name={name}
     required={required}
-
     validateStatus={getValidateStatus(name, errors)}
     help={<FieldError name={name} errors={errors} />}
   >

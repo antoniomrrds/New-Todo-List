@@ -23,6 +23,7 @@ export const themeAntdConfigButtonSuccess: ThemeConfig = {
 export const themeAntdConfigButtonCancel: ThemeConfig = {
     components: {
       Button: {
+        // margin: +'10 0 0 0',
         defaultHoverBorderColor: theme.colors.neutral.neutral100,
         colorBorder: theme.colors.neutral.neutral100,
       fontFamily: theme.typography.fontFamily.manrope,

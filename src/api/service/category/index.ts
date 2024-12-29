@@ -1,4 +1,4 @@
-import axiosInstance from "@/api/http/axiosInstance";
+import {axiosInstance} from "@/api/http/axios";
 
 export type CreateCategory = {
     name: string;
@@ -20,7 +20,6 @@ export type Category = {
 export const categoryservices = {
     getAllCategories: async (): Promise<Category[]> => {
         const response = await axiosInstance.get<Category[]>('/category');
-        console.log(response);
         return response.data;
     },
     createCategory: async (category: CreateCategory) => {

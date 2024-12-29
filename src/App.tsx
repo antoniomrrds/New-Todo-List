@@ -1,35 +1,38 @@
 import { RouterProvider } from 'react-router-dom'
-import {  ConfigProvider } from 'antd';
+import { ConfigProvider } from 'antd';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import './App.css';
 import { theme } from '@/styles/Theme';
-import ptBR from 'antd/es/locale/pt_BR'; 
+import ptBR from 'antd/es/locale/pt_BR';
 import { ThemeProvider } from 'styled-components';
 import { router } from '@/routes';
+import { GlobalStyle } from './styles/global-styles';
+import { App as AppAntd } from 'antd';
 
 const queryClient = new QueryClient();
 
-function App() {
-  
+export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-
-        <ConfigProvider 
-        locale={ptBR}
-        wave={{ disabled: true }}
+        <ConfigProvider
+          locale={ptBR}
+          wave={{ disabled: true }}
           theme={{
-            token: { 
+            token: {
               colorPrimary: theme.colors.success.successGreen700,
-              colorError: theme.colors.error.errorRed500, 
+              colorError: theme.colors.error.errorRed500,
             },
           }}
         >
-          <RouterProvider router={router} />
+          <AppAntd notification={{
+            top: 80
+          }}>
+            <GlobalStyle />
+            <RouterProvider router={router} />
+          </AppAntd>
         </ConfigProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
 }
 
-export default App;

@@ -1,71 +1,126 @@
-import { Form, Row, Col, Skeleton } from 'antd';
-
-import { CreateToDo, taskSchema } from "@/components/Todo/Add/validators";
+import { Form, Row, Col, Skeleton, App as AppAntd, Switch, Spin } from 'antd';
+import { CreateToDoYup, todoValidationSchema } from "@/components/Todo/Add/validators";
 import { yupResolver } from '@hookform/resolvers/yup';
-
-
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
-
 import { useQuery } from "react-query";
 import { AxiosError } from "axios";
-
-import { ButtonModal } from "./ButtonModal";
+import { ButtonGroup } from "@/components/Todo/Add/ButtonGroup";
 import * as G from "@/styles/global-styles";
 import { BreadCrumb, BreadcrumbItems } from "@/components/shared/BreadCrumb";
+import * as S from '@/components/shared/Form/form-styles';
 import {
   FormInputCustom,
   SwitchFieldCustom,
   DatePickerCustom,
   TextEditorCustom,
   SelectFieldCustom,
-  TimePickerCustom
+  TimePickerCustom,
+  FieldError,
+  getValidateStatus,
 } from '@/components/shared/Form';
-import { Category, categoryservices, Tag, tagservices } from '@/api/services';
+import { Category, categoryservices, Tag, tagservices } from '@/api/service';
+import { ErrorNotification } from '@/components/shared/Notifications';
+import { useCreateToDoMutation } from '@/api/toDo/actions';
+import { CreateToDo } from '@/api/toDo/types';
+import { ApiErrorResponse } from '@/api/error/types';
+import { useEffect } from 'react';
+import { CompletionStatus, TodoStatus } from './enum';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
 const items: BreadcrumbItems = [
   { title: 'Todo', href: '/todo' },
   { title: 'Adicionar Tarefa' },
-]
+];
+
+
+
 
 export const AddTodo: React.FC = () => {
+  const { data: categories = [], isLoading: isLoadingCategories, error: errorCategories } = useQuery<Category[], AxiosError<ApiErrorResponse>>('categories', categoryservices.getAllCategories, {
+    retry: false
+  });
+  const { data: tags = [], isLoading: isLoadingTags, error: errorTags } = useQuery<Tag[], AxiosError<ApiErrorResponse>>('tags', tagservices.getAllTags, {
+    retry: false
+  });
 
-  const { data: categories = [],  isLoading:isLoadingCategories   , error:errorCategories } = useQuery<Category[], AxiosError>('categories', categoryservices.getAllCategories);
-  const { data: tags = [] , isLoading: isLoadingTags , error: errorTags} = useQuery<Tag[], AxiosError>('tags', tagservices.getAllTags);
+  const { notification } = AppAntd.useApp();
   const navigate = useNavigate();
 
-  const { control, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<CreateToDo>({
-    resolver: yupResolver(taskSchema),
+  const { control, register, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<CreateToDoYup>({
+    resolver: yupResolver(todoValidationSchema),
     mode: "onChange",
+    defaultValues: {
+      isActive: TodoStatus.Active,
+      isCompleted: CompletionStatus.Incomplete,
+      showExpiration: false,      
+    }
   });
+
+  const showExpiration = watch("showExpiration");
+
+  useEffect(() => {
+    if (errorCategories) {
+      ErrorNotification(notification, 'Erro ao Carregar Categorias', errorCategories.message);
+    }
+
+    if (errorTags) {
+      ErrorNotification(notification, 'Erro ao Carregar Tags', errorTags.message);
+    }
+
+    if (errorCategories || errorTags) navigate('/todo');
+  }, [errorCategories, errorTags, navigate, notification]);
 
   const handleCancel = () => {
     reset();
     navigate('/todo');
   };
 
-  const showExpiration = watch("showExpiration", false);
-
-
-  const onFinishHandler = (data: CreateToDo) => {
-    console.log('Dados enviados:', data);
-    reset();
+  const mapToDoFormToCreateToDo = (data: CreateToDoYup): CreateToDo => {
+    return {
+      Active: data.isActive,
+      idTags: data.tags,
+      idCategories: data.categories,
+      title: data.title,
+      description: data.description,
+      isCompleted: data.isCompleted,
+      expirationDate: data.expirationDateTime || null,
+    };  
   };
 
+  const { mutate: createToDo , isLoading: createToDoIsLoading } = useCreateToDoMutation({
+    onSuccess: (response) => {
+      const location = response.headers.location;
+      // ErrorNotification(notification, 'tarefa criada', 'Tarefa criada com sucesso');
+      console.log('Location:', location);
+      // navigate('/todo');
+    },
+    onError: ({
+      errors,
+      message,
+    }) => ErrorNotification(notification, 'Erro ao Criar Tarefa', message, errors)
+  });
+
+  const onFinishHandler = (data: CreateToDoYup) => {
+    const dataToSend = mapToDoFormToCreateToDo(data);
+    createToDo(dataToSend);
+  };
 
   return (
     <G.StyledContainer>
       <BreadCrumb items={items} />
       <G.CardMain title="Adicionar Tarefa" hoverable>
-        <Skeleton
-          active
-          loading={isLoadingCategories && isLoadingTags}
-        >
+        <Skeleton active loading={isLoadingCategories && isLoadingTags}>
+        <Spin
+         spinning={createToDoIsLoading} 
+         tip="Salvando os dados..."
+         size='large'
+         delay={500}>
           <Form layout="vertical" onFinish={handleSubmit(onFinishHandler)}>
             <Row gutter={16}>
               <Col xs={24} sm={20}>
                 <FormInputCustom
-                  name="task"
+                  name="title"
                   control={control}
                   label="Título"
                   maxLength={100}
@@ -75,12 +130,21 @@ export const AddTodo: React.FC = () => {
                 />
               </Col>
               <Col xs={24} sm={4}>
-                <SwitchFieldCustom
+                <S.FormItem
                   label="Ativo"
-                  defaultChecked={true}
                   name="isActive"
-                  control={control} errors={errors}
-                  tooltip='Marque como Ativo para poder mostrar na busca default.' />
+                  valuePropName="checked"
+                  validateStatus={getValidateStatus("isActive", errors)}
+                  help={<FieldError name={'isActive'} errors={errors} />}
+                  tooltip='Marque como Ativo para poder mostrar na busca default.'>
+                  <Switch
+                    {...register("isActive")}
+                    defaultChecked={watch("isActive") === TodoStatus.Active}
+                    checkedChildren={<CheckOutlined />}
+                    unCheckedChildren={<CloseOutlined />}
+                    onChange={(checked) => setValue("isActive", checked ? TodoStatus.Active : TodoStatus.Inactive)}
+                  />
+                </S.FormItem>
               </Col>
             </Row>
             <TextEditorCustom
@@ -101,16 +165,23 @@ export const AddTodo: React.FC = () => {
                   errors={errors}
                   tooltip="Selecione para exibir campos de data e hora de expiração"
                 />
-
               </Col>
               <Col xs={24} sm={12}>
-                <SwitchFieldCustom
+              <S.FormItem
                   label="Esta concluído?"
                   name="isCompleted"
-                  control={control}
-                  errors={errors}
-                  tooltip="Selecione para marcar a tarefa como concluída"
-                />
+                  valuePropName="checked"
+                  validateStatus={getValidateStatus("isCompleted", errors)}
+                  help={<FieldError name={'isCompleted'} errors={errors} />}
+                  tooltip="Selecione para marcar a tarefa como concluída">
+                  <Switch
+                    {...register("isCompleted")}
+                    defaultChecked={watch("isCompleted") === CompletionStatus.Completed}
+                    checkedChildren={<CheckOutlined />}
+                    unCheckedChildren={<CloseOutlined />}
+                    onChange={(checked) => setValue("isCompleted", checked ? CompletionStatus.Completed : CompletionStatus.Incomplete)}
+                  />
+                </S.FormItem>
               </Col>
             </Row>
             {showExpiration && (
@@ -121,7 +192,6 @@ export const AddTodo: React.FC = () => {
                     label="Data de Expiração"
                     control={control}
                     errors={errors}
-
                   />
                 </Col>
                 <Col xs={24} md={12}>
@@ -156,11 +226,11 @@ export const AddTodo: React.FC = () => {
                 />
               </Col>
             </Row>
-            <ButtonModal handleCancel={handleCancel} />
+            <ButtonGroup handleCancel={handleCancel} isLoading={createToDoIsLoading} />
           </Form>
+          </Spin>
         </Skeleton>
       </G.CardMain>
     </G.StyledContainer>
   );
 };
-

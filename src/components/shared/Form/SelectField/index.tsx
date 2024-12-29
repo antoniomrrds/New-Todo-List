@@ -45,7 +45,6 @@ export const SelectFieldCustom = <T extends FieldValues>({
           {...field}
           {...sharedProps}
           placeholder={placeholder}
-
         >
           {options.map((option) => (
             <Select.Option key={option.id} value={option.id}>
