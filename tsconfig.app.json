@@ -32,6 +32,6 @@
   },
   "include": [
     "src",
-    "src/api/toDo/todoApi.ts"
+    "src/api/toDo/todo-api.ts"
   ]
 }

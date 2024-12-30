@@ -13,9 +13,14 @@ export const GlobalStyle = createGlobalStyle`
 
   }
   .ant-notification-notice-description{
-    width:  100%;
-    margin: 0 !important
+    width:  100% !important;
+    margin: 0 !important;
   }
+  .ant-notification-notice-success  {
+    background-color: ${theme.colors.success.successGreen50} !important;
+    border-radius: 8px;
+  }
+  
 `;
 
 export const CardMain = styled(Card)`
