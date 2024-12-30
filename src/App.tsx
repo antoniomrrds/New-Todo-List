@@ -25,7 +25,10 @@ export const App = () => {
           }}
         >
           <AppAntd notification={{
-            top: 80
+            top: 80,
+            stack:{
+              threshold : 1
+            }
           }}>
             <GlobalStyle />
             <RouterProvider router={router} />
