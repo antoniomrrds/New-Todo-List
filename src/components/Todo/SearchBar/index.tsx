@@ -1,4 +1,4 @@
-import { ToDo } from "@/api/toDo/types";
+import { ToDo } from "@/api/service/toDo/types";
 import { FilterOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons"
 import { Button, Input, InputProps, message } from "antd"
 import React from "react";

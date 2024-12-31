@@ -1,7 +1,6 @@
 import React from 'react';
-import { WarningOutlined } from '@ant-design/icons';
 import { FieldErrors } from 'react-hook-form';
-import { theme } from '@/styles/Theme';
+import { WarningIconStyled } from '@/components/shared/Icons';
 
 interface ErrorHelperProps {
     name: string;
@@ -11,8 +10,8 @@ interface ErrorHelperProps {
 export const FieldError: React.FC<ErrorHelperProps> = ({ name, errors }) => {
     const errorMessage = errors[name]?.message as React.ReactNode || '';
     return errorMessage ? (
-        <span>
-            <WarningOutlined style={{ color: theme.colors.error.errorRed600, marginRight: 5 }} />
+        <span >
+            <WarningIconStyled  $isRigth/>
             {errorMessage}
         </span>
     ) : null;

@@ -24,7 +24,6 @@ export const App = () => {
             },
           }}
         >
-<<<<<<< HEAD
           <AppAntd
             notification={{
               top: 80,
@@ -33,14 +32,6 @@ export const App = () => {
               },
             }}
           >
-=======
-          <AppAntd notification={{
-            top: 80,
-            stack:{
-              threshold : 1
-            }
-          }}>
->>>>>>> b87ba131415783f910a0384b8a79e59d5fe2700f
             <GlobalStyle />
             <RouterProvider router={router} />
           </AppAntd>

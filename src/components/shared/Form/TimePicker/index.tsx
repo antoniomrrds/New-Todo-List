@@ -27,7 +27,7 @@ export const TimePickerCustom = <T extends FieldValues> ({
     label={label}
     name={name}
     validateStatus={getValidateStatus(name, errors)}
-    help={<FieldError name={name} errors={errors} />}
+    help={ errors[name] ? <FieldError name={name} errors={errors} /> : null}
   >
     <Controller
       name={name}

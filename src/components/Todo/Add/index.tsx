@@ -1,17 +1,23 @@
+// Ant Design Components
 import { Form, Row, Col, Skeleton, App as AppAntd, Switch, Spin } from "antd";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+
+// Validators
 import {
   CreateToDoYup,
   todoValidationSchema,
 } from "@/components/Todo/Add/validators";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+// React Hook Form
 import { useForm } from "react-hook-form";
+
+// React Router
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
-import { AxiosError } from "axios";
+
+// Custom Components
 import { ButtonGroup } from "@/components/Todo/Add/ButtonGroup";
-import * as G from "@/styles/global-styles";
 import { BreadCrumb, BreadcrumbItems } from "@/components/shared/BreadCrumb";
-import * as S from "@/components/shared/Form/form-styles";
 import {
   FormInputCustom,
   SwitchFieldCustom,
@@ -22,17 +28,27 @@ import {
   FieldError,
   getValidateStatus,
 } from "@/components/shared/Form";
-import { Tag, tagservices } from "@/api/service";
-import { ErrorNotification, SuccessNotification } from "@/components/shared/Notifications";
-import { useCreateToDoMutation } from "@/api/toDo/actions";
-import { CreateToDo } from "@/api/toDo/types";
-import { ApiErrorResponse } from "@/api/error/types";
-import { useCallback, useEffect } from "react";
+import {
+  ErrorNotification,
+  SuccessNotification,
+} from "@/components/shared/Notifications";
+
+// API Services
+import { useCreateToDoMutation } from "@/api/service/toDo/actions";
+import { CreateToDo } from "@/api/service/toDo/types";
+import { useQueryCategories } from "@/api/service/category/actions";
+import { useQueryTags } from "@/api/service/tag/actions/useQueryTag";
+
+// Enums and Constants
 import { CompletionStatus, TodoStatus } from "./enum";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { ErrorCodes } from "@/api/error/error-codes";
-import { Category } from "@/api/categories/types";
-import { categoryApi } from "@/api/categories";
+
+// React and Hooks
+import { useCallback, useEffect } from "react";
+
+// Styles
+import * as G from "@/styles/global-styles";
+import * as S from "@/components/shared/Form/form-styles";
 
 const items: BreadcrumbItems = [
   { title: "Todo", href: "/todo" },
@@ -40,29 +56,9 @@ const items: BreadcrumbItems = [
 ];
 
 export const AddTodo: React.FC = () => {
-  const {
-    data: categories = [],
-    isLoading: isLoadingCategories,
-    error: errorCategories,
-  } = useQuery<Category[], AxiosError<ApiErrorResponse>>(
-    "categories",
-    categoryApi.getAllCategories,
-    {
-      retry: false,
-    }
-  );
-
-  const {
-    data: tags = [],
-    isLoading: isLoadingTags,
-    error: errorTags,
-  } = useQuery<Tag[], AxiosError<ApiErrorResponse>>(
-    "tags",
-    tagservices.getAllTags,
-    {
-      retry: false,
-    }
-  );
+  const { categories, errorCategories, isLoadingCategories } =
+    useQueryCategories();
+  const { errorTags, tags, isLoadingTags } = useQueryTags();
 
   const { notification } = AppAntd.useApp();
   const navigate = useNavigate();
@@ -97,34 +93,16 @@ export const AddTodo: React.FC = () => {
     Object.entries(errorMap).forEach(([entity, errorMessage]) => {
       if (errorMessage) {
         const entityName = entity.charAt(0).toUpperCase() + entity.slice(1);
-  
+
         ErrorNotification(
           notification,
           `Erro ao carregar ${entityName}`,
-          errorMessage, 
+          errorMessage
         );
-      
       }
     });
 
-    if(errorCategories || errorTags) goToTodoPage();
-    // const firstError = Object.entries(errorMap).find(([, value]) => value);
-
-    // if (firstError) {
-    //   const [entity, errorMessage] = firstError;
-    //   const entityName = entity.charAt(0).toUpperCase() + entity.slice(1);
-
-    //   ErrorNotification(
-    //     notification,
-    //     `Erro ao carregar ${entityName}`,
-    //     errorMessage, 
-    //     [],
-    //     true,
-    //     0
-    //   );
-    //   SuccessNotification(notification, "Tarefa criada", "Tarefa criada com sucesso" ,true, 0);
-        
-    // }
+    if (errorCategories || errorTags) goToTodoPage();
   }, [errorCategories, errorTags, notification, goToTodoPage]);
 
   const handleCancel = () => {
@@ -148,9 +126,14 @@ export const AddTodo: React.FC = () => {
     useCreateToDoMutation({
       onSuccess: (response) => {
         const location = response.headers.location;
-        SuccessNotification(notification, "Tarefa criada", "Tarefa criada com sucesso");
+        SuccessNotification(
+          notification,
+          "Tarefa criada",
+          "Tarefa criada com sucesso"
+        );
+        console.log("response:", response);
         console.log("Location:", location);
-         goToTodoPage();
+        goToTodoPage();
       },
       onError: ({ errors, status, message }) => {
         if (status === ErrorCodes.BAD_REQUEST) {
@@ -202,7 +185,11 @@ export const AddTodo: React.FC = () => {
                     name="isActive"
                     valuePropName="checked"
                     validateStatus={getValidateStatus("isActive", errors)}
-                    help={<FieldError name={"isActive"} errors={errors} />}
+                    help={
+                      errors["isActive"] ? (
+                        <FieldError name={"isActive"} errors={errors} />
+                      ) : null
+                    }
                     tooltip="Marque como Ativo para poder mostrar na busca default."
                   >
                     <Switch
@@ -245,7 +232,11 @@ export const AddTodo: React.FC = () => {
                     name="isCompleted"
                     valuePropName="checked"
                     validateStatus={getValidateStatus("isCompleted", errors)}
-                    help={<FieldError name={"isCompleted"} errors={errors} />}
+                    help={
+                      errors["isCompleted"] ? (
+                        <FieldError name={"isCompleted"} errors={errors} />
+                      ) : null
+                    }
                     tooltip="Selecione para marcar a tarefa como concluída"
                   >
                     <Switch

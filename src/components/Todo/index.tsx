@@ -9,7 +9,7 @@ import CardTasks from "../CardTasks";
 import { Content } from "antd/es/layout/layout";
 import { StyledContainer } from "@/styles/global-styles";
 
-import { ToDo } from "@/api/toDo/types";
+import { ToDo } from "@/api/service/toDo/types";
 
 const TaskContent = styled(Content)`
   display: flex;

@@ -1,7 +1,6 @@
-import React from 'react';
-import { Typography, Tooltip, Badge, Card, Skeleton } from 'antd';
-import * as Styled from './Card.styles';
-import { exampleTasks, value } from '../mocks/tasks';
+import React from "react";
+import { Typography, Tooltip, Badge, Card, Skeleton } from "antd";
+import * as Styled from "./Card.styles";
 
 const { Text } = Typography;
 
@@ -19,43 +18,43 @@ type Props = {
   data: Task[];
 };
 
-const avatar = 'https://api.dicebear.com/7.x/miniavs/svg?seed=${id}';
+const avatar = "https://api.dicebear.com/7.x/miniavs/svg?seed=${id}";
 
 const CardTasks: React.FC<Props> = ({ data }) => {
-  // data = [...exampleTasks, ...value];
-
   return (
     <Styled.CardsContainer>
       <Skeleton loading={false} active>
-      {data.map((task) => (
-        <Badge.Ribbon
-
-          key={task.id}
-          text={task.expired ? 'Expirado' : 'Ativo'}
-          color={task.expired ? 'red' : 'green'}
-        >
-          <Styled.PaperCard
-            cover={
-              <Styled.DateContainer>
-                <Styled.DayOverlay>{new Date(task.createdAt).getDate()}</Styled.DayOverlay>
-                <Styled.CreationDate>{new Date(task.createdAt).toLocaleString('default', { month: 'long', year: 'numeric' })}</Styled.CreationDate>
-              </Styled.DateContainer>
-            }
+        {data.map((task) => (
+          <Badge.Ribbon
+            key={task.id}
+            text={task.expired ? "Expirado" : "Ativo"}
+            color={task.expired ? "red" : "green"}
           >
-            <Card.Meta
-              title={
-                <Text strong>{task.title}</Text>
+            <Styled.PaperCard
+              cover={
+                <Styled.DateContainer>
+                  <Styled.DayOverlay>
+                    {new Date(task.createdAt).getDate()}
+                  </Styled.DayOverlay>
+                  <Styled.CreationDate>
+                    {new Date(task.createdAt).toLocaleString("default", {
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </Styled.CreationDate>
+                </Styled.DateContainer>
               }
-            />
-            <Styled.CreatorName>
-              <img src={task.avatar || avatar} alt="Criador" />
-              <Tooltip title={task.creator}>
-                <Text className="creator-name">{task.creator}</Text>
-              </Tooltip>
-            </Styled.CreatorName>
-          </Styled.PaperCard>
-        </Badge.Ribbon>
-      ))}
+            >
+              <Card.Meta title={<Text strong>{task.title}</Text>} />
+              <Styled.CreatorName>
+                <img src={task.avatar || avatar} alt="Criador" />
+                <Tooltip title={task.creator}>
+                  <Text className="creator-name">{task.creator}</Text>
+                </Tooltip>
+              </Styled.CreatorName>
+            </Styled.PaperCard>
+          </Badge.Ribbon>
+        ))}
       </Skeleton>
     </Styled.CardsContainer>
   );

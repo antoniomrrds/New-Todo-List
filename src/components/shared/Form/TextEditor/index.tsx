@@ -32,7 +32,7 @@ export const TextEditorCustom = <T extends FieldValues>({
     required={required}
 
     validateStatus={getValidateStatus(name, errors)}
-    help={<FieldError name={name} errors={errors} />}
+    help={ errors[name] ? <FieldError name={name} errors={errors} /> : null}
   >
     <Controller
       name={name}

@@ -1,12 +1,13 @@
 import { NotificationInstance } from "antd/es/notification/interface";
 
-import * as C from "@/components/shared/Notifications/ErrorNotification/error-notification.styles";
+
 import * as S from "@/components/shared/Notifications/notification-styles";
 
 import { Typography } from "antd";
 const { Title } = Typography;
 
 import { ErrorContent } from "@/components/shared/Notifications/ErrorNotification/components";
+import { WarningIconStyled } from "@/components/shared/Icons";
 
 export const ErrorNotification = (
   notification: NotificationInstance,
@@ -24,7 +25,7 @@ export const ErrorNotification = (
       </Title>
     ),
     description: <ErrorContent description={description} details={details} />,
-    icon: <C.WarningIconStyled />,
+    icon: <WarningIconStyled />,
     closeIcon: <S.CloseCircleFilledStyled $colorVariant="error" />,
     className: "ant-notification-notice-error",
     closable: true,

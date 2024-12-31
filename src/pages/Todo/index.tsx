@@ -12,8 +12,8 @@ import { ToDoSearchBar } from "@/components/Todo/SearchBar";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { useQueryTodos } from "@/api/toDo";
 import { AxiosError } from "axios";
+import { useQueryTodos } from "@/api/service/toDo/actions";
 
 
 export const TodoHomePage = () => {

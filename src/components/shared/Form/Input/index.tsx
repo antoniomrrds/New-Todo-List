@@ -28,22 +28,25 @@ export const FormInputCustom = <T extends FieldValues>({
     label={label}
     name={name}
     required={required}
+    hasFeedback
+    messageVariables={{ label }}
     validateStatus={getValidateStatus(name, errors)}
-    help={<FieldError name={name} errors={errors} />}
+    help={ errors[name] ? <FieldError name={name} errors={errors} /> : null}
   >
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
+
         <Input
           {...field}
           id={name}
           placeholder={placeholder}
           showCount
           maxLength={maxLength}
+          />
+        )}
         />
-      )}
-    />
   </FormItemStyled>
 );
 

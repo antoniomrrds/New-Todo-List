@@ -35,7 +35,7 @@ export const SelectFieldCustom = <T extends FieldValues>({
     name={name}
     required={required}
     validateStatus={getValidateStatus(name, errors)}
-    help={<FieldError name={name} errors={errors} />}
+    help={ errors[name] ? <FieldError name={name} errors={errors} /> : null}
   >
     <Controller
       name={name}
