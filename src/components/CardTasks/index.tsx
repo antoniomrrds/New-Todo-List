@@ -1,34 +1,34 @@
-import React from "react";
-import { Typography, Tooltip, Badge, Card, Skeleton } from "antd";
-import * as Styled from "./Card.styles";
+import { Badge, Card, Skeleton, Tooltip, Typography } from 'antd'
+import  { FC } from 'react'
+import * as Styled from './Card.styles'
 
-const { Text } = Typography;
+const { Text } = Typography
 
-type Task = {
-  id: number;
-  title: string;
-  description: string;
-  avatar: string;
-  expired: boolean;
-  createdAt: string;
-  creator: string;
-};
+type Todo = {
+  id: number
+  title: string
+  description: string
+  avatar: string
+  expired: boolean
+  createdAt: string
+  creator: string
+}
 
 type Props = {
-  data: Task[];
-};
+  data: Todo[]
+}
 
-const avatar = "https://api.dicebear.com/7.x/miniavs/svg?seed=${id}";
+const avatar = 'https://api.dicebear.com/7.x/miniavs/svg?seed=${id}'
 
-const CardTasks: React.FC<Props> = ({ data }) => {
+const CardTasks: FC<Props> = ({ data }) => {
   return (
     <Styled.CardsContainer>
       <Skeleton loading={false} active>
-        {data.map((task) => (
+        {data.map(task => (
           <Badge.Ribbon
             key={task.id}
-            text={task.expired ? "Expirado" : "Ativo"}
-            color={task.expired ? "red" : "green"}
+            text={task.expired ? 'Expirado' : 'Ativo'}
+            color={task.expired ? 'red' : 'green'}
           >
             <Styled.PaperCard
               cover={
@@ -37,9 +37,9 @@ const CardTasks: React.FC<Props> = ({ data }) => {
                     {new Date(task.createdAt).getDate()}
                   </Styled.DayOverlay>
                   <Styled.CreationDate>
-                    {new Date(task.createdAt).toLocaleString("default", {
-                      month: "long",
-                      year: "numeric",
+                    {new Date(task.createdAt).toLocaleString('default', {
+                      month: 'long',
+                      year: 'numeric',
                     })}
                   </Styled.CreationDate>
                 </Styled.DateContainer>
@@ -57,7 +57,7 @@ const CardTasks: React.FC<Props> = ({ data }) => {
         ))}
       </Skeleton>
     </Styled.CardsContainer>
-  );
-};
+  )
+}
 
-export default CardTasks;
+export default CardTasks

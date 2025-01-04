@@ -9,7 +9,7 @@ import CardTasks from "../CardTasks";
 import { Content } from "antd/es/layout/layout";
 import { StyledContainer } from "@/styles/global-styles";
 
-import { ToDo } from "@/api/service/toDo/types";
+import  { ToDo } from "@/api/service/toDo/types";
 
 const TaskContent = styled(Content)`
   display: flex;
@@ -19,7 +19,6 @@ type ToDoList = {
     toDos: ToDo[];
     isLoading: boolean;
     filterVisible: boolean;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onFilterFinish: (filter: any) => void;
     error: AxiosError;
     searchTerm: string;

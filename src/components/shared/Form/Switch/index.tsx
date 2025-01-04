@@ -11,7 +11,6 @@ interface SwitchFieldProps<T extends FieldValues> {
     tooltip?: string;
     errors:  FieldErrors<T>; 
     FormItemStyled?: React.ElementType;
-    SwitchComponent?: React.ElementType;
     defaultChecked?: boolean;
 }
 
@@ -23,7 +22,6 @@ export const SwitchFieldCustom = <T extends FieldValues>({
     errors,
     defaultChecked = false,
     FormItemStyled = S.FormItem,
-    SwitchComponent = Switch,
 }: SwitchFieldProps<T>) => {
     return (
         <FormItemStyled
@@ -38,7 +36,7 @@ export const SwitchFieldCustom = <T extends FieldValues>({
                 name={name}
                 control={control}
                 render={({ field }) => (
-                    <SwitchComponent
+                    <Switch
                         {...field}
                         defaultChecked={defaultChecked}
                         checkedChildren={<CheckOutlined />}

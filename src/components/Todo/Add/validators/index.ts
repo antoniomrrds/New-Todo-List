@@ -83,4 +83,4 @@ export const todoValidationSchema = Yup.object({
   return originalObject;
 });
 
-export type CreateToDoYup = Yup.InferType<typeof todoValidationSchema>;
+export type CreateTodoValidationType = Yup.InferType<typeof todoValidationSchema>;
