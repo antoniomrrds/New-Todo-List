@@ -1,24 +1,15 @@
-import { Badge, Card, Skeleton, Tooltip, Typography } from 'antd'
+import { Badge, Card, Skeleton, Typography } from 'antd'
 import  { FC } from 'react'
 import * as Styled from './Card.styles'
+import { ToDo } from '@/api/service/toDo/types'
 
 const { Text } = Typography
 
-type Todo = {
-  id: number
-  title: string
-  description: string
-  avatar: string
-  expired: boolean
-  createdAt: string
-  creator: string
-}
-
 type Props = {
-  data: Todo[]
+  data: ToDo[]
 }
 
-const avatar = 'https://api.dicebear.com/7.x/miniavs/svg?seed=${id}'
+// const avatar = 'https://api.dicebear.com/7.x/miniavs/svg?seed=${id}'
 
 const CardTasks: FC<Props> = ({ data }) => {
   return (
@@ -27,8 +18,8 @@ const CardTasks: FC<Props> = ({ data }) => {
         {data.map(task => (
           <Badge.Ribbon
             key={task.id}
-            text={task.expired ? 'Expirado' : 'Ativo'}
-            color={task.expired ? 'red' : 'green'}
+            text={task.expirationDate ? 'Expirado' : 'Ativo'}
+            color={task.expirationDate ? 'red' : 'green'}
           >
             <Styled.PaperCard
               cover={
@@ -47,10 +38,10 @@ const CardTasks: FC<Props> = ({ data }) => {
             >
               <Card.Meta title={<Text strong>{task.title}</Text>} />
               <Styled.CreatorName>
-                <img src={task.avatar || avatar} alt="Criador" />
-                <Tooltip title={task.creator}>
+                {/* <img src={task.avatar || avatar} alt="Criador" /> */}
+                {/* <Tooltip title={task.creator}>
                   <Text className="creator-name">{task.creator}</Text>
-                </Tooltip>
+                </Tooltip> */}
               </Styled.CreatorName>
             </Styled.PaperCard>
           </Badge.Ribbon>

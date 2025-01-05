@@ -1,44 +1,61 @@
-import { useCreateTodo } from '@/api/service/toDo/actions'
-import { CreateToDo } from '@/api/service/toDo/types'
-import AppFooter from '@/components/Footer'
-import { AppHeader } from '@/components/Header'
-import { AddTodoTemplate } from '@/components/Todo/Add'
-import { CreateTodoValidationType } from '@/components/Todo/Add/validators'
-import { StyledLayout } from '@/styles/global-styles'
-import { Content } from 'antd/es/layout/layout'
+import AppFooter from '@/components/Footer';
+import { AppHeader } from '@/components/Header';
+import { AddTodoTemplate } from '@/components/Todo/Add';
+
+import {
+  useAddTodo,
+  useCategoriesAndTags,
+  useErrorHandling,
+} from '@/components/Todo/Add/hooks';
+// Hooks
+import { useCallback } from 'react';
+
+import { StyledLayout } from '@/styles/global-styles';
+
+import { App as AppAntd } from 'antd';
+import { Content } from 'antd/es/layout/layout';
+
+import { useNavigate } from 'react-router-dom';
 
 export const AddTodoPage = () => {
-  const { createToDo, createToDoIsLoading } = useCreateTodo()
+  const { notification } = AppAntd.useApp();
+  const navigate = useNavigate();
+  const goToTodoPage = useCallback(() => navigate('/todo'), [navigate]);
 
-  const mapFormDataToCreateTodo = (
-    data: CreateTodoValidationType
-  ): CreateToDo => {
-    return {
-      Active: data.isActive,
-      idTags: data.tags,
-      idCategories: data.categories,
-      title: data.title,
-      description: data.description,
-      isCompleted: data.isCompleted,
-      expirationDate: data.expirationDateTime || null,
-    }
-  }
+  const { isSaving, handleFormSubmit } = useAddTodo({
+    goToTodoPage,
+    notification,
+  });
 
-  const handleFormSubmit = (data: CreateTodoValidationType) => {
-    const dataToSend = mapFormDataToCreateTodo(data)
-    createToDo(dataToSend)
-  }
+  const {
+    categories,
+    tags,
+    errorCategories,
+    errorTags,
+    isLoadingCategoriesAndTags,
+  } = useCategoriesAndTags();
+
+  useErrorHandling({
+    errorCategories,
+    errorTags,
+    notification,
+    goToTodoPage,
+  });
 
   return (
     <StyledLayout>
       <AppHeader />
       <Content>
         <AddTodoTemplate
-          isSaving={createToDoIsLoading}
+          isSaving={isSaving}
           onFormSubmitHandler={handleFormSubmit}
+          categories={categories}
+          tags={tags}
+          isLoadingCategoriesAndTags={isLoadingCategoriesAndTags}
+          goToTodoPage={goToTodoPage}
         />
       </Content>
       <AppFooter />
     </StyledLayout>
-  )
-}
+  );
+};

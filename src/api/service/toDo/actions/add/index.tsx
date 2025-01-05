@@ -1,20 +1,24 @@
-import { FormattedError } from '@/api/error/types'
-import { todoApi } from '@/api/service/toDo'
-import { CreateToDo } from '@/api/service/toDo/types'
-import { App as AppAntd } from 'antd'
-import { useMutation } from 'react-query'
-import { useNavigate } from 'react-router-dom'
+import { FormattedError } from '@/api/error/types';
+import { todoApi } from '@/api/service/toDo';
+import { CreateToDo } from '@/api/service/toDo/types';
+import { useMutation } from 'react-query';
 
-import { ErrorCodes } from '@/api/error/error-codes'
+import { ErrorCodes } from '@/api/error/error-codes';
 import {
   ErrorNotification,
   SuccessNotification,
-} from '@/components/shared/Notifications'
+} from '@/components/shared/Notifications';
+import { NotificationInstance } from 'antd/es/notification/interface';
 
-export const useCreateTodo = () => {
-  const { notification } = AppAntd.useApp()
-  const navigate = useNavigate()
+type UseCreateTodoProps = {
+  notification: NotificationInstance;
+  goToTodoPage: () => void;
+};
 
+export const useCreateTodo = ({
+  notification,
+  goToTodoPage,
+}: UseCreateTodoProps) => {
   const { mutate: createToDo, isLoading: createToDoIsLoading } = useMutation(
     (newToDo: CreateToDo) => todoApi.create(newToDo),
     {
@@ -24,9 +28,9 @@ export const useCreateTodo = () => {
         SuccessNotification(
           notification,
           'Tarefa criada',
-          'Tarefa criada com sucesso'
-        )
-        navigate('/todo')
+          'Tarefa criada com sucesso',
+        );
+        goToTodoPage();
       },
       onError: ({ errors, status, message }: FormattedError) => {
         if (status === ErrorCodes.BAD_REQUEST) {
@@ -34,15 +38,15 @@ export const useCreateTodo = () => {
             notification,
             'Erro ao criar tarefa',
             message,
-            errors
-          )
+            errors,
+          );
         } else {
-          ErrorNotification(notification, 'Erro ao criar tarefa', message)
-          navigate('/todo')
+          ErrorNotification(notification, 'Erro ao criar tarefa', message);
+          goToTodoPage();
         }
       },
-    }
-  )
+    },
+  );
 
-  return { createToDo, createToDoIsLoading }
-}
+  return { createToDo, createToDoIsLoading };
+};

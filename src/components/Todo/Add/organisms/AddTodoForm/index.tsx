@@ -1,26 +1,28 @@
-import { Category } from '@/api/service/category/types'
-import { Tag } from '@/api/service/tag/types'
-import { DescriptionEditorField } from '@/components/Todo/Add/molecules'
-import { ActionButtonGroup } from '@/components/Todo/Add/organisms/ActionButtonGroup'
-import { CategoriesAndTags } from '@/components/Todo/Add/organisms/CategoriesAndTags'
-import { ShowExpirationAndIsCompleted } from '@/components/Todo/Add/organisms/ShowExpirationAndIsCompleted'
-import { TimerPickerAndDatePicker } from '@/components/Todo/Add/organisms/TimerPickerAndDatePicker'
-import { TitleAndStatus } from '@/components/Todo/Add/organisms/TitleAndStatus'
-import { CreateTodoFieldWithSetValuesProps } from '@/components/Todo/Add/types'
-import { CreateTodoValidationType } from '@/components/Todo/Add/validators'
-import { Form, Spin } from 'antd'
-import { FieldValues, UseFormHandleSubmit } from 'react-hook-form'
+import { Category } from '@/api/service/category/types';
+import { Tag } from '@/api/service/tag/types';
+import { DescriptionEditorField } from '@/components/Todo/Add/molecules';
+import {
+  ActionButtonGroup,
+  CategoriesAndTags,
+  ShowExpirationAndIsCompleted,
+  TimerPickerAndDatePicker,
+  TitleAndStatus,
+} from '@/components/Todo/Add/organisms';
+import { CreateTodoFieldWithSetValuesProps } from '@/components/Todo/Add/types';
+import { CreateTodoValidationType } from '@/components/Todo/Add/validators';
+import { Form, Spin } from 'antd';
+import { FieldValues, UseFormHandleSubmit } from 'react-hook-form';
 
-type BaseProps = CreateTodoFieldWithSetValuesProps
+type BaseProps = CreateTodoFieldWithSetValuesProps;
 type TodoTemplateProps<T extends FieldValues> = {
-  isSaving: boolean
-  onFormSubmit: (data: T) => void
-  isExpirationVisible: boolean
-  onCancel: () => void
-  handleSubmitForm: UseFormHandleSubmit<T>
-  tags: Tag[]
-  categories: Category[]
-} & BaseProps
+  isSaving: boolean;
+  onFormSubmit: (data: T) => void;
+  isExpirationVisible: boolean;
+  onCancel: () => void;
+  handleSubmitForm: UseFormHandleSubmit<T>;
+  tags: Tag[];
+  categories: Category[];
+} & BaseProps;
 
 export const TodoForm = ({
   isSaving,
@@ -55,4 +57,4 @@ export const TodoForm = ({
       <ActionButtonGroup onCancel={onCancel} isLoading={isSaving} />
     </Form>
   </Spin>
-)
+);

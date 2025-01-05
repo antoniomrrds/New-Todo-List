@@ -1,7 +1,6 @@
-import { ApiErrorResponse } from "@/api/error/types";
+import { FormattedError } from "@/api/error/types";
 import { tagApi } from "@/api/service/tag/tag-api";
 import { Tag } from "@/api/service/tag/types";
-import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 
 export const useQueryTags = () => {
@@ -9,7 +8,7 @@ export const useQueryTags = () => {
     data: tags = [],
     isLoading: isLoadingTags,
     error: errorTags,
-  } = useQuery<Tag[], AxiosError<ApiErrorResponse>>("tags", tagApi.getAll);
+  } = useQuery<Tag[], FormattedError>("tags", tagApi.getAll);
 
   return { tags, isLoadingTags, errorTags };
 };
