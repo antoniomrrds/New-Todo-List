@@ -29,7 +29,10 @@ export const App = () => {
               top: 80,
               stack: {
                 threshold: 1,
-              },
+              }
+            }}
+            message={{
+              maxCount: 1,
             }}
           >
             <GlobalStyle />

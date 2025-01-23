@@ -1,7 +1,10 @@
-import { FC } from "react";
-import { Col, Row } from "antd";
-import { useBreakpoint } from "@ant-design/pro-components";
-import { CancelButton, SubmitButton } from "@/components/Todo/Add/molecules/buttons";
+import { FC } from 'react';
+import { Col, Row } from 'antd';
+import { useBreakpoint } from '@ant-design/pro-components';
+import {
+  CancelButton,
+  SubmitButton,
+} from '@/components/Todo/Add/molecules/buttons';
 
 type ActionButtonGroupProps = {
   onCancel: () => void;
@@ -13,14 +16,14 @@ export const ActionButtonGroup: FC<ActionButtonGroupProps> = ({
   isLoading,
 }) => {
   const screens = useBreakpoint();
-  const isMobile = screens === "xs";
+  const isMobile = screens === 'xs';
 
   return (
     <Row justify="end" gutter={[8, 8]} style={{ marginTop: 16 }}>
-      <Col xs={24} sm={{ flex: "none" }}>
+      <Col xs={24} sm={{ flex: 'none' }}>
         <CancelButton onCancel={onCancel} block={isMobile} />
       </Col>
-      <Col xs={24} sm={{ flex: "none" }}>
+      <Col xs={24} sm={{ flex: 'none' }}>
         <SubmitButton isLoading={isLoading} block={isMobile} />
       </Col>
     </Row>

@@ -1,6 +1,6 @@
-import { Card, Layout } from "antd";
-import styled, { createGlobalStyle } from "styled-components";
-import { theme } from "./Theme";
+import { Card, Layout } from 'antd';
+import styled, { createGlobalStyle } from 'styled-components';
+import { theme } from './Theme';
 export const GlobalStyle = createGlobalStyle`
     * {
         margin: 0;
@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${theme.colors.success.successGreen50} !important;
     border-radius: 8px;
   }
-  
+
 `;
 
 export const CardMain = styled(Card)`
@@ -42,6 +42,7 @@ export const StyledLayout = styled(Layout)`
 export const StyledContainer = styled.main`
   max-width: ${({ theme }) => theme.container.maxWidth};
   margin: 0px auto;
+  width: ${({ theme }) => theme.container.fullWidthPercentage};
   min-width: ${({ theme }) => theme.container.minWidth};
   padding: ${({ theme }) => theme.spacing.small};
 `;

@@ -15,11 +15,11 @@ import { StyledLayout } from '@/styles/global-styles';
 import { App as AppAntd } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigateFunction } from '@/helpers';
 
 export const AddTodoPage = () => {
   const { notification } = AppAntd.useApp();
-  const navigate = useNavigate();
+  const navigate = useNavigateFunction();
   const goToTodoPage = useCallback(() => navigate('/todo'), [navigate]);
 
   const { isSaving, handleFormSubmit } = useAddTodo({

@@ -1,17 +1,14 @@
-import { FieldError, getValidateStatus } from "@/components/shared/Form";
+import { FieldError, getValidateStatus } from '@/components/shared/Form';
 
-import { CompletionStatus } from "@/components/Todo/Add/enum";
-import { IsCompletedSwitchProps } from "@/components/Todo/Add/organisms/ShowExpirationAndIsCompleted/types";
+import { CompletionStatus } from '@/components/Todo/Add/enum';
+import { IsCompletedSwitchProps } from '@/components/Todo/Add/organisms/ShowExpirationAndIsCompleted/types';
 
-import * as S from "@/components/shared/Form/form-styles";
+import * as S from '@/components/shared/Form/form-styles';
 
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Switch } from "antd";
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Switch } from 'antd';
 
-import {
-  Controller,
-  FieldValues,
-} from "react-hook-form";
+import { Controller, FieldValues } from 'react-hook-form';
 
 export const IsCompletedSwitchField = <T extends FieldValues>({
   control,
@@ -19,13 +16,13 @@ export const IsCompletedSwitchField = <T extends FieldValues>({
   errors,
 }: IsCompletedSwitchProps<T>) => (
   <S.FormItem
-  label="Esta concluído?"
-  name={name}
+    label="Esta concluído?"
+    name={name}
     valuePropName="checked"
     validateStatus={getValidateStatus(name, errors)}
     help={errors[name] ? <FieldError name={name} errors={errors} /> : null}
     tooltip="Selecione para marcar a tarefa como concluída"
-    >
+  >
     <Controller
       name={name}
       control={control}

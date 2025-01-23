@@ -1,25 +1,37 @@
-import { CreateToDo, ToDo, UpdateToDo } from "@/api/service/toDo/types";
-import { axiosInstance } from "@/api/http/axios";
-import { handleRequest } from "@/api/core";
-import { AxiosResponse } from "axios";
-
+import { handleRequest } from '@/api/core';
+import { axiosInstance } from '@/api/http/axios';
+import {
+  CreateToDo,
+  FilteredToDoResponse,
+  ToDo,
+  ToDoFilter,
+  UpdateToDo,
+} from '@/api/service/toDo/types';
+import { AxiosResponse } from 'axios';
 export const todoApi = {
-  getAll: async () => {
-    const response = await handleRequest(axiosInstance.get<ToDo[]>("/todo"));
+  getAll: async (): Promise<ToDo[]> => {
+    const response = await handleRequest(axiosInstance.get<ToDo[]>('/todo'));
     return response.data;
   },
 
-  create: async (createToDo: CreateToDo): Promise<AxiosResponse> => {
-    return await handleRequest(axiosInstance.post("/todo", createToDo));
+  doFilter: async (filter: ToDoFilter): Promise<FilteredToDoResponse> => {
+    const response = await handleRequest(
+      axiosInstance.post<FilteredToDoResponse>('/todo/dofilter', filter),
+    );
+    return response.data;
   },
 
-  update: async (updateToDo: UpdateToDo) => {
+  create: (createToDo: CreateToDo): Promise<AxiosResponse> => {
+    return handleRequest(axiosInstance.post('/todo', createToDo));
+  },
+
+  update: (updateToDo: UpdateToDo): Promise<AxiosResponse> => {
     return handleRequest(
-      axiosInstance.put(`/todo/${updateToDo.id}`, updateToDo)
+      axiosInstance.put(`/todo/${updateToDo.id}`, updateToDo),
     );
   },
 
-  delete: async (id: number) => {
+  delete: (id: number): Promise<AxiosResponse> => {
     return handleRequest(axiosInstance.delete(`/todo/${id}`));
   },
 };
