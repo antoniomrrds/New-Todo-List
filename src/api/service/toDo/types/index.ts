@@ -1,5 +1,5 @@
-import { PagedResponse } from "@/api/core/types";
-import { TodoStatus } from "@/components/Todo/Add/enum";
+import { PagedResponse } from '@/api/core/types';
+import { TodoStatus } from '@/components/Todo/Add/enum';
 
 export type CreateToDo = {
   idTags: number[] | null | undefined;

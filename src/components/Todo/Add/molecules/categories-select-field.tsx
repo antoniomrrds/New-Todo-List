@@ -1,7 +1,7 @@
 import { SelectFieldCustom } from '@/components/shared/Form';
 import { CategoriesProps } from '@/components/Todo/Add/organisms/CategoriesAndTags/types';
 
-export const CategoriesField = ({
+export const CategoriesSelectField = ({
   control,
   errors,
   categories,

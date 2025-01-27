@@ -1,10 +1,7 @@
-import { FormInputCustom } from "@/components/shared/Form";
-import {  TitleType } from "@/components/Todo/Add/organisms/TitleAndStatus/types";
+import { FormInputCustom } from '@/components/shared/Form';
+import { TitleType } from '@/components/Todo/Add/organisms/TitleAndStatus/types';
 
-export const TitleField =  ({
-  control,
-  errors,
-}:TitleType ) => (
+export const TitleField = ({ control, errors }: TitleType) => (
   <FormInputCustom
     name="title"
     control={control}

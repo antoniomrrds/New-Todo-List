@@ -1,5 +1,11 @@
-import { Control, Controller, FieldErrors, FieldValues, Path } from "react-hook-form";
-import { Select, SelectProps } from "antd";
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
+import { Select, SelectProps } from 'antd';
 import { FieldError, getValidateStatus } from '@/components/shared/Form';
 import * as S from '@/components/shared/Form/form-styles';
 
@@ -35,17 +41,13 @@ export const SelectFieldCustom = <T extends FieldValues>({
     name={name}
     required={required}
     validateStatus={getValidateStatus(name, errors)}
-    help={ errors[name] ? <FieldError name={name} errors={errors} /> : null}
+    help={errors[name] ? <FieldError name={name} errors={errors} /> : null}
   >
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
-        <Select
-          {...field}
-          {...sharedProps}
-          placeholder={placeholder}
-        >
+        <Select {...field} {...sharedProps} placeholder={placeholder}>
           {options.map((option) => (
             <Select.Option key={option.id} value={option.id}>
               {option.name}

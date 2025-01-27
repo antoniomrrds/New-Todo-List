@@ -1,5 +1,5 @@
-import { theme } from "@/styles/Theme";
-import { ThemeConfig } from "antd";
+import { theme } from '@/styles/Theme';
+import { ThemeConfig } from 'antd';
 //buton success
 export const themeAntdConfigButtonSuccess: ThemeConfig = {
   components: {

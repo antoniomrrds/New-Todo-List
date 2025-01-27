@@ -1,5 +1,11 @@
 import { Input } from 'antd';
-import { Control, Controller, FieldErrors, FieldValues, Path } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 import * as S from '@/components/shared/Form/form-styles';
 import { FieldError, getValidateStatus } from '@/components/shared/Form';
 
@@ -12,6 +18,7 @@ interface FormInputProps<T extends FieldValues> {
   required?: boolean;
   FormItemStyled?: React.ElementType;
   errors: FieldErrors<T>;
+  allowClear?: boolean;
 }
 
 export const FormInputCustom = <T extends FieldValues>({
@@ -22,6 +29,7 @@ export const FormInputCustom = <T extends FieldValues>({
   placeholder,
   required = false,
   errors,
+  allowClear,
   FormItemStyled = S.FormItem,
 }: FormInputProps<T>) => (
   <FormItemStyled
@@ -31,22 +39,21 @@ export const FormInputCustom = <T extends FieldValues>({
     hasFeedback
     messageVariables={{ label }}
     validateStatus={getValidateStatus(name, errors)}
-    help={ errors[name] ? <FieldError name={name} errors={errors} /> : null}
+    help={errors[name] ? <FieldError name={name} errors={errors} /> : null}
   >
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
-
         <Input
           {...field}
           id={name}
           placeholder={placeholder}
           showCount
+          allowClear={allowClear}
           maxLength={maxLength}
-          />
-        )}
         />
+      )}
+    />
   </FormItemStyled>
 );
-

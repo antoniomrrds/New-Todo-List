@@ -38,9 +38,8 @@ export const AddTodoTemplate: FC<AddTodoTemplateProps> = ({
   categories,
   tags,
   isLoadingCategoriesAndTags,
-  goToTodoPage
+  goToTodoPage,
 }) => {
-
   const {
     control,
     handleSubmit,
@@ -48,7 +47,7 @@ export const AddTodoTemplate: FC<AddTodoTemplateProps> = ({
     setValue,
     isExpirationEnabled,
     reset,
-  } = useTodoForm(onFormSubmitHandler)
+  } = useTodoForm(onFormSubmitHandler);
 
   const handleCancel = () => {
     reset();
