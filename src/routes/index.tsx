@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom';
 import { HomePage } from '@/pages/Home';
 import { AppHeader } from '@/components/Header';
 import { NotFoundPage } from '@/pages/NotFound';
@@ -7,27 +7,24 @@ import { TodoHomePage } from '@/pages/Todo';
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <HomePage />
-    ),
+    path: '/',
+    element: <HomePage />,
   },
   {
-    path: "/todo",
+    path: '/todo',
     children: [
       {
-        path: "",
-        element: <TodoHomePage />
+        path: '',
+        element: <TodoHomePage />,
       },
       {
-        path: "add",
-        element: <AddTodoPage />
+        path: 'add',
+        element: <AddTodoPage />,
       },
-
     ],
   },
   {
-    path: "/learn",
+    path: '/learn',
     element: (
       <>
         <AppHeader />
@@ -36,9 +33,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "*",
-    element: (
-      <NotFoundPage />
-    ),
-  }
+    path: '*',
+    element: <NotFoundPage />,
+  },
 ]);

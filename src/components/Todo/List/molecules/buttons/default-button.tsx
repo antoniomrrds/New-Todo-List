@@ -5,23 +5,15 @@ type DefaultButtonProps = {
   onClick: () => void;
   icon?: React.ReactNode;
   theme?: ThemeConfig;
-  style?: React.CSSProperties;
 };
-
 export const DefaultButton = ({
   text,
   onClick,
   icon,
   theme,
-  style,
 }: DefaultButtonProps) => (
   <ConfigProvider theme={theme}>
-    <ButtonAntd
-      color="primary"
-      icon={icon}
-      onClick={onClick}
-      style={{ width: '100%', ...style }}
-    >
+    <ButtonAntd color="primary" icon={icon} onClick={onClick} block>
       {text}
     </ButtonAntd>
   </ConfigProvider>

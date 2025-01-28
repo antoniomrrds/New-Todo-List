@@ -6,17 +6,20 @@ import {
   CreateButton,
   FilterButton,
 } from '@/components/Todo/List/molecules/buttons';
+import { defaultFilters } from '@/pages/Todo';
 
 type ToDoSearchBarProps = {
   filters: ToDoFilter;
   onApplyFilters: (updatedFilters: Partial<ToDoFilter>) => void;
   handleNavigateAdd: () => void;
+  shouldShowDropdown: boolean;
 };
 
 export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
   filters,
   onApplyFilters,
   handleNavigateAdd,
+  shouldShowDropdown,
 }) => {
   const [localFilters, setLocalFilters] = useState<ToDoFilter>(filters);
 
@@ -28,7 +31,12 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
     setLocalFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  // Aplica os filtros ao clicar no botão de busca
+  const handleClearFilters = () => {
+    const clearedFilters = defaultFilters;
+    setLocalFilters(clearedFilters);
+    onApplyFilters(clearedFilters);
+  };
+
   const handleSearch = () => {
     onApplyFilters(localFilters);
   };
@@ -44,7 +52,7 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
             onChange={(e) => updateLocalFilters('Title', e.target.value.trim())}
           />
         </Col>
-        <Col xs={24} md={2}>
+        <Col xs={24} md={3}>
           <Select
             style={{ width: '100%' }}
             placeholder="Filtrar por status"
@@ -59,8 +67,13 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
             ]}
           />
         </Col>
-        <Col xs={24} md={4}>
-          <FilterButton onClick={handleSearch} text="Filtrar" />
+        <Col xs={24} md={3}>
+          <FilterButton
+            onClearFilters={handleClearFilters}
+            text="Filtrar"
+            onFilter={handleSearch}
+            shouldShowDropdown={shouldShowDropdown}
+          />
         </Col>
       </Row>
       <Row gutter={[8, 8]} style={{ marginTop: 8 }} justify={'end'}>
