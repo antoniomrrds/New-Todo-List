@@ -9,7 +9,7 @@ export const themeAntdConfigButtonSuccess: ThemeConfig = {
       colorTextDisabled: theme.shades.light,
       colorBgContainerDisabled: theme.colors.success.successGreen500,
       fontFamily: theme.typography.fontFamily.manrope,
-      fontWeight: 800,
+      fontWeight: 600,
       colorBgBase: theme.colors.success.successGreen700, // Cor de fundo
       defaultColor: theme.shades.light,
       defaultHoverColor: theme.shades.light, // Cor do texto (ajustado aqui)
