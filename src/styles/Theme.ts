@@ -1,47 +1,45 @@
-
 export const theme = {
   colors: {
-    primaryColor: '#059669', 
-    secondaryColor: '#191D23', 
+    primaryColor: '#059669',
+    secondaryColor: '#191D23',
     tertiaryColor: '#ECFDF5', // Cor secundária
     quaternaryColor: '#D1FAE5',
     quinaryColor: '#c1d6cc', // Cor terciária
     success: {
-
-      successGreen50: "#ecfdf5",
-      successGreen100: "#d1fae5",
-      successGreen200: "#a7f3d0",
-      successGreen300: "#6ee7b7",
-      successGreen400: "#34d399",
-      successGreen500: "#10B981",
-      successGreen600: "#059669",
-      successGreen700: "#047857",
-      successGreen800: "#065F46",
-      successGreen900: "#064E3B"
+      successGreen50: '#ecfdf5',
+      successGreen100: '#d1fae5',
+      successGreen200: '#a7f3d0',
+      successGreen300: '#6ee7b7',
+      successGreen400: '#34d399',
+      successGreen500: '#10B981',
+      successGreen600: '#059669',
+      successGreen700: '#047857',
+      successGreen800: '#065F46',
+      successGreen900: '#064E3B',
     },
     error: {
-      errorRed50:  "#FEF2F2",
-      errorRed100: "#FEE2E2",
-      errorRed200: "#FECACA",
-      errorRed300: "#FCA5A5",
-      errorRed400: "#F87171",
-      errorRed500: "#ef4444",
-      errorRed600: "#DC2626",
-      errorRed700: "#B91C1C",
-      errorRed800: "#991B1B",
-      errorRed900: "#7F1D1D"
+      errorRed50: '#FEF2F2',
+      errorRed100: '#FEE2E2',
+      errorRed200: '#FECACA',
+      errorRed300: '#FCA5A5',
+      errorRed400: '#F87171',
+      errorRed500: '#ef4444',
+      errorRed600: '#DC2626',
+      errorRed700: '#B91C1C',
+      errorRed800: '#991B1B',
+      errorRed900: '#7F1D1D',
     },
     neutral: {
-      neutral100: '#e7eaee' ,
-      neutral200: "#D0D5DD",
-      neutral300: "#B8C0CC",
-      neutral400: "#A0ABBB",
+      neutral100: '#e7eaee',
+      neutral200: '#D0D5DD',
+      neutral300: '#B8C0CC',
+      neutral400: '#A0ABBB',
       neutral500: '#64748B',
       neutral600: '#4B5768',
-      neutral700: "#323A46",
-      neutral800: "#191D23",
-      neutral900: "#0D0F11"
-    }
+      neutral700: '#323A46',
+      neutral800: '#191D23',
+      neutral900: '#0D0F11',
+    },
   },
   shades: {
     dark: '#000000', // Preto

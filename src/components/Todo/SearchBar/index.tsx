@@ -1,10 +1,11 @@
 import { ToDoFilter } from '@/api/service/toDo/types';
 import { TodoStatus } from '@/components/Todo/Add/enum';
-import { CreateButton } from '@/components/Todo/List/molecules';
-import { FilterOutlined } from '@ant-design/icons';
-import { Col, Input, Row, Select, Button, ConfigProvider } from 'antd';
+import { Col, Input, Row, Select } from 'antd';
 import { FC, useState } from 'react';
-import * as S from '@/styles/config/antd';
+import {
+  CreateButton,
+  FilterButton,
+} from '@/components/Todo/List/molecules/buttons';
 
 type ToDoSearchBarProps = {
   filters: ToDoFilter;
@@ -59,16 +60,7 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
           />
         </Col>
         <Col xs={24} md={4}>
-          <ConfigProvider theme={S.themeAntdConfigButtonCancel}>
-            <Button
-              type="primary"
-              icon={<FilterOutlined />}
-              onClick={handleSearch}
-              style={{ width: '100%' }}
-            >
-              Filtrar
-            </Button>
-          </ConfigProvider>
+          <FilterButton onClick={handleSearch} text="Filtrar" />
         </Col>
       </Row>
       <Row gutter={[8, 8]} style={{ marginTop: 8 }} justify={'end'}>
