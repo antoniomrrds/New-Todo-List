@@ -1,8 +1,4 @@
-import {
-  DeleteOutlined,
-  DownOutlined,
-  FilterOutlined,
-} from '@ant-design/icons';
+import { ClearOutlined, DownOutlined, FilterOutlined } from '@ant-design/icons';
 import * as S from '@/styles/config/antd';
 import { Button, ConfigProvider, Dropdown, MenuProps, Row, Col } from 'antd';
 import { DefaultButton } from '@/components/Todo/List/molecules/buttons/default-button';
@@ -25,7 +21,7 @@ export const FilterButton = ({
       key: 'clear',
       label: 'Limpar Filtros',
       onClick: onClearFilters,
-      icon: <DeleteOutlined />,
+      icon: <ClearOutlined />,
       danger: true,
     },
   ];

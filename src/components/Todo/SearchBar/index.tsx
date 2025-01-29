@@ -6,7 +6,7 @@ import {
   CreateButton,
   FilterButton,
 } from '@/components/Todo/List/molecules/buttons';
-import { defaultFilters } from '@/pages/Todo';
+import { DEFAULT_FILTERS } from '@/pages/Todo';
 
 type ToDoSearchBarProps = {
   filters: ToDoFilter;
@@ -32,7 +32,7 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
   };
 
   const handleClearFilters = () => {
-    const clearedFilters = defaultFilters;
+    const clearedFilters = DEFAULT_FILTERS;
     setLocalFilters(clearedFilters);
     onApplyFilters(clearedFilters);
   };

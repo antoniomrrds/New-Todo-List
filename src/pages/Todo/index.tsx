@@ -13,7 +13,8 @@ import { PaginationCustom } from '@/components/shared/Pagination';
 import { useNavigateToPath } from '@/helpers';
 import { AxiosError } from 'axios';
 import { encodeObject, decodeObject, areObjectsEqual } from '@/utils';
-export const defaultFilters: ToDoFilter = {
+
+export const DEFAULT_FILTERS: ToDoFilter = {
   Title: '',
   Active: TodoStatus.Active,
   PageSize: 20,
@@ -22,46 +23,28 @@ export const defaultFilters: ToDoFilter = {
 
 export const TodoHomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const decodedFilters = decodeObject(
+  const navigateTo = useNavigateToPath();
+  const initialFilters = decodeObject(
     searchParams.get('filter'),
-    defaultFilters,
+    DEFAULT_FILTERS,
   );
-
-  useEffect(() => {
-    if (areObjectsEqual(decodedFilters, defaultFilters)) {
-      setSearchParams({});
-    }
-  }, [decodedFilters, setSearchParams]);
-
-  const [filters, setFilters] = useState<ToDoFilter>(decodedFilters);
-
-  const navigateToPath = useNavigateToPath();
-  const handleNavigateAdd = () => navigateToPath('add');
-
-  // Função para atualizar a URL com os filtros ou limpar o filtro
-  const updateUrlWithFilters = (updatedFilters: Partial<ToDoFilter>) => {
-    const newFilters = { ...filters, ...updatedFilters }; // Mescla os filtros
-    if (areObjectsEqual(newFilters, defaultFilters)) {
-      setSearchParams({}); // Se os filtros forem padrão, limpa a URL
-    } else {
-      const encodedFilter = encodeObject(newFilters); // Codifica em Base64
-      setSearchParams({ filter: encodedFilter }); // Atualiza a URL
-    }
-    setFilters(newFilters);
-  };
-  const shouldShowDropdown = !areObjectsEqual(filters, defaultFilters);
-
+  const [filters, setFilters] = useState<ToDoFilter>(initialFilters);
+  const hasCustomFilters = !areObjectsEqual(filters, DEFAULT_FILTERS);
   const { errorToDos, dataToDos, isLoadingToDos } =
     useQueryFilteredTodos(filters);
-  const ToDos = dataToDos?.items || [];
 
-  const handlePaginationChange = (page: number) => {
-    updateUrlWithFilters({ Page: page });
-  };
+  useEffect(() => {
+    if (!hasCustomFilters) setSearchParams({});
+  }, [hasCustomFilters, setSearchParams]);
 
-  const onApplyFilters = (updatedFilters: Partial<ToDoFilter>) => {
-    updateUrlWithFilters({ ...updatedFilters, Page: 1 });
+  const updateFilters = (updatedFilters: Partial<ToDoFilter>) => {
+    const newFilters = { ...filters, ...updatedFilters };
+    setFilters(newFilters);
+    setSearchParams(
+      areObjectsEqual(newFilters, DEFAULT_FILTERS)
+        ? {}
+        : { filter: encodeObject(newFilters) },
+    );
   };
 
   return (
@@ -69,16 +52,18 @@ export const TodoHomePage = () => {
       <AppHeader />
       <StyledContainer>
         <ToDoSearchBar
-          handleNavigateAdd={handleNavigateAdd}
+          handleNavigateAdd={() => navigateTo('add')}
           filters={filters}
-          onApplyFilters={onApplyFilters}
-          shouldShowDropdown={shouldShowDropdown}
+          onApplyFilters={(updatedFilters) =>
+            updateFilters({ ...updatedFilters, Page: 1 })
+          }
+          shouldShowDropdown={hasCustomFilters}
         />
       </StyledContainer>
       <Content>
         <TodoManager
           error={errorToDos as AxiosError}
-          toDos={ToDos}
+          toDos={dataToDos?.items || []}
           isLoading={isLoadingToDos}
         />
       </Content>
@@ -86,7 +71,7 @@ export const TodoHomePage = () => {
         pageDefault={filters.Page}
         pageSize={dataToDos?.pageSize}
         totalItems={dataToDos?.totalItems}
-        onChange={handlePaginationChange}
+        onChange={(page) => updateFilters({ Page: page })}
       />
       <AppFooter />
     </StyledLayout>
