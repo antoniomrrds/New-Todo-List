@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const PaperCard = styled(Card)`
 
   border-radius: 12px;
-  border: 1px solid ${({theme}) => theme.colors.success.successGreen600};
+  border: 1px solid ${({ theme }) => theme.colors.success.successGreen600};
   overflow: hidden;
   &:hover {
     transition: transform 0.2s;
@@ -18,9 +18,9 @@ export const DateContainer = styled.div`
   height: 100%;
   color: whitesmoke;
   padding: 25px 0 25px 0;
-  background: ${({theme}) => theme.colors.secondaryColor};
-  color: ${({theme}) => theme.colors.primaryColor};
-  border-bottom: solid 5px  ${({theme}) => theme.colors.primaryColor};
+  background: ${({ theme }) => theme.colors.secondaryColor};
+  color: ${({ theme }) => theme.colors.primaryColor};
+  border-bottom: solid 5px  ${({ theme }) => theme.colors.primaryColor};
   text-align: center;
   &:hover {
     pointer-events: painted;
@@ -47,16 +47,16 @@ export const CreatorName = styled.div`
   background: #f5f5f5;
   border-radius: 8px;
   margin-top: 8px;
-  
+
   img {
     border-radius: 50%;
     width: 24px;
     height: 24px;
     margin-right: 8px;
   }
-  
+
   .creator-name {
-    color: ${({theme}) => theme.colors.primaryColor};
+    color: ${({ theme }) => theme.colors.primaryColor};
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

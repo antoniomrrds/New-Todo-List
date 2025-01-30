@@ -1,7 +1,8 @@
-import { ClearOutlined, DownOutlined, FilterOutlined } from '@ant-design/icons';
+import { ClearOutlined, FilterOutlined } from '@ant-design/icons';
 import * as S from '@/styles/config/antd';
-import { Button, ConfigProvider, Dropdown, MenuProps, Row, Col } from 'antd';
+import { ConfigProvider, Dropdown, MenuProps } from 'antd';
 import { DefaultButton } from '@/components/Todo/List/molecules/buttons/default-button';
+import { cloneElement, isValidElement, ReactElement } from 'react';
 
 type FilterButtonProps = {
   text: string;
@@ -28,30 +29,34 @@ export const FilterButton = ({
 
   return (
     <ConfigProvider theme={S.themeAntdConfigButtonFilter}>
-      <Row gutter={8} align="middle">
-        {/* Botão principal */}
-        <Col flex="auto">
-          <DefaultButton
-            onClick={onFilter}
-            icon={<FilterOutlined />}
-            text={text}
-            key={'filterTodo'}
-            theme={S.themeAntdConfigButtonFilter}
-          />
-        </Col>
+      {shouldShowDropdown ? (
+        <Dropdown.Button
+          menu={{ items }}
+          onClick={onFilter}
+          buttonsRender={(buttons) => {
+            const [leftButton, rightButton] = buttons;
 
-        {shouldShowDropdown && (
-          <Col>
-            <Dropdown
-              menu={{ items }}
-              trigger={['click']}
-              placement="bottomRight"
-            >
-              <Button icon={<DownOutlined />} />
-            </Dropdown>
-          </Col>
-        )}
-      </Row>
+            return [
+              isValidElement(leftButton)
+                ? cloneElement(leftButton as ReactElement, {
+                    className: 'ant-btn-block',
+                  })
+                : leftButton,
+              rightButton,
+            ];
+          }}
+        >
+          {text}
+        </Dropdown.Button>
+      ) : (
+        <DefaultButton
+          onClick={onFilter}
+          icon={<FilterOutlined />}
+          text={text}
+          key={'filterTodo'}
+          theme={S.themeAntdConfigButtonFilter}
+        />
+      )}
     </ConfigProvider>
   );
 };

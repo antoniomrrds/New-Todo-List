@@ -3,7 +3,7 @@ import AppFooter from '@/components/Footer';
 import { AppHeader } from '@/components/Header';
 import { StyledContainer, StyledLayout } from '@/styles/global-styles';
 import { Content } from 'antd/es/layout/layout';
-import TodoManager from '@/components/Todo';
+import TodoListContainer from '@/components/Todo/List';
 import { useEffect, useState } from 'react';
 import { useQueryFilteredTodos } from '@/api/service/toDo/actions';
 import { ToDoFilter } from '@/api/service/toDo/types';
@@ -13,7 +13,6 @@ import { PaginationCustom } from '@/components/shared/Pagination';
 import { useNavigateToPath } from '@/helpers';
 import { AxiosError } from 'axios';
 import { encodeObject, decodeObject, areObjectsEqual } from '@/utils';
-
 export const DEFAULT_FILTERS: ToDoFilter = {
   Title: '',
   Active: TodoStatus.Active,
@@ -61,7 +60,7 @@ export const TodoHomePage = () => {
         />
       </StyledContainer>
       <Content>
-        <TodoManager
+        <TodoListContainer
           error={errorToDos as AxiosError}
           toDos={dataToDos?.items || []}
           isLoading={isLoadingToDos}
