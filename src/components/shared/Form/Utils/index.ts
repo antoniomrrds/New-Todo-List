@@ -1,4 +1,4 @@
-import { FieldErrors } from "react-hook-form";
+import { FieldErrors } from 'react-hook-form';
 
-export const getValidateStatus = (name: string, errors: FieldErrors) => errors[name] ? 'error' : undefined;
-
+export const getValidateStatus = (name: string, errors: FieldErrors) =>
+  errors[name] ? 'error' : undefined;

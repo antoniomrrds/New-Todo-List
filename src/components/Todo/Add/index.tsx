@@ -48,7 +48,7 @@ export const AddTodoTemplate: FC<AddTodoTemplateProps> = ({
     isExpirationEnabled,
     reset,
   } = useTodoForm(onFormSubmitHandler);
-
+  console.log('errors', errors);
   const handleCancel = () => {
     reset();
     goToTodoPage();

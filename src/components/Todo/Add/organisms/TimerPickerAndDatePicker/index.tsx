@@ -1,10 +1,9 @@
-import { DatePickerField } from "@/components/Todo/Add/molecules/date-picker-field";
-import { TimerPickerField } from "@/components/Todo/Add/molecules/timer-picker-field";
-import { CreateTodoFieldPropsWithoutName } from "@/components/Todo/Add/types";
-import { Col, Row } from "antd";
+import { DatePickerField } from '@/components/Todo/Add/molecules/date-picker-field';
+import { TimerPickerField } from '@/components/Todo/Add/molecules/timer-picker-field';
+import { CreateTodoFieldPropsWithoutName } from '@/components/Todo/Add/types';
+import { Col, Row } from 'antd';
 
-
-export type TimerPickerAndDatePickerProps = CreateTodoFieldPropsWithoutName ;
+export type TimerPickerAndDatePickerProps = CreateTodoFieldPropsWithoutName;
 
 export const TimerPickerAndDatePicker = ({
   control,

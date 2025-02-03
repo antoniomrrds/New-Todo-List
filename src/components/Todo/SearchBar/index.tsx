@@ -1,12 +1,12 @@
 import { ToDoFilter } from '@/api/service/toDo/types';
-import { TodoStatus } from '@/components/Todo/Add/enum';
-import { Col, Input, Row, Select } from 'antd';
+import { Col, Input, Row, Select, Switch } from 'antd';
 import { FC, useState } from 'react';
 import {
   CreateButton,
   FilterButton,
 } from '@/components/Todo/List/molecules/buttons';
 import { DEFAULT_FILTERS } from '@/pages/Todo';
+import { getTodoStatusText, TodoStatus } from '@/api/service/toDo/enum';
 
 type ToDoSearchBarProps = {
   filters: ToDoFilter;
@@ -51,19 +51,46 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
             value={localFilters.Title}
             onChange={(e) => updateLocalFilters('Title', e.target.value.trim())}
           />
+          <Switch
+            checkedChildren="Ativos"
+            unCheckedChildren="Todos"
+            checked={localFilters.Active}
+            onChange={(checked) => updateLocalFilters('Active', checked)}
+          />
         </Col>
         <Col xs={24} md={3}>
           <Select
             style={{ width: '100%' }}
             placeholder="Filtrar por status"
-            value={localFilters.Active}
+            value={localFilters.Status}
             onChange={(value) =>
-              updateLocalFilters('Active', value as TodoStatus)
+              updateLocalFilters('Status', value as TodoStatus)
             }
             options={[
-              { value: TodoStatus.Unfiltered, label: 'Status' },
-              { value: TodoStatus.Active, label: 'Ativo' },
-              { value: TodoStatus.Inactive, label: 'Inativo' },
+              {
+                value: TodoStatus.Unfiltered,
+                label: getTodoStatusText(TodoStatus.Unfiltered),
+              },
+              {
+                value: TodoStatus.Active,
+                label: getTodoStatusText(TodoStatus.Active),
+              },
+              {
+                value: TodoStatus.Inactive,
+                label: getTodoStatusText(TodoStatus.Inactive),
+              },
+              {
+                value: TodoStatus.Completed,
+                label: getTodoStatusText(TodoStatus.Completed),
+              },
+              {
+                value: TodoStatus.Expired,
+                label: getTodoStatusText(TodoStatus.Expired),
+              },
+              {
+                value: TodoStatus.Undetermined,
+                label: getTodoStatusText(TodoStatus.Undetermined),
+              },
             ]}
           />
         </Col>

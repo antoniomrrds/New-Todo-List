@@ -8,6 +8,9 @@ export const useQueryCategories = () => {
     data: categories = [],
     isLoading: isLoadingCategories,
     error: errorCategories,
-  } = useQuery<Category[], FormattedError>('categories', categoryApi.getAll);
-  return { categories , isLoadingCategories, errorCategories };
+  } = useQuery<Category[], FormattedError>('categories', categoryApi.getAll, {
+    refetchOnWindowFocus: false, //- Indica se deve refazer a busca ao focar na janela.
+    // keepPreviousData: true, // Indica se deve manter os dados anteriores enquanto novos dados são carregados.
+  });
+  return { categories, isLoadingCategories, errorCategories };
 };

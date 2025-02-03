@@ -1,5 +1,5 @@
 import { PagedResponse } from '@/api/core/types';
-import { TodoStatus } from '@/components/Todo/Add/enum';
+import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
 
 export type CreateToDo = {
   idTags: number[] | null | undefined;
@@ -7,7 +7,7 @@ export type CreateToDo = {
   title: string;
   description: string;
   isCompleted: number;
-  Active: TodoStatus;
+  Active: ActivationState;
   expirationDate: string | null;
 };
 
@@ -18,7 +18,7 @@ export type UpdateToDo = {
   title: string;
   description: string;
   isCompleted: number;
-  Active: TodoStatus;
+  Active: ActivationState;
   expirationDate: string | null;
 };
 
@@ -27,17 +27,19 @@ export type ToDo = {
   title: string;
   description: string;
   isCompleted: number;
-  Active: TodoStatus;
+  active: ActivationState;
+  status: TodoStatus;
   createdAt: string;
   updatedAt: string;
   expirationDate: string | null;
   createdAtFormatted: string;
   updatedAtFormatted: string;
+  isExpirationDateValid: boolean;
 };
 
 export type ToDoFilter = {
   Title: string;
-  Active: TodoStatus;
+  Status: TodoStatus;
   PageSize: number;
   Page: number;
 };

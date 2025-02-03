@@ -1,14 +1,15 @@
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
-import { CompletionStatus, TodoStatus } from '@/components/Todo/Add/enum';
+
 import {
   cleanDescription,
+  formatDateTime,
   formatExpirationDateTime,
   getEnumValuesAsNumbers,
   isDateOrDayjs,
   isFutureDate,
 } from '@/utils';
-
+import { ActivationState } from '@/api/service/toDo/enum';
 export type expirationDate = string | Date | dayjs.Dayjs;
 
 export const todoValidationSchema = Yup.object({
@@ -31,19 +32,19 @@ export const todoValidationSchema = Yup.object({
 
   isActive: Yup.number()
     .oneOf(
-      getEnumValuesAsNumbers(TodoStatus),
+      getEnumValuesAsNumbers(ActivationState),
       'O campo Ativo deve ser 0 (Inativo) ou 1 (Ativo)',
     )
     .required('O campo Ativo é obrigatório')
-    .default(TodoStatus.Active),
+    .default(ActivationState.Active),
 
   isCompleted: Yup.number()
     .oneOf(
-      getEnumValuesAsNumbers(CompletionStatus),
+      getEnumValuesAsNumbers(ActivationState),
       'O campo Concluído deve ser 0 (Incompleto) ou 1 (Completo)',
     )
     .required('O campo Concluído é obrigatório')
-    .default(CompletionStatus.Incomplete),
+    .default(ActivationState.Inactive),
 
   categories: Yup.array().default([]),
 
@@ -61,11 +62,16 @@ export const todoValidationSchema = Yup.object({
       'is-future-date',
       'A data de expiração não pode ser anterior à data atual',
       (value, context) => {
-        if (value && context.parent.expirationTime) {
-          return isFutureDate(
-            dayjs(value).format('DD-MM-YYYY'),
-            context.parent.expirationTime,
+        const { expirationTime } = context.parent;
+        if (value && expirationTime) {
+          // Se a data ou a hora não forem válidas, não valida
+          if (!value || !expirationTime) return true;
+          const { formattedDate, formattedTime } = formatDateTime(
+            value,
+            expirationTime,
           );
+
+          return isFutureDate(formattedDate, formattedTime);
         }
         return true;
       },
@@ -93,14 +99,19 @@ export const todoValidationSchema = Yup.object({
       ? originalObject.expirationDate
       : dayjs(originalObject.expirationDate);
 
-    const formattedExpiration = formatExpirationDateTime(
+    const expirationTime = originalObject.expirationTime;
+    if (!expirationDate && !expirationTime) return originalObject;
+    const { formattedDate, formattedTime } = formatDateTime(
       expirationDate,
-      originalObject.expirationTime,
-      'DD-MM-YYYY HH:mm:ss',
+      expirationTime,
+    );
+
+    const formattedExpiration = formatExpirationDateTime(
+      formattedDate,
+      formattedTime,
     );
     return { ...originalObject, expirationDateTime: formattedExpiration };
   }
-
   return originalObject;
 });
 

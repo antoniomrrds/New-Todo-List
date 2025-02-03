@@ -2,9 +2,9 @@ import { Empty, Spin } from 'antd';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { ToDo } from '@/api/service/toDo/types';
-import { StyledCenteredContainer } from '@/components/Todo/List/todo-list-container.styles';
+import * as S from '@/components/Todo/List/todo-list-container.styles';
 import ErrorCard from '@/components/Error/ErrorCard';
-import CardTasks from '@/components/CardTasks';
+import CardTasks from '@/components/CardTodo';
 import { StyledContainer } from '@/styles/global-styles';
 
 type ToDoList = {
@@ -14,15 +14,15 @@ type ToDoList = {
 };
 
 const LoadingComponent = () => (
-  <StyledCenteredContainer>
+  <S.StyledCenteredContainer>
     <Spin size="large" />
-  </StyledCenteredContainer>
+  </S.StyledCenteredContainer>
 );
 
 const ErrorComponent = ({ message }: { message: string }) => (
-  <StyledCenteredContainer>
+  <S.StyledCenteredContainer>
     <ErrorCard message={message} />
-  </StyledCenteredContainer>
+  </S.StyledCenteredContainer>
 );
 
 const TodoListContainer: React.FC<ToDoList> = ({ toDos, isLoading, error }) => {
@@ -34,12 +34,12 @@ const TodoListContainer: React.FC<ToDoList> = ({ toDos, isLoading, error }) => {
     if (error) return <ErrorComponent message={error.message} />;
     if (toDos.length > 0) return <CardTasks data={toDos} />;
     return (
-      <StyledCenteredContainer>
+      <S.StyledCenteredContainer>
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description={noFilteredTasksMessage}
         />
-      </StyledCenteredContainer>
+      </S.StyledCenteredContainer>
     );
   };
 

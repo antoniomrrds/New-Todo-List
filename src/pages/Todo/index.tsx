@@ -7,15 +7,15 @@ import TodoListContainer from '@/components/Todo/List';
 import { useEffect, useState } from 'react';
 import { useQueryFilteredTodos } from '@/api/service/toDo/actions';
 import { ToDoFilter } from '@/api/service/toDo/types';
-import { TodoStatus } from '@/components/Todo/Add/enum';
 import { ToDoSearchBar } from '@/components/Todo/SearchBar';
 import { PaginationCustom } from '@/components/shared/Pagination';
 import { useNavigateToPath } from '@/helpers';
 import { AxiosError } from 'axios';
 import { encodeObject, decodeObject, areObjectsEqual } from '@/utils';
+import { TodoStatus } from '@/api/service/toDo/enum';
 export const DEFAULT_FILTERS: ToDoFilter = {
   Title: '',
-  Active: TodoStatus.Active,
+  Status: TodoStatus.Active,
   PageSize: 20,
   Page: 1,
 };
@@ -31,11 +31,11 @@ export const TodoHomePage = () => {
   const hasCustomFilters = !areObjectsEqual(filters, DEFAULT_FILTERS);
   const { errorToDos, dataToDos, isLoadingToDos } =
     useQueryFilteredTodos(filters);
+  console.log('TodoHomePage', dataToDos);
 
   useEffect(() => {
     if (!hasCustomFilters) setSearchParams({});
   }, [hasCustomFilters, setSearchParams]);
-
   const updateFilters = (updatedFilters: Partial<ToDoFilter>) => {
     const newFilters = { ...filters, ...updatedFilters };
     setFilters(newFilters);

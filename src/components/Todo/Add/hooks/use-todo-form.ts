@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { todoValidationSchema } from '@/components/Todo/Add/validators';
 import { CreateTodoValidationType } from '@/components/Todo/Add/validators';
-import { CompletionStatus, TodoStatus } from '@/components/Todo/Add/enum';
+import { ActivationState } from '@/api/service/toDo/enum';
 
 export const useTodoForm = (
   onFormSubmitHandler: (data: CreateTodoValidationType) => void,
@@ -18,8 +18,8 @@ export const useTodoForm = (
     resolver: yupResolver(todoValidationSchema),
     mode: 'onChange',
     defaultValues: {
-      isActive: TodoStatus.Active,
-      isCompleted: CompletionStatus.Incomplete,
+      isActive: ActivationState.Active,
+      isCompleted: ActivationState.Inactive,
       showExpiration: false,
     },
   });
