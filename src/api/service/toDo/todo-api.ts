@@ -4,6 +4,7 @@ import {
   CreateToDo,
   FilteredToDoResponse,
   ToDo,
+  ToDoDetails,
   ToDoFilter,
   UpdateToDo,
 } from '@/api/service/toDo/types';
@@ -23,6 +24,13 @@ export const todoApi = {
 
   create: (createToDo: CreateToDo): Promise<AxiosResponse> => {
     return handleRequest(axiosInstance.post('/todo', createToDo));
+  },
+
+  details: async (id: number): Promise<ToDoDetails> => {
+    const response = await handleRequest(
+      axiosInstance.get(`/todo/tagsandcategories/${id}`),
+    );
+    return response.data;
   },
 
   update: (updateToDo: UpdateToDo): Promise<AxiosResponse> => {

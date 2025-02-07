@@ -1,5 +1,4 @@
 import { Button as ButtonAntd, ConfigProvider } from 'antd';
-import * as S from '@/styles/config/antd';
 import { CloseOutlined } from '@ant-design/icons';
 
 type CancelButtonProps = {
@@ -8,8 +7,10 @@ type CancelButtonProps = {
 };
 
 export const CancelButton = ({ onCancel, block }: CancelButtonProps) => (
-  <ConfigProvider theme={S.themeAntdConfigButtonCancel}>
+  <ConfigProvider>
     <ButtonAntd
+      danger
+      type="primary"
       color="primary"
       onClick={onCancel}
       icon={<CloseOutlined />}

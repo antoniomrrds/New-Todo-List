@@ -24,7 +24,6 @@ export const formatExpirationDateTime = (
 export const isDateOrDayjs = (
   val: string | number | Date | dayjs.Dayjs | null | undefined,
 ): boolean => {
-  console.log('val', val);
   if (val == undefined || val == null || !val) return true;
   return val instanceof Date || dayjs(val).isValid();
 };

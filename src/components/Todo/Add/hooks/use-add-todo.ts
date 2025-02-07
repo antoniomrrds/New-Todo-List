@@ -29,7 +29,6 @@ export const useAddTodo = ({ goToTodoPage, notification }: UseAddTodoProps) => {
 
   const handleFormSubmit = (data: CreateTodoValidationType) => {
     const dataToSend = mapFormDataToCreateTodo(data);
-    console.log('data', dataToSend);
     createToDo(dataToSend);
   };
 

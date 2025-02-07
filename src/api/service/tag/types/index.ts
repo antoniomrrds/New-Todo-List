@@ -1,16 +1,16 @@
-export type CreateTag = {
-    name: string;
-    description: string;
-    active: number;
+type TagBase = {
+  name: string;
+  description: string;
+  active: number;
 };
 
-export type Tag = {
-    id: number;
-    name: string;
-    description: string;
-    active: number;
-    createdAt: string;
-    updatedAt: string;
-    createdAtFormatted: string;
-    updatedAtFormatted: string;
+export type CreateTag = TagBase;
+
+export type Tag = TagBase & {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  color: string;
+  createdAtFormatted: string;
+  updatedAtFormatted: string;
 };

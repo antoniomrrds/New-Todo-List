@@ -8,6 +8,7 @@ export const useNavigateToPath = () => {
   const navigateToPath = (path: string) => {
     const currentPath = location.pathname;
     const newPath = `${currentPath}/${path}`;
+
     navigate(newPath);
   };
 

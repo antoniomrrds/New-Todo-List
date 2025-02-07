@@ -19,7 +19,7 @@ import { TodoForm } from '@/components/Todo/Add/organisms';
 import * as G from '@/styles/global-styles';
 
 const items: BreadcrumbItems = [
-  { title: 'Todo', href: '/todo' },
+  { title: 'Todos (Tarefas)', href: '/todo' },
   { title: 'Adicionar Tarefa' },
 ];
 
@@ -48,7 +48,6 @@ export const AddTodoTemplate: FC<AddTodoTemplateProps> = ({
     isExpirationEnabled,
     reset,
   } = useTodoForm(onFormSubmitHandler);
-  console.log('errors', errors);
   const handleCancel = () => {
     reset();
     goToTodoPage();
@@ -57,7 +56,7 @@ export const AddTodoTemplate: FC<AddTodoTemplateProps> = ({
   return (
     <G.StyledContainer>
       <BreadCrumb items={items} />
-      <G.CardMain title="Adicionar Tarefa" hoverable>
+      <G.CardMain title="Adicionar Tarefa">
         <Skeleton active loading={isLoadingCategoriesAndTags}>
           <TodoForm
             control={control}

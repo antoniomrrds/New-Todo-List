@@ -69,6 +69,7 @@ export const theme = {
       inter: '"Inter", sans-serif', // Fonte Inter
       arial: '"Arial", sans-serif', // Fonte Arial
       manrope: '"Manrope", sans-serif', // Fonte Manrope
+      poppins: '"Poppins", sans-serif', // Fonte Poppins
     },
     lineHeight: '1.5', // Altura da linha
   },

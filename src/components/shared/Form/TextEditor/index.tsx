@@ -1,9 +1,16 @@
-import { Control, Controller, FieldErrors, FieldValues, Path, PathValue, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  FieldValues,
+  Path,
+  PathValue,
+  UseFormSetValue,
+} from 'react-hook-form';
 import * as S from '@/components/shared/Form/form-styles';
 import { FieldError, getValidateStatus } from '@/components/shared/Form';
 import ReactQuill from 'react-quill-new';
-import 'react-quill-new/dist/quill.snow.css';
-
+import '@/styles/react-quill.css';
 interface FormInputProps<T extends FieldValues> {
   name: Path<T>;
   control: Control<T>;
@@ -13,7 +20,7 @@ interface FormInputProps<T extends FieldValues> {
   required?: boolean;
   FormItemStyled?: React.ElementType;
   errors: FieldErrors<T>;
-  setValue: UseFormSetValue<T>
+  setValue: UseFormSetValue<T>;
 }
 
 export const TextEditorCustom = <T extends FieldValues>({
@@ -24,15 +31,14 @@ export const TextEditorCustom = <T extends FieldValues>({
   required = false,
   errors,
   FormItemStyled = S.FormItem,
-  setValue
+  setValue,
 }: FormInputProps<T>) => (
   <FormItemStyled
     label={label}
     name={name}
     required={required}
-
     validateStatus={getValidateStatus(name, errors)}
-    help={ errors[name] ? <FieldError name={name} errors={errors} /> : null}
+    help={errors[name] ? <FieldError name={name} errors={errors} /> : null}
   >
     <Controller
       name={name}
@@ -49,4 +55,3 @@ export const TextEditorCustom = <T extends FieldValues>({
     />
   </FormItemStyled>
 );
-

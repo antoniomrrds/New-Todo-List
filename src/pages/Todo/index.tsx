@@ -12,12 +12,14 @@ import { PaginationCustom } from '@/components/shared/Pagination';
 import { useNavigateToPath } from '@/helpers';
 import { AxiosError } from 'axios';
 import { encodeObject, decodeObject, areObjectsEqual } from '@/utils';
-import { TodoStatus } from '@/api/service/toDo/enum';
+import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
+import { FloatButton } from 'antd';
 export const DEFAULT_FILTERS: ToDoFilter = {
   Title: '',
-  Status: TodoStatus.Active,
+  Status: TodoStatus.InProgress,
   PageSize: 20,
   Page: 1,
+  Active: ActivationState.Active,
 };
 
 export const TodoHomePage = () => {
@@ -31,7 +33,6 @@ export const TodoHomePage = () => {
   const hasCustomFilters = !areObjectsEqual(filters, DEFAULT_FILTERS);
   const { errorToDos, dataToDos, isLoadingToDos } =
     useQueryFilteredTodos(filters);
-  console.log('TodoHomePage', dataToDos);
 
   useEffect(() => {
     if (!hasCustomFilters) setSearchParams({});
@@ -66,6 +67,8 @@ export const TodoHomePage = () => {
           isLoading={isLoadingToDos}
         />
       </Content>
+      <FloatButton.BackTop type="primary" tooltip="↑ Voltar ao topo" />
+
       <PaginationCustom
         pageDefault={filters.Page}
         pageSize={dataToDos?.pageSize}

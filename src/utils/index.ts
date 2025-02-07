@@ -3,3 +3,4 @@ export * from './date-utils';
 export * from './description-utils';
 export * from './encode-decode';
 export * from './enum-utils';
+export * from './numbers';

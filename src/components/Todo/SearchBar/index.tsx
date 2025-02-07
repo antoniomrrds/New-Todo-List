@@ -1,12 +1,18 @@
 import { ToDoFilter } from '@/api/service/toDo/types';
-import { Col, Input, Row, Select, Switch } from 'antd';
+import { Col, Input, Row, Select } from 'antd';
 import { FC, useState } from 'react';
 import {
   CreateButton,
   FilterButton,
 } from '@/components/Todo/List/molecules/buttons';
 import { DEFAULT_FILTERS } from '@/pages/Todo';
-import { getTodoStatusText, TodoStatus } from '@/api/service/toDo/enum';
+import {
+  ActivationState,
+  getActivationStateText,
+  getTodoStatusText,
+  TodoStatus,
+} from '@/api/service/toDo/enum';
+import { generateOptions } from '@/utils';
 
 type ToDoSearchBarProps = {
   filters: ToDoFilter;
@@ -15,6 +21,11 @@ type ToDoSearchBarProps = {
   shouldShowDropdown: boolean;
 };
 
+const activationOptions = generateOptions(
+  ActivationState,
+  getActivationStateText,
+);
+const todoOptions = generateOptions(TodoStatus, getTodoStatusText);
 export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
   filters,
   onApplyFilters,
@@ -44,21 +55,15 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
   return (
     <>
       <Row gutter={[8, 8]} align="middle">
-        <Col xs={24} md={18}>
+        <Col xs={24} md={24}>
           <Input
             placeholder="Buscar tarefas por título"
             allowClear
             value={localFilters.Title}
             onChange={(e) => updateLocalFilters('Title', e.target.value.trim())}
           />
-          <Switch
-            checkedChildren="Ativos"
-            unCheckedChildren="Todos"
-            checked={localFilters.Active}
-            onChange={(checked) => updateLocalFilters('Active', checked)}
-          />
         </Col>
-        <Col xs={24} md={3}>
+        <Col xs={24} md={8}>
           <Select
             style={{ width: '100%' }}
             placeholder="Filtrar por status"
@@ -66,35 +71,23 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
             onChange={(value) =>
               updateLocalFilters('Status', value as TodoStatus)
             }
-            options={[
-              {
-                value: TodoStatus.Unfiltered,
-                label: getTodoStatusText(TodoStatus.Unfiltered),
-              },
-              {
-                value: TodoStatus.Active,
-                label: getTodoStatusText(TodoStatus.Active),
-              },
-              {
-                value: TodoStatus.Inactive,
-                label: getTodoStatusText(TodoStatus.Inactive),
-              },
-              {
-                value: TodoStatus.Completed,
-                label: getTodoStatusText(TodoStatus.Completed),
-              },
-              {
-                value: TodoStatus.Expired,
-                label: getTodoStatusText(TodoStatus.Expired),
-              },
-              {
-                value: TodoStatus.Undetermined,
-                label: getTodoStatusText(TodoStatus.Undetermined),
-              },
-            ]}
+            options={[...todoOptions]}
           />
         </Col>
-        <Col xs={24} md={3}>
+        <Col xs={24} md={8}>
+          <Select
+            style={{ width: '100%' }}
+            placeholder="Filtrar por Ativação"
+            value={localFilters.Active}
+            defaultValue={ActivationState.Unfiltered}
+            onChange={(value) =>
+              updateLocalFilters('Active', value as ActivationState)
+            }
+            options={[...activationOptions]}
+          />
+        </Col>
+
+        <Col xs={24} md={8}>
           <FilterButton
             onClearFilters={handleClearFilters}
             text="Filtrar"

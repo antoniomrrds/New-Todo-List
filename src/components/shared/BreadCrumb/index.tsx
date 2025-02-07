@@ -5,7 +5,7 @@ import { BreadcrumbProps } from 'antd/lib';
 
 export type BreadcrumbItems = BreadcrumbProps['items'];
 
-export const BreadCrumb: React.FC<BreadcrumbProps> = props => {
+export const BreadCrumb: React.FC<BreadcrumbProps> = (props) => {
   const { items, params } = props;
   return (
     <S.Nav>

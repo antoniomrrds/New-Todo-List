@@ -1,12 +1,17 @@
 import { Card, Layout } from 'antd';
 import styled, { createGlobalStyle } from 'styled-components';
 import { theme } from './Theme';
+import { Content } from 'antd/es/layout/layout';
 export const GlobalStyle = createGlobalStyle`
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-    }
+        -webkit-font-smoothing: auto;
+
+      }
+
+
     .ant-notification-notice-error {
     background-color: ${theme.colors.error.errorRed100};
     border-radius: 8px;
@@ -25,9 +30,12 @@ export const GlobalStyle = createGlobalStyle`
 
 export const CardMain = styled(Card)`
   border: 1px solid ${({ theme }) => theme.colors.success.successGreen600};
+
   .ant-card-head {
-    font-weight: bold;
-    font-family: ${({ theme }) => theme.typography.fontFamily.inter};
+    padding: ${({ theme }) => theme.spacing.small}!important;
+    margin:0px !important;
+    font-weight: 700;
+    font-family: ${({ theme }) => theme.typography.fontFamily.poppins};
     font-style: italic;
     color: ${({ theme }) => theme.colors.success.successGreen600};
     background: ${({ theme }) => theme.colors.neutral.neutral800};
@@ -36,7 +44,21 @@ export const CardMain = styled(Card)`
 `;
 
 export const StyledLayout = styled(Layout)`
-  min-height: 100dvh;
+  min-height: 100dvh; /* Usa 100vh para ocupar toda a altura da janela */
+  display: flex;
+  flex-direction: column;
+  background: ${({ theme }) => theme.colors.neutral.neutral800};
+  overflow: hidden;
+`;
+
+export const StyledContent = styled(Content)`
+  flex-grow: 1; /* Ocupa o restante do espaço */
+  padding: ${({ theme }) => theme.spacing.medium};
+  max-width: ${({ theme }) => theme.container.maxWidth};
+  margin: 0px auto;
+  width: ${({ theme }) => theme.container.fullWidthPercentage};
+  min-width: ${({ theme }) => theme.container.minWidth};
+
 `;
 
 export const StyledContainer = styled.main`
@@ -44,5 +66,5 @@ export const StyledContainer = styled.main`
   margin: 0px auto;
   width: ${({ theme }) => theme.container.fullWidthPercentage};
   min-width: ${({ theme }) => theme.container.minWidth};
-  padding: ${({ theme }) => theme.spacing.small};
+  padding: ${({ theme }) => theme.spacing.small}!important;
 `;

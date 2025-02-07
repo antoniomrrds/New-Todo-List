@@ -4,6 +4,7 @@ import { AppHeader } from '@/components/Header';
 import { NotFoundPage } from '@/pages/NotFound';
 import { AddTodoPage } from '@/pages/Todo/Add';
 import { TodoHomePage } from '@/pages/Todo';
+import { TodoDetailsPage } from '@/pages/Todo/Details';
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
         element: <AddTodoPage />,
       },
     ],
+  },
+  {
+    path: '/todo/:id',
+    element: <TodoDetailsPage />,
   },
   {
     path: '/learn',
