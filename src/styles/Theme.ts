@@ -53,12 +53,14 @@ export const theme = {
     fullWidthPercentage: '100%', // Largura total em porcentagem
     fullHeightPercentage: '100%', // Altura total em porcentagem
     padding: '20px', // Espaçamento interno
-    margin: '0 auto', // Centraliza o contêiner
+    marginCenter: '0 auto', // Centraliza o contêiner
     borderRadius: '20%', // Bordas arredondadas
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Sombra do contêiner
   },
   typography: {
+    fontSizeXSmall: '0.8125rem', // 13px
     fontSizeSmall: '0.875rem', // 14px
+    fontSizeMediumSmall: '0.9375rem', // 15px
     fontSizeMedium: '1rem', // 16px
     fontSizeLarge: '1.125rem', // 18px
     fontSizeXlarge: '1.5rem', // 24px
@@ -72,10 +74,25 @@ export const theme = {
       poppins: '"Poppins", sans-serif', // Fonte Poppins
     },
     lineHeight: '1.5', // Altura da linha
+    lineHeightDefault: '1', // Altura da linha padrão
+    fontWeight: {
+      300: '300', // Peso da fonte leve
+      400: '400', // Peso da fonte regular
+      500: '500', // Peso da fonte médio
+      600: '600', // Peso da fonte semi-negrito
+      700: '700', // Peso da fonte negrito
+    },
+  },
+  borders: {
+    default: '1px', // Borda padrão
+    small: '2px', // Borda pequena
+    medium: '4px', // Borda média
+    large: '8px', // Borda grande
   },
   spacing: {
     small: '8px', // Espaçamento pequeno
-    medium: '16px', // Espaçamento médio
+    medium: '15px', // Espaçamento médio
     large: '24px', // Espaçamento grande
+    zero: '0px', // Espaçamento zero
   },
 };

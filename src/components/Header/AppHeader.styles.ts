@@ -1,12 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import { Layout, Menu as MenuAntd, Drawer as DrawerAntd, Button } from 'antd';
-import { device, size } from "@/styles/breakpoints";
-
+import { device, size } from '@/styles/breakpoints';
 
 export const Header = styled(Layout.Header)`
     background: ${({ theme }) => theme.colors.secondaryColor};
     display: flex;
-    
+
     align-items: center;
     justify-content: space-between;
     padding: 0;
@@ -20,7 +19,7 @@ export const Header = styled(Layout.Header)`
 export const Logo = styled.img`
     margin-left: 20px;
     height: 40px;
-    cursor: pointer;    
+    cursor: pointer;
 `;
 
 export const MenuButton = styled(Button)`
@@ -104,7 +103,7 @@ export const Menu = styled(MenuAntd)`
 `;
 
 export const Container = styled.div`
-    width: ${({ theme }) => theme.container.fullWidthPercentage};  
+    width: ${({ theme }) => theme.container.fullWidthPercentage};
     z-index:2;
     background: ${({ theme }) => theme.colors.secondaryColor};
     border-bottom: 2px solid ${({ theme }) => theme.colors.primaryColor};

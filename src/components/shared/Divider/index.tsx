@@ -4,21 +4,18 @@ type DividerPropsCustom = DividerProps & {
   margin?: number;
 };
 
-export const DividerCustom = ({
-  margin = 10,
-  ...props
-}: DividerPropsCustom) => {
+export const DividerCustom = ({ margin = 5, ...props }: DividerPropsCustom) => {
   return (
     <ConfigProvider
       theme={{
         components: {
           Divider: {
-            margin,
+            margin: 100,
           },
         },
       }}
     >
-      <Divider {...props} />
+      <Divider {...props} style={{ margin: `${margin}px 0`, ...props.style }} />
     </ConfigProvider>
   );
 };

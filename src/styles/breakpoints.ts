@@ -7,6 +7,7 @@ interface Size {
   mobileL: string; // 425px
   mobileXL: string; // 500px
   tablet: string; // 768px
+  tabletXS: string; // 800px
   laptop: string; // 1024px
   laptopL: string; // 1440px
   desktop: string; // 2560px
@@ -20,6 +21,7 @@ export const size: Size = {
   mobileL: '425px', // Tela móvel grande
   mobileXL: '500px', // Novo breakpoint
   tablet: '768px', // Tela de tablet
+  tabletXS: '800px', // Tela de tablet grande
   laptop: '1024px', // Tela de laptop
   laptopL: '1440px', // Tela de laptop grande
   desktop: '2560px', // Tela de desktop
