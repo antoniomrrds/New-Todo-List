@@ -1,10 +1,7 @@
 import { ToDoFilter } from '@/api/service/toDo/types';
 import { Col, Input, Row, Select } from 'antd';
 import { FC, useState } from 'react';
-import {
-  CreateButton,
-  FilterButton,
-} from '@/components/Todo/List/molecules/buttons';
+import { CreateButton, FilterButton } from '@/components/Todo/List/Buttons';
 import { DEFAULT_FILTERS } from '@/pages/Todo';
 import {
   ActivationState,

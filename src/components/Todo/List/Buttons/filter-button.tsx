@@ -1,7 +1,7 @@
 import { ClearOutlined, FilterOutlined } from '@ant-design/icons';
 import * as S from '@/styles/config/antd';
 import { ConfigProvider, Dropdown, MenuProps } from 'antd';
-import { DefaultButton } from '@/components/Todo/List/molecules/buttons/default-button';
+import { DefaultButton } from '@/components/Todo/List/Buttons/default-button';
 import { cloneElement, isValidElement, ReactElement } from 'react';
 
 type FilterButtonProps = {

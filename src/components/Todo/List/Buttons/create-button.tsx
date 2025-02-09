@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import * as S from '@/styles/config/antd';
-import { DefaultButton } from '@/components/Todo/List/molecules/buttons';
+import { DefaultButton } from '@/components/Todo/List/Buttons';
 
 type CreateButtonProps = {
   text: string;

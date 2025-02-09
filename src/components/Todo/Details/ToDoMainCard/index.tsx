@@ -2,7 +2,7 @@ import { ToDoDetails } from '@/api/service/toDo/types';
 import { FC, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill-new';
 import * as S from '@/components/Todo/Details/ToDoMainCard/to-do-main-card-styles';
-import { GroupButtons } from '@/components/Todo/Details/Buttons';
+import { TodoDetailsDropdown } from '@/components/Todo/Details/Buttons';
 import { DividerCustom } from '@/components/shared/Divider';
 import { Breakpoint } from 'antd';
 import { cyan, purple } from '@ant-design/colors';
@@ -28,7 +28,7 @@ export const ToDoMainCard: FC<ToDoMainCardProps> = ({ toDoItem, screens }) => {
     <S.CardMain>
       <S.HeaderMain $screens={screens}>
         {toDoItem.title}
-        <GroupButtons />
+        <TodoDetailsDropdown />
       </S.HeaderMain>
       <DividerCustom margin={5} />
 

@@ -1,10 +1,5 @@
 export const theme = {
   colors: {
-    primaryColor: '#059669',
-    secondaryColor: '#191D23',
-    tertiaryColor: '#ECFDF5', // Cor secundária
-    quaternaryColor: '#D1FAE5',
-    quinaryColor: '#c1d6cc', // Cor terciária
     success: {
       successGreen50: '#ecfdf5',
       successGreen100: '#d1fae5',
@@ -62,7 +57,9 @@ export const theme = {
     fontSizeSmall: '0.875rem', // 14px
     fontSizeMediumSmall: '0.9375rem', // 15px
     fontSizeMedium: '1rem', // 16px
+    fontSizeLargeSmall: '1.0625rem', // 17px
     fontSizeLarge: '1.125rem', // 18px
+    fontSizeXlargeSmall: '1.3125rem', // 21px
     fontSizeXlarge: '1.5rem', // 24px
     fontSizeXXlarge: '2rem', // 32px
     fontSizeXXXlarge: '3rem', // 48px
@@ -82,6 +79,10 @@ export const theme = {
       600: '600', // Peso da fonte semi-negrito
       700: '700', // Peso da fonte negrito
     },
+    fontStyle: {
+      italic: 'italic', // Fonte itálica
+      normal: 'normal', // Fonte normal
+    },
   },
   borders: {
     default: '1px', // Borda padrão
@@ -90,9 +91,12 @@ export const theme = {
     large: '8px', // Borda grande
   },
   spacing: {
+    xsmall: '5px', // Espaçamento extra pequeno
     small: '8px', // Espaçamento pequeno
     medium: '15px', // Espaçamento médio
+
     large: '24px', // Espaçamento grande
     zero: '0px', // Espaçamento zero
   },
+  spacingFn: (size: number) => `${size}px`,
 };

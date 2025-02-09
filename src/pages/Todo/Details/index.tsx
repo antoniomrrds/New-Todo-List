@@ -21,6 +21,7 @@ export const TodoDetailsPage = () => {
   const { id } = useParams<toDoDetailsParams>();
   const todoId = parseIdOrDefault(id);
   const { toDoItem, errorToDos, isLoadingToDos } = useQueryTodoDetails(todoId);
+
   const screens = useBreakpoint();
   const sizeValue = useWindowWidth();
   const isTabletXS = sizeValue <= parseInt(size.tabletXS.replace('px', ''));
@@ -41,18 +42,17 @@ export const TodoDetailsPage = () => {
     { title: 'Todos (Tarefas)', href: '/todo' },
     { title: 'Detalhes da Tarefa' },
   ];
-
   return (
     <StyledLayout>
       <AppHeader />
-
       <StyledContent>
         <BreadCrumb items={breadcrumbItems} />
+
         <Row gutter={[10, 10]}>
-          <Col flex={isTabletXS ? 'auto' : '0 1 300px'} xs={24} sm={24}>
+          <Col flex={isTabletXS ? '' : '0 1 300px'} xs={24} sm={24} md={24}>
             <ToDoActivityCard toDoItem={toDoItem} />
           </Col>
-          <Col flex={isTabletXS ? 'auto' : '1 1 300px'} xs={24} sm={24}>
+          <Col flex={isTabletXS ? '' : '1 1 300px'} xs={24} sm={24} md={24}>
             <ToDoMainCard toDoItem={toDoItem} screens={screens} />
           </Col>
         </Row>

@@ -10,11 +10,9 @@ export const GlobalStyle = createGlobalStyle`
         -webkit-font-smoothing : auto;
 
       }
-
-
     .ant-notification-notice-error {
-    background-color: ${theme.colors.error.errorRed100};
-    border-radius: 8px;
+    background-color: ${({ theme }) => theme.colors.error.errorRed100} !important;
+    border-radius:  ${({ theme }) => theme.spacing.small};
 
   }
   .ant-notification-notice-description{
@@ -23,9 +21,12 @@ export const GlobalStyle = createGlobalStyle`
   }
   .ant-notification-notice-success  {
     background-color: ${theme.colors.success.successGreen50} !important;
-    border-radius: 8px;
+    border-radius: ${({ theme }) => theme.spacing.small} !important;
   }
-
+  .custom-modal-wrap {
+    backdrop-filter: blur(10px) !important;
+    box-shadow: inset 0 0 15px #fff,
+  }
 `;
 
 export const CardMain = styled(Card)`
@@ -55,7 +56,7 @@ export const StyledContent = styled(Content)`
   flex-grow: 1; /* Ocupa o restante do espaço */
   padding: ${({ theme }) => theme.spacing.medium};
   max-width: ${({ theme }) => theme.container.maxWidth};
-  margin: 0px auto;
+  margin: ${({ theme }) => theme.container.marginCenter};
   width: ${({ theme }) => theme.container.fullWidthPercentage};
   min-width: ${({ theme }) => theme.container.minWidth};
 
@@ -63,7 +64,7 @@ export const StyledContent = styled(Content)`
 
 export const StyledContainer = styled.main`
   max-width: ${({ theme }) => theme.container.maxWidth};
-  margin: 0px auto;
+  margin:${({ theme }) => theme.container.marginCenter};
   width: ${({ theme }) => theme.container.fullWidthPercentage};
   min-width: ${({ theme }) => theme.container.minWidth};
   padding: ${({ theme }) => theme.spacing.small}!important;

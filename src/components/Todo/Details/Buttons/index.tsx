@@ -1,25 +1,31 @@
-import {
-  DeleteOutlined,
-  EditOutlined,
-  MoreOutlined,
-  WarningFilled,
-} from '@ant-design/icons';
-import { Button, Dropdown, Flex, MenuProps } from 'antd';
-import { gold, red } from '@ant-design/colors';
-import styled from 'styled-components';
-import { App as AppAntd } from 'antd';
-import { theme } from '@/styles/Theme';
+import { DeleteOutlined, EditOutlined, MoreOutlined } from '@ant-design/icons';
+import { Button, Dropdown, MenuProps } from 'antd';
+import { gold } from '@ant-design/colors';
+import * as S from '@/components/Todo/Details/Buttons/buttons-styles';
+import { useState } from 'react';
+import { ConfirmToDoDeleteDialog } from '@/components/Todo/Details/Modal';
 
-const Span = styled.span`
-    font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;
-   font-weight : normal !important;
-`;
+export const TodoDetailsDropdown = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-export const GroupButtons = () => {
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    console.log('ok');
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    console.log('cancel');
+    setIsModalOpen(false);
+  };
+
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <Span>Ações</Span>,
+      label: <S.Span>Ações</S.Span>,
       disabled: true,
     },
     {
@@ -27,66 +33,25 @@ export const GroupButtons = () => {
     },
     {
       key: 'edit',
-      label: <Span>Editar</Span>,
+      label: <S.Span>Editar</S.Span>,
       icon: <EditOutlined style={{ color: gold.primary }} />,
     },
     {
       key: 'delete',
-      label: <Span>Excluir</Span>,
+      label: <S.Span>Excluir</S.Span>,
       icon: <DeleteOutlined />,
       onClick: () => showModal(),
       danger: true,
     },
   ];
-  const { modal } = AppAntd.useApp();
 
-  const showModal = () => {
-    modal.confirm({
-      title: (
-        <span
-          style={{
-            color: theme.shades.light,
-            fontFamily: theme.typography.fontFamily.poppins,
-          }}
-        >
-          Você tem certeza que deseja excluir esta tarefa?
-        </span>
-      ),
-      content: (
-        <span
-          style={{
-            color: red.primary,
-            fontFamily: theme.typography.fontFamily.poppins,
-          }}
-        >
-          Esta ação não pode ser desfeita.
-        </span>
-      ),
-
-      centered: true,
-
-      onOk() {},
-      icon: <WarningFilled style={{ color: red.primary }} />,
-      onCancel() {
-        console.log('Cancelando exclusão...');
-      },
-      okButtonProps: { danger: true },
-      cancelButtonProps: { type: 'primary' },
-      styles: {
-        content: {
-          color: 'white',
-          backgroundColor: theme.colors.neutral.neutral800,
-        },
-      },
-    });
-  };
   return (
-    <Flex
-      gap="small"
-      align="center"
-      justify="end"
-      style={{ padding: '7px 10px ', position: 'absolute', right: 0, top: 0 }}
-    >
+    <S.Container>
+      <ConfirmToDoDeleteDialog
+        open={isModalOpen}
+        onConfirm={handleOk}
+        onCancel={handleCancel}
+      />
       <Dropdown menu={{ items }} trigger={['click']}>
         <Button
           color={'primary'}
@@ -97,6 +62,6 @@ export const GroupButtons = () => {
           icon={<MoreOutlined />}
         />
       </Dropdown>
-    </Flex>
+    </S.Container>
   );
 };

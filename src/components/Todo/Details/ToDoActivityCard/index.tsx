@@ -1,5 +1,5 @@
 import { ToDoDetails } from '@/api/service/toDo/types';
-import { obtainTodoStatusDetails } from '@/components/CardTodo/toDoStatusBadge';
+import { obtainTodoStatusDetails } from '@/components/Todo/List/CardTodo/ToDoStatusBadge';
 import * as S from '@/components/Todo/Details/ToDoActivityCard/todo-activity-card-styles';
 import { Flex } from 'antd';
 import { FC } from 'react';
