@@ -9,12 +9,11 @@ import { useQueryFilteredTodos } from '@/api/service/toDo/actions';
 import { ToDoFilter } from '@/api/service/toDo/types';
 import { ToDoSearchBar } from '@/components/Todo/List/SearchBar';
 import { PaginationCustom } from '@/components/shared/Pagination';
-import { useModal, useNavigateToPath } from '@/helpers';
+import { useNavigateToPath } from '@/helpers';
 import { AxiosError } from 'axios';
 import { encodeObject, decodeObject, areObjectsEqual } from '@/utils';
 import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
 import { FloatButton } from 'antd';
-import { ConfirmToDoDeleteDialog } from '@/components/Todo/Details/Modal';
 export const DEFAULT_FILTERS: ToDoFilter = {
   Title: '',
   Status: TodoStatus.InProgress,
@@ -32,7 +31,6 @@ export const TodoHomePage = () => {
   );
   const [filters, setFilters] = useState<ToDoFilter>(initialFilters);
   const hasCustomFilters = !areObjectsEqual(filters, DEFAULT_FILTERS);
-  const { isOpen, confirmAndCloseModal, onModalCancel, openModal } = useModal();
 
   const { errorToDos, dataToDos, isLoadingToDos } =
     useQueryFilteredTodos(filters);
@@ -54,11 +52,6 @@ export const TodoHomePage = () => {
     <StyledLayout>
       <AppHeader />
       <StyledContainer>
-        <ConfirmToDoDeleteDialog
-          open={isOpen}
-          onConfirm={confirmAndCloseModal}
-          onCancel={onModalCancel}
-        />
         <ToDoSearchBar
           handleNavigateAdd={() => navigateTo('add')}
           filters={filters}
@@ -70,7 +63,6 @@ export const TodoHomePage = () => {
       </StyledContainer>
       <Content>
         <TodoListContainer
-          openModal={openModal}
           error={errorToDos as AxiosError}
           toDos={dataToDos?.items || []}
           isLoading={isLoadingToDos}

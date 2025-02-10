@@ -1,13 +1,12 @@
-import { NotificationInstance } from "antd/es/notification/interface";
+import { NotificationInstance } from 'antd/es/notification/interface';
 
+import * as S from '@/components/shared/Notifications/notification-styles';
 
-import * as S from "@/components/shared/Notifications/notification-styles";
-
-import { Typography } from "antd";
+import { Typography } from 'antd';
 const { Title } = Typography;
 
-import { ErrorContent } from "@/components/shared/Notifications/ErrorNotification/components";
-import { WarningIconStyled } from "@/components/shared/Icons";
+import { ErrorContent } from '@/components/shared/Notifications/ErrorNotification/components';
+import { WarningFilledStyled } from '@/components/shared/Icons';
 
 export const ErrorNotification = (
   notification: NotificationInstance,
@@ -15,7 +14,7 @@ export const ErrorNotification = (
   description: string,
   details: string[] = [],
   pauseOnHover: boolean = true,
-  duration = 5
+  duration = 5,
 ) => {
   // notification.destroy();
   notification.error({
@@ -25,9 +24,9 @@ export const ErrorNotification = (
       </Title>
     ),
     description: <ErrorContent description={description} details={details} />,
-    icon: <WarningIconStyled />,
+    icon: <WarningFilledStyled />,
     closeIcon: <S.CloseCircleFilledStyled $colorVariant="error" />,
-    className: "ant-notification-notice-error",
+    className: 'ant-notification-notice-error',
     closable: true,
     pauseOnHover,
     duration,

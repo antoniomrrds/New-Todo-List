@@ -1,5 +1,9 @@
 export const theme = {
   colors: {
+    // coloca um tema de cor para otransparentergb(255, 255, 255);
+    transparent: {
+      darkWithTransparent: 'rgba(0, 0, 0, 0.7)',
+    },
     success: {
       successGreen50: '#ecfdf5',
       successGreen100: '#d1fae5',

@@ -12,7 +12,7 @@ export const FlexContentItem = styled(Flex)`
   font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;
   font-weight : normal !important;
   font-size: ${({ theme }) => theme.typography.fontSizeXSmall} !important;
-  padding: 7px 10px !important;
+  padding:  ${({ theme }) => `${theme.spacingFn(7)} ${theme.spacingFn(7)}`} !important;
 `;
 
 export const TextCustom = styled.span<{ $color?: string }>`

@@ -1,31 +1,51 @@
-import { Avatar, Row } from 'antd';
-import { FC } from 'react';
+import { Avatar, Row, App } from 'antd';
+import { FC, useState } from 'react';
 import * as S from './Card.styles';
 import { ToDo } from '@/api/service/toDo/types';
 import { obtainTodoStatusDetails } from '@/components/Todo/List/CardTodo/ToDoStatusBadge';
-import { CallbackFunction, useNavigateToPath } from '@/helpers';
+import { useNavigateToPath } from '@/helpers';
 import * as I from '@/components/shared/Icons';
-import { gold } from '@ant-design/colors';
+import { gold, greyDark } from '@ant-design/colors';
 import { BadgeStatus } from '@/components/Todo/List/CardTodo/BadgeStatus';
+import { useDeleteTodo } from '@/api/service/toDo/actions';
+import { ConfirmToDoDeleteDialog } from '@/components/Todo/Details/Modal';
+
 type Props = {
   data: ToDo[];
-  openModal: (
-    onConfirm?: CallbackFunction,
-    onCancel?: CallbackFunction,
-  ) => void;
 };
 
-const deleteTodo = () => {
-  console.log('Tarefa excluída!');
-};
-
-const cancelDelete = () => {
-  console.log('Exclusão cancelada!');
-};
-
-const CardTasks: FC<Props> = ({ data, openModal }) => {
+const CardTasks: FC<Props> = ({ data }) => {
   const navigateTo = useNavigateToPath();
   const navigateToDetails = (id: number) => navigateTo(`${id}`);
+  const { notification } = App.useApp();
+  const { deleteToDo, deleteToDoIsLoading } = useDeleteTodo({ notification });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [todoToDelete, setTodoToDelete] = useState<number | null>(null);
+
+  const showModal = (id: number) => {
+    setTodoToDelete(id);
+    setIsModalOpen(true);
+  };
+
+  const confirmAndCloseModal = () => {
+    console.log('Confirmando exclusão para:', todoToDelete);
+
+    if (todoToDelete !== null) {
+      deleteToDo(todoToDelete, {
+        onSuccess: () => {
+          console.log(`Tarefa ${todoToDelete} deletada!`);
+          setIsModalOpen(false); // 🔹 Fecha só após a exclusão
+          setTodoToDelete(null);
+        },
+      });
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setTodoToDelete(null);
+  };
 
   return (
     <S.CardsContainer>
@@ -37,34 +57,33 @@ const CardTasks: FC<Props> = ({ data, openModal }) => {
             <S.CardMeta title={todoItem.title} />
             <S.CreatorName>
               <Avatar
-                style={{
-                  backgroundColor: color,
-                }}
-                // src={task.avatar}
+                style={{ backgroundColor: color }}
                 alt="Criador"
-                icon={<I.EditOutlinedStyled key={'user-card-item'} />}
+                icon={<I.UserOutlinedStyled key={'user-card-item'} />}
               />
-
-              {/* <img src={task.avatar || avatar} alt="Criador" /> */}
-              {/* <Text className="creator-name">{task.creator}</Text> */}
             </S.CreatorName>
             <Row justify={'center'} align={'middle'}>
-              <S.ActionsItemContatiner
-                onClick={() => navigateToDetails(todoItem.id)}
-                span={12}
-              >
+              <S.ActionsItemContatiner span={8}>
                 <S.ActionsItem>
                   <I.EditOutlinedStyled $color={gold.primary} key="edit" />
                 </S.ActionsItem>
               </S.ActionsItemContatiner>
               <S.ActionsItemContatiner
-                span={12}
-                onClick={() => openModal(deleteTodo, cancelDelete)}
+                span={8}
+                onClick={() => showModal(todoItem.id)}
               >
                 <S.ActionsItem>
-                  <I.FaTrashAltStyled
-                    key="delete"
-                    onClick={() => console.log('ops cliclou')}
+                  <I.FaTrashAltStyled key="delete" />
+                </S.ActionsItem>
+              </S.ActionsItemContatiner>
+              <S.ActionsItemContatiner
+                span={8}
+                onClick={() => navigateToDetails(todoItem.id)}
+              >
+                <S.ActionsItem>
+                  <I.InfoCircleOutlinedStyled
+                    $color={greyDark.primary}
+                    key="info"
                   />
                 </S.ActionsItem>
               </S.ActionsItemContatiner>
@@ -72,6 +91,12 @@ const CardTasks: FC<Props> = ({ data, openModal }) => {
           </S.PaperCard>
         );
       })}
+      <ConfirmToDoDeleteDialog
+        open={isModalOpen}
+        onConfirm={confirmAndCloseModal}
+        onCancel={closeModal}
+        loading={deleteToDoIsLoading}
+      />
     </S.CardsContainer>
   );
 };

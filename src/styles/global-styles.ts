@@ -20,7 +20,36 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0 !important;
   }
   .ant-notification-notice-success  {
-    background-color: ${theme.colors.success.successGreen50} !important;
+    font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;
+
+    .ant-notification-notice-message{
+      font-weight: ${({ theme }) => theme.typography.fontWeight[700]} !important;
+      font-style: ${({ theme }) => theme.typography.fontStyle.italic}!important;
+      color: ${({ theme }) => theme.colors.neutral.neutral800};
+      color: ${({ theme }) => theme.colors.success.successGreen600};
+      color: ${({ theme }) => theme.colors.success.successGreen600} !important;
+    }
+
+    .ant-notification-notice-description{
+      padding:  ${({ theme }) => `${theme.spacingFn(7)} ${theme.spacingFn(7)}`} !important;
+      background-color: ${theme.colors.success.successGreen600} !important;
+      font-size: ${({ theme }) => theme.typography.fontSizeSmall}!important;
+      color: ${({ theme }) => theme.colors.error.errorRed500};
+      font-weight: ${({ theme }) => theme.typography.fontWeight[500]}!important;
+      font-style: ${({ theme }) => theme.typography.fontStyle.italic}!important;
+    }
+     .ant-notification-notice-close{
+      color: ${({ theme }) => theme.colors.neutral.neutral800}!important;
+      background-color: ${({ theme }) => theme.colors.neutral.neutral800} !important;
+      padding:  ${({ theme }) => `${theme.spacingFn(7)} ${theme.spacingFn(7)}`} !important;
+      :hover{
+        background-color: ${({ theme }) => theme.colors.success.successGreen600} !important;
+        color: ${({ theme }) => theme.colors.neutral.neutral800}!important;
+      }
+
+
+    }
+    background-color: ${({ theme }) => theme.colors.neutral.neutral800} !important;
     border-radius: ${({ theme }) => theme.spacing.small} !important;
   }
   .custom-modal-wrap {

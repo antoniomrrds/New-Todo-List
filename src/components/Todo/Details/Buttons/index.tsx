@@ -1,25 +1,18 @@
-import { DeleteOutlined, EditOutlined, MoreOutlined } from '@ant-design/icons';
+import { MoreOutlined } from '@ant-design/icons';
 import { Button, Dropdown, MenuProps } from 'antd';
 import { gold } from '@ant-design/colors';
 import * as S from '@/components/Todo/Details/Buttons/buttons-styles';
-import { useState } from 'react';
 import { ConfirmToDoDeleteDialog } from '@/components/Todo/Details/Modal';
-
+import { useModal } from '@/helpers';
+import * as I from '@/components/shared/Icons';
 export const TodoDetailsDropdown = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
+  const { isOpen, openModal, confirmAndCloseModal, onModalCancel } = useModal();
+  const deleteTodo = () => {
     console.log('ok');
-    setIsModalOpen(false);
   };
 
-  const handleCancel = () => {
+  const cancelDelete = () => {
     console.log('cancel');
-    setIsModalOpen(false);
   };
 
   const items: MenuProps['items'] = [
@@ -34,23 +27,22 @@ export const TodoDetailsDropdown = () => {
     {
       key: 'edit',
       label: <S.Span>Editar</S.Span>,
-      icon: <EditOutlined style={{ color: gold.primary }} />,
+      icon: <I.EditOutlinedStyled $color={gold.primary} />,
     },
     {
       key: 'delete',
       label: <S.Span>Excluir</S.Span>,
-      icon: <DeleteOutlined />,
-      onClick: () => showModal(),
-      danger: true,
+      icon: <I.FaTrashAltStyled />,
+      onClick: () => openModal(deleteTodo, cancelDelete), // Passando as funções personalizadas
     },
   ];
 
   return (
     <S.Container>
       <ConfirmToDoDeleteDialog
-        open={isModalOpen}
-        onConfirm={handleOk}
-        onCancel={handleCancel}
+        open={isOpen}
+        onConfirm={confirmAndCloseModal}
+        onCancel={onModalCancel}
       />
       <Dropdown menu={{ items }} trigger={['click']}>
         <Button
