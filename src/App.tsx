@@ -19,7 +19,7 @@ export const App = () => {
           wave={{ disabled: true }}
           theme={{
             token: {
-              colorPrimary: theme.colors.success.successGreen700,
+              colorPrimary: theme.colors.success.successGreen600,
               colorError: theme.colors.error.errorRed500,
             },
           }}

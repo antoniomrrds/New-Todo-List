@@ -1,8 +1,7 @@
-  import { device, media } from "@/styles/breakpoints";
-  import styled from "styled-components";
-  import { Button as ButtonAntd } from 'antd';
+import styled from 'styled-components';
+import { Button as ButtonAntd } from 'antd';
 
-  export const Container = styled.section`
+export const Container = styled.section`
     max-width: ${({ theme }) => theme.container.maxWidth};
     width: ${({ theme }) => theme.container.fullWidthPercentage};
     height: 526px;
@@ -19,12 +18,9 @@
     border-radius: 10px;
     transition: all 0.3s ease;
 
-    ${media.tablet`
-      height: 378px;
-    `}
   `;
 
-  export const Overlay = styled.div`
+export const Overlay = styled.div`
     text-align: center;
     max-width: ${({ theme }) => theme.container.maxWidth};
     width: ${({ theme }) => theme.container.fullWidthPercentage};
@@ -32,20 +28,7 @@
     margin: 0 auto;
   `;
 
-  export const Title = styled.h1`
-    color: ${({ theme }) => theme.colors.secondaryColor} !important;
-    font-family: ${({ theme }) => theme.typography.fontFamily.inter};
-    font-size: clamp(20px, 8vw + 1rem, 80px);
-    font-weight: bold;
-    line-height: 1.2;
-    letter-spacing: -0.96px;
-    text-shadow: 
-      -1px -1px 0 ${({ theme }) => theme.colors.quinaryColor},  
-      1px -1px 0 ${({ theme }) => theme.colors.quinaryColor},
-      -1px 1px 0 ${({ theme }) => theme.colors.quinaryColor},
-      1px 1px 0 ${({ theme }) => theme.colors.quinaryColor};
-
-    ${media.laptopL`
+/* ${media.laptopL`
       font-size: clamp(16px, 5vw + 1rem, 72px);
     `}
     ${media.laptop`
@@ -56,25 +39,40 @@
     `}
     ${media.mobileXL`
       font-size: clamp(14px, 4vw + 1rem, 30px);
-    `}
+    `}*/
+export const Title = styled.h1`
+    color: ${({ theme }) => theme.colors.secondaryColor} !important;
+    font-family: ${({ theme }) => theme.typography.fontFamily.inter};
+    font-size: clamp(20px, 8vw + 1rem, 80px);
+    font-weight: bold;
+    line-height: 1.2;
+    letter-spacing: -0.96px;
+    text-shadow:
+      -1px -1px 0 ${({ theme }) => theme.colors.quinaryColor},
+      1px -1px 0 ${({ theme }) => theme.colors.quinaryColor},
+      -1px 1px 0 ${({ theme }) => theme.colors.quinaryColor},
+      1px 1px 0 ${({ theme }) => theme.colors.quinaryColor};
   `;
 
-  export const Description = styled.p`
+/* @media ${device.tablet} {
+  font-size: clamp(10px, 3vw + 1rem, 16px);
+}
+
+@media ${device.mobileXL} {
+  font-size: clamp(8px, 2vw + 1rem, 14px);
+} */
+export const Description = styled.p`
     color: ${({ theme }) => theme.colors.quaternaryColor};
     font-family: ${({ theme }) => theme.typography.fontFamily.inter};
     font-size: clamp(12px, 4vw + 1rem, 20px);
     font-weight: regular;
 
-    @media ${device.tablet} {
-      font-size: clamp(10px, 3vw + 1rem, 16px);
-    }
-
-    @media ${device.mobileXL} {
-      font-size: clamp(8px, 2vw + 1rem, 14px);
-    }
   `;
 
-  export const Button = styled(ButtonAntd)`
+/* @media ${device.tablet} {
+  font-size: clamp(10px, 3vw + 1rem, 16px);
+} */
+export const Button = styled(ButtonAntd)`
     font-family: ${({ theme }) => theme.typography.fontFamily.inter};
     font-size: ${({ theme }) => theme.typography.fontSizeXlarge};
     color: ${({ theme }) => theme.colors.primaryColor} !important;
@@ -86,9 +84,6 @@
     border-radius: 8px;
     transition: all 0.3s ease;
 
-    @media ${device.tablet} {
-      font-size: clamp(10px, 3vw + 1rem, 16px);
-    }
 
     &:hover {
       background-color: ${({ theme }) => theme.colors.secondaryColor} !important;

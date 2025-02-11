@@ -1,3 +1,5 @@
+import { css } from 'styled-components';
+
 export const theme = {
   colors: {
     // coloca um tema de cor para otransparentergb(255, 255, 255);
@@ -104,3 +106,6 @@ export const theme = {
   },
   spacingFn: (size: number) => `${size}px`,
 };
+
+export const generateSpacingCss = ($value: number = 1) =>
+  css`${({ theme }) => theme.spacingFn($value)}`;

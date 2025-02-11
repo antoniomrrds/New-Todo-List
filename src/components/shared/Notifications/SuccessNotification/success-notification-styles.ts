@@ -4,7 +4,7 @@ export const CloseCircleFilledStylednew = styled(S.CloseCircleFilledStyled)`
     color: ${({ theme }) => theme.colors.success.successGreen600}!important;
       background-color: ${({ theme }) => theme.colors.neutral.neutral800} !important;
       border: 1px solid ${({ theme }) => theme.colors.success.successGreen600};
-     font-size: ${({ theme }) => theme.typography.fontSizeSmall}!important;
+      font-size: ${({ theme }) => theme.typography.fontSizeSmall}!important;
       border-radius: ${({ theme }) => theme.spacing.xsmall} !important;
       padding: ${({ theme }) => theme.spacing.xsmall} !important;
       :hover{

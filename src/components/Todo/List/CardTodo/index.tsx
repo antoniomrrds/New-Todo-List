@@ -1,9 +1,9 @@
 import { Avatar, Row, App } from 'antd';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import * as S from './Card.styles';
 import { ToDo } from '@/api/service/toDo/types';
 import { obtainTodoStatusDetails } from '@/components/Todo/List/CardTodo/ToDoStatusBadge';
-import { useNavigateToPath } from '@/helpers';
+import { useModal, useNavigateToPath } from '@/helpers';
 import * as I from '@/components/shared/Icons';
 import { gold, greyDark } from '@ant-design/colors';
 import { BadgeStatus } from '@/components/Todo/List/CardTodo/BadgeStatus';
@@ -16,35 +16,24 @@ type Props = {
 
 const CardTasks: FC<Props> = ({ data }) => {
   const navigateTo = useNavigateToPath();
+  const navigateToEdit = (id: number) => navigateTo(`${id}/edit`);
   const navigateToDetails = (id: number) => navigateTo(`${id}`);
   const { notification } = App.useApp();
   const { deleteToDo, deleteToDoIsLoading } = useDeleteTodo({ notification });
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [todoToDelete, setTodoToDelete] = useState<number | null>(null);
-
-  const showModal = (id: number) => {
-    setTodoToDelete(id);
-    setIsModalOpen(true);
-  };
+  const {
+    isModalOpen,
+    selectedItem: todoToDelete,
+    showModal,
+    closeModal,
+  } = useModal<number>();
 
   const confirmAndCloseModal = () => {
-    console.log('Confirmando exclusão para:', todoToDelete);
-
     if (todoToDelete !== null) {
       deleteToDo(todoToDelete, {
-        onSuccess: () => {
-          console.log(`Tarefa ${todoToDelete} deletada!`);
-          setIsModalOpen(false); // 🔹 Fecha só após a exclusão
-          setTodoToDelete(null);
-        },
+        onSuccess: closeModal,
       });
     }
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setTodoToDelete(null);
   };
 
   return (
@@ -63,7 +52,10 @@ const CardTasks: FC<Props> = ({ data }) => {
               />
             </S.CreatorName>
             <Row justify={'center'} align={'middle'}>
-              <S.ActionsItemContatiner span={8}>
+              <S.ActionsItemContatiner
+                span={8}
+                onClick={() => navigateToEdit(todoItem.id)}
+              >
                 <S.ActionsItem>
                   <I.EditOutlinedStyled $color={gold.primary} key="edit" />
                 </S.ActionsItem>

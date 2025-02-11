@@ -14,6 +14,7 @@ import { AxiosError } from 'axios';
 import { encodeObject, decodeObject, areObjectsEqual } from '@/utils';
 import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
 import { FloatButton } from 'antd';
+
 export const DEFAULT_FILTERS: ToDoFilter = {
   Title: '',
   Status: TodoStatus.InProgress,
@@ -25,19 +26,29 @@ export const DEFAULT_FILTERS: ToDoFilter = {
 export const TodoHomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigateTo = useNavigateToPath();
-  const initialFilters = decodeObject(
-    searchParams.get('filter'),
-    DEFAULT_FILTERS,
+
+  // 🔹 Sempre sincronizar filtros com a URL ao carregar ou mudar a URL
+  const [filters, setFilters] = useState<ToDoFilter>(
+    decodeObject(searchParams.get('filter'), DEFAULT_FILTERS),
   );
-  const [filters, setFilters] = useState<ToDoFilter>(initialFilters);
+
   const hasCustomFilters = !areObjectsEqual(filters, DEFAULT_FILTERS);
 
   const { errorToDos, dataToDos, isLoadingToDos } =
     useQueryFilteredTodos(filters);
 
+  // 🔹 Sincroniza os filtros sempre que a URL muda
   useEffect(() => {
-    if (!hasCustomFilters) setSearchParams({});
-  }, [hasCustomFilters, setSearchParams]);
+    const urlFilters: ToDoFilter = decodeObject(
+      searchParams.get('filter'),
+      DEFAULT_FILTERS,
+    );
+    if (!areObjectsEqual(filters, urlFilters)) {
+      setFilters(urlFilters);
+    }
+  }, [searchParams]);
+
+  // 🔹 Atualiza os filtros e a URL ao mesmo tempo
   const updateFilters = (updatedFilters: Partial<ToDoFilter>) => {
     const newFilters = { ...filters, ...updatedFilters };
     setFilters(newFilters);

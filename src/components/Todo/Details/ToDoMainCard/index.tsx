@@ -9,9 +9,14 @@ import { cyan, purple } from '@ant-design/colors';
 type ToDoMainCardProps = {
   toDoItem: ToDoDetails;
   screens: Partial<Record<Breakpoint, boolean>>;
+  todoId: number;
 };
 
-export const ToDoMainCard: FC<ToDoMainCardProps> = ({ toDoItem, screens }) => {
+export const ToDoMainCard: FC<ToDoMainCardProps> = ({
+  toDoItem,
+  screens,
+  todoId,
+}) => {
   const [isCategoriesEmpty, setCategoriesEmpty] = useState(false);
   useEffect(() => {
     const isCategoriesEmpty = toDoItem.categories.length === 0;
@@ -28,7 +33,7 @@ export const ToDoMainCard: FC<ToDoMainCardProps> = ({ toDoItem, screens }) => {
     <S.CardMain>
       <S.HeaderMain $screens={screens}>
         {toDoItem.title}
-        <TodoDetailsDropdown />
+        <TodoDetailsDropdown todoId={todoId} />
       </S.HeaderMain>
       <DividerCustom margin={5} />
 

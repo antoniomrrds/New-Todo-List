@@ -6,16 +6,16 @@ import { StyledContent, StyledLayout } from '@/styles/global-styles';
 import { parseIdOrDefault } from '@/utils';
 import { Col, Row, Grid, FloatButton } from 'antd';
 import { useParams } from 'react-router-dom';
+import { ToDoActivityCard } from '@/components/Todo/Details/ToDoActivityCard';
+import { ToDoMainCard } from '@/components/Todo/Details/ToDoMainCard';
+import { useWindowWidth } from '@/utils/window-with';
+import { size } from '@/styles/breakpoints';
+import { NotFoundPage } from '@/pages/NotFound';
 const { useBreakpoint } = Grid;
 
 type toDoDetailsParams = {
   id: string;
 };
-
-import { ToDoActivityCard } from '@/components/Todo/Details/ToDoActivityCard';
-import { ToDoMainCard } from '@/components/Todo/Details/ToDoMainCard';
-import { useWindowWidth } from '@/utils/window-with';
-import { size } from '@/styles/breakpoints';
 
 export const TodoDetailsPage = () => {
   const { id } = useParams<toDoDetailsParams>();
@@ -31,7 +31,7 @@ export const TodoDetailsPage = () => {
   }
 
   if (!toDoItem) {
-    return <h2>ToDo não encontrado</h2>;
+    return <NotFoundPage />;
   }
 
   if (errorToDos) {
@@ -53,7 +53,11 @@ export const TodoDetailsPage = () => {
             <ToDoActivityCard toDoItem={toDoItem} />
           </Col>
           <Col flex={isTabletXS ? '' : '1 1 300px'} xs={24} sm={24} md={24}>
-            <ToDoMainCard toDoItem={toDoItem} screens={screens} />
+            <ToDoMainCard
+              toDoItem={toDoItem}
+              screens={screens}
+              todoId={todoId}
+            />
           </Col>
         </Row>
       </StyledContent>

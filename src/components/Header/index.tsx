@@ -1,107 +1,99 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   HomeOutlined,
   AppstoreAddOutlined,
   BookOutlined,
 } from '@ant-design/icons';
-import logo from '@/assets/images/logo/checklist (1).png';
+import logo from '@/assets/images/logo/checklist.png';
 import * as S from '@/components/Header/AppHeader.styles';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { size } from '@/styles/breakpoints';
+import { useWindowWidth } from '@/utils/window-with';
+import { useNavigateFunction } from '@/helpers';
 
 const items = [
   {
     key: 'home',
     icon: <HomeOutlined />,
-    label: 'Home',
+    label: 'home',
+    link: '/',
   },
   {
     key: 'todo',
     icon: <AppstoreAddOutlined />,
     label: 'todo',
+    link: '/todo',
   },
   {
     key: 'learn',
     icon: <BookOutlined />,
     label: 'Learn',
+    link: '/learn',
   },
 ];
 
 export const AppHeader: React.FC = () => {
   const [visible, setVisible] = useState(false);
-  const [selectedKey, setSelectedKey] = useState('home');
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigateFunction();
 
   const showDrawer = () => setVisible(true);
   const onClose = () => setVisible(false);
+  const sizeValue = useWindowWidth();
+  const isTabletXS = sizeValue >= parseInt(size.tabletXS.replace('px', ''));
 
-  useEffect(() => {
-    const path = location.pathname.replace('/', '');
-    if (path === '') {
-      setSelectedKey('home');
-    } else {
-      setSelectedKey(path);
-    }
-  }, [location]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768 && visible) {
-        onClose();
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [visible]);
-
-  const handleMenuClick = (key: string) => {
-    setSelectedKey(key);
+  if (isTabletXS && visible) {
     onClose();
-    navigate(`/${key === 'home' ? '' : key}`);
-  };
+  }
+
   const handleNavigateHome = () => {
     navigate('/');
   };
 
   return (
-    <S.Container>
-      <S.Header>
+    <S.Header>
+      <S.Nav>
         <S.Logo src={logo} onClick={handleNavigateHome} alt="Logo" />
-        <S.Menu
-          selectedKeys={[selectedKey]}
-          items={items.map((item) => ({
-            ...item,
-            onClick: () => handleMenuClick(item.key),
-          }))}
-        />
-        <S.MenuButton
-          type="text"
-          icon={<HomeOutlined />}
-          onClick={showDrawer}
-        />
-        <S.Drawer
-          title="Menu"
-          placement="right"
-          onClose={onClose}
-          open={visible}
-          styles={{
-            mask: {
-              backdropFilter: 'blur(10px)',
-            },
-          }}
-        >
-          <S.MenuResponsive
-            selectedKeys={[selectedKey]}
-            items={items.map((item) => ({
-              ...item,
-              onClick: () => handleMenuClick(item.key),
-            }))}
-          />
-        </S.Drawer>
-      </S.Header>
-    </S.Container>
+        <S.NavUl>
+          {items.map((item) => (
+            <li key={item.key}>
+              <S.NavLinkStyled to={item.link}>
+                {item.icon}
+                {item.label}
+              </S.NavLinkStyled>
+            </li>
+          ))}
+        </S.NavUl>
+        <S.MenuButton onClick={showDrawer}>
+          <S.GiHamburgerMenuStyled />
+        </S.MenuButton>
+      </S.Nav>
+      <S.Drawer
+        placement="left"
+        onClose={onClose}
+        closable={false}
+        open={visible}
+        maskClosable={false}
+        keyboard={false}
+        styles={{
+          mask: {
+            backdropFilter: 'blur(10px)',
+          },
+        }}
+      >
+        <S.NavDrawer>
+          <S.logoDrawer src={logo} onClick={handleNavigateHome} alt="Logo" />
+          <S.CloseCircleFilledStyled onClick={onClose} />
+        </S.NavDrawer>
+        <S.NavUlDrawer>
+          {items.map((item) => (
+            <S.NavLiDrawer key={item.key}>
+              <S.NavLinkDrawerStyled to={item.link}>
+                {item.icon}
+                {item.label}
+              </S.NavLinkDrawerStyled>
+            </S.NavLiDrawer>
+          ))}
+        </S.NavUlDrawer>
+      </S.Drawer>
+    </S.Header>
   );
 };

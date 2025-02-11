@@ -7,8 +7,8 @@ import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
 export type TodoBase = {
   title: string;
   description: string;
-  isCompleted: number;
-  Active: ActivationState;
+  completionStatus: number;
+  active: ActivationState;
   expirationDate: string | null;
 };
 

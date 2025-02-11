@@ -1,44 +1,18 @@
 import { useState } from 'react';
 
-export type CallbackFunction = () => void;
+export const useModal = <T = number>() => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<T | null>(null);
 
-export const useModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [onConfirmCallback, setOnConfirmCallback] =
-    useState<CallbackFunction | null>(null);
-  const [onCancelCallback, setOnCancelCallback] =
-    useState<CallbackFunction | null>(null);
-
-  const openModal = (
-    onConfirm?: CallbackFunction,
-    onCancel?: CallbackFunction,
-  ) => {
-    setIsOpen(true);
-    if (onConfirm) setOnConfirmCallback(() => onConfirm);
-    if (onCancel) setOnCancelCallback(() => onCancel);
+  const showModal = (item: T) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setIsOpen(false);
-    setOnConfirmCallback(null);
-    setOnCancelCallback(null);
+    setIsModalOpen(false);
+    setSelectedItem(null);
   };
 
-  const confirmAndCloseModal = () => {
-    if (onConfirmCallback) onConfirmCallback();
-    closeModal();
-  };
-
-  const onModalCancel = () => {
-    if (onCancelCallback) onCancelCallback();
-    closeModal();
-  };
-
-  return {
-    isOpen,
-    openModal,
-    closeModal,
-    confirmAndCloseModal,
-    onModalCancel,
-  };
+  return { isModalOpen, selectedItem, showModal, closeModal };
 };
