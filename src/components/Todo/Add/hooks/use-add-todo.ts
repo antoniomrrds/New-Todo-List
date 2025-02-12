@@ -17,12 +17,12 @@ export const useAddTodo = ({ goToTodoPage, notification }: UseAddTodoProps) => {
     data: CreateTodoValidationType,
   ): CreateToDo => {
     return {
-      Active: data.isActive,
+      active: data.isActive,
       idTags: data.tags,
       idCategories: data.categories,
       title: data.title,
       description: data.description,
-      isCompleted: data.isCompleted,
+      completionStatus: data.isCompleted,
       expirationDate: data.expirationDateTime || null,
     };
   };

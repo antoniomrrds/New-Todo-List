@@ -47,9 +47,9 @@ export const CardsContainer = styled.section`
 `;
 
 export const HeaderSubtitle = styled.h2`
-  font-size: ${({ theme }) => theme.typography.fontSizeMediumSmall}!important;
+  font-size: ${({ theme }) => theme.typography.fontSizeSmall}!important;
   font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;
   line-height: ${({ theme }) => theme.typography.lineHeightDefault}!important;
   font-weight: ${({ theme }) => theme.typography.fontWeight[500]} !important;
-  margin-top: ${({ theme }) => theme.spacing.medium}!important;
+  margin-top: ${({ theme }) => theme.spacing.xsmall}!important;
 `;

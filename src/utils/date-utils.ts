@@ -15,10 +15,23 @@ export const formatExpirationDateTime = (
   date: string,
   time: string,
   format: string = FORMAT_DEFAULT_DATE_TIME,
-) =>
-  dayjs
+) => {
+  console.log('date', date);
+  console.log('time', time);
+
+  // Verificar se a data e o tempo são válidos antes de processar
+  if (
+    !date ||
+    !time ||
+    !dayjs(date, 'DD-MM-YYYY', true).isValid() ||
+    !dayjs(time, 'HH:mm:ss', true).isValid()
+  ) {
+    return '';
+  }
+  return dayjs
     .tz(`${date} ${time}`, 'DD-MM-YYYY HH:mm:ss', TIMEZONE_AMERICA_SAO_PAULO)
     .format(format);
+};
 
 // Função para verificar se o valor é uma data válida
 export const isDateOrDayjs = (
@@ -31,7 +44,7 @@ export const isDateOrDayjs = (
 // Função para verificar se a data está no futuro
 export const isFutureDate = (date: string, time: string): boolean => {
   const expirationDateTime = dayjs.tz(
-    `${date} ${time}`,
+    `${dayjs(date, 'YYYY-MM-DD', true).format('DD-MM-YYYY')} ${time}`,
     'DD-MM-YYYY HH:mm:ss',
     TIMEZONE_AMERICA_SAO_PAULO,
   );
@@ -48,7 +61,7 @@ export const formatDateTime = (
   time: string,
 ): { formattedDate: string; formattedTime: string } => {
   return {
-    formattedDate: dayjs(date).format('DD-MM-YYYY'),
-    formattedTime: dayjs(time).format('HH:mm:ss'),
+    formattedDate: dayjs(date, 'YYYY-MM-DD', true).format('DD-MM-YYYY'),
+    formattedTime: dayjs(time, 'HH:mm:ss', true).format('HH:mm:ss'),
   };
 };

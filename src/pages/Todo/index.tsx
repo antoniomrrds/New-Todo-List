@@ -17,7 +17,7 @@ import { FloatButton } from 'antd';
 
 export const DEFAULT_FILTERS: ToDoFilter = {
   Title: '',
-  Status: TodoStatus.InProgress,
+  Status: TodoStatus.Unfiltered,
   PageSize: 20,
   Page: 1,
   Active: ActivationState.Active,

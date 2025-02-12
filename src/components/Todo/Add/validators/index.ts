@@ -63,17 +63,20 @@ export const todoValidationSchema = Yup.object({
       'A data de expiração não pode ser anterior à data atual',
       (value, context) => {
         const { expirationTime } = context.parent;
+
+        // Verificar se ambos os valores são válidos
         if (value && expirationTime) {
-          // Se a data ou a hora não forem válidas, não valida
-          if (!value || !expirationTime) return true;
           const { formattedDate, formattedTime } = formatDateTime(
             value,
             expirationTime,
           );
 
-          return isFutureDate(formattedDate, formattedTime);
+          // Chamar a validação isFutureDate apenas se os valores forem válidos
+          if (isDateOrDayjs(formattedDate) && isDateOrDayjs(formattedTime)) {
+            return isFutureDate(formattedDate, formattedTime);
+          }
         }
-        return true;
+        return true; // Se não for válido, não executa a validação de futuro
       },
     )
     .when('showExpiration', (showExpiration, schema) => {
@@ -95,21 +98,28 @@ export const todoValidationSchema = Yup.object({
   expirationDateTime: Yup.string().nullable().notRequired(),
 }).transform((_, originalObject) => {
   if (originalObject.showExpiration) {
+    // Garantir que a data de expiração é válida
     const expirationDate = dayjs(originalObject.expirationDate).isValid()
-      ? originalObject.expirationDate
-      : dayjs(originalObject.expirationDate);
+      ? dayjs(originalObject.expirationDate)
+      : null; // Se for inválida, atribuir null
 
     const expirationTime = originalObject.expirationTime;
-    if (!expirationDate && !expirationTime) return originalObject;
+
+    // Se a data ou a hora estiverem ausentes ou inválidas, retornar o objeto original
+    if (!expirationDate || !expirationTime) return originalObject;
+
+    // Formatar data e hora
     const { formattedDate, formattedTime } = formatDateTime(
       expirationDate,
       expirationTime,
     );
 
+    // Formatar data e hora no formato desejado
     const formattedExpiration = formatExpirationDateTime(
       formattedDate,
       formattedTime,
     );
+
     return { ...originalObject, expirationDateTime: formattedExpiration };
   }
   return originalObject;

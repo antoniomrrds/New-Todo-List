@@ -56,7 +56,7 @@ export const theme = {
     padding: '20px', // Espaçamento interno
     marginCenter: '0 auto', // Centraliza o contêiner
     borderRadius: '20%', // Bordas arredondadas
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Sombra do contêiner
+    // boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Sombra do contêiner
   },
   typography: {
     fontSizeXSmall: '0.8125rem', // 13px
@@ -109,3 +109,6 @@ export const theme = {
 
 export const generateSpacingCss = ($value: number = 1) =>
   css`${({ theme }) => theme.spacingFn($value)}`;
+export const boxShadow = css`
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+`;

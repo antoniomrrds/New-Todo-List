@@ -1,7 +1,7 @@
-import { Card, Layout } from 'antd';
+import { Card } from 'antd';
 import styled, { createGlobalStyle } from 'styled-components';
 import { theme } from './Theme';
-import { Content } from 'antd/es/layout/layout';
+
 export const GlobalStyle = createGlobalStyle`
     * {
         margin: 0;
@@ -46,16 +46,12 @@ export const GlobalStyle = createGlobalStyle`
         background-color: ${({ theme }) => theme.colors.success.successGreen600} !important;
         color: ${({ theme }) => theme.colors.neutral.neutral800}!important;
       }
-
-
     }
+    
     background-color: ${({ theme }) => theme.colors.neutral.neutral800} !important;
     border-radius: ${({ theme }) => theme.spacing.small} !important;
   }
-  .custom-modal-wrap {
-    backdrop-filter: blur(10px) !important;
-    box-shadow: inset 0 0 15px #fff,
-  }
+
 `;
 
 export const CardMain = styled(Card)`
@@ -73,15 +69,15 @@ export const CardMain = styled(Card)`
   }
 `;
 
-export const StyledLayout = styled(Layout)`
-  min-height: 100dvh; /* Usa 100vh para ocupar toda a altura da janela */
+export const StyledLayout = styled.section`
+  min-height:${({ theme }) => theme.container.fullHeight};
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => theme.colors.neutral.neutral800};
   overflow: hidden;
 `;
 
-export const StyledContent = styled(Content)`
+export const StyledContent = styled.main`
   flex-grow: 1; /* Ocupa o restante do espaço */
   padding: ${({ theme }) => theme.spacing.medium};
   max-width: ${({ theme }) => theme.container.maxWidth};

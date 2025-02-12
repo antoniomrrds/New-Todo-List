@@ -4,13 +4,13 @@ import { ThemeConfig } from 'antd';
 export const themeAntdConfigButtonSuccess: ThemeConfig = {
   components: {
     Button: {
-      colorBorder: theme.colors.success.successGreen700,
+      colorBorder: theme.colors.success.successGreen600,
       borderColorDisabled: theme.colors.success.successGreen100,
       colorTextDisabled: theme.shades.light,
       colorBgContainerDisabled: theme.colors.success.successGreen500,
       fontFamily: theme.typography.fontFamily.manrope,
       fontWeight: 600,
-      colorBgBase: theme.colors.success.successGreen700, // Cor de fundo
+      colorBgBase: theme.colors.success.successGreen600, // Cor de fundo
       defaultColor: theme.shades.light,
       defaultHoverColor: theme.shades.light, // Cor do texto (ajustado aqui)
       defaultHoverBg: theme.colors.success.successGreen800,
@@ -44,17 +44,18 @@ export const themeAntdConfigButtonFilter: ThemeConfig = {
 export const themeAntdConfigButtonCancel: ThemeConfig = {
   components: {
     Button: {
-      defaultHoverBorderColor: theme.colors.error.errorRed100,
-      colorBorder: theme.colors.error.errorRed100,
-      fontFamily: theme.typography.fontFamily.manrope,
-      fontWeight: 600,
-      colorBgBase: theme.colors.error.errorRed100, // Cor de fundo
-      defaultColor: theme.colors.error.errorRed700,
-      defaultHoverColor: theme.colors.error.errorRed700, // Cor do texto (ajustado aqui)
-      defaultHoverBg: theme.colors.error.errorRed200,
-      defaultActiveColor: theme.colors.error.errorRed700, // Cor de fundo no hover
+      defaultHoverBorderColor: theme.colors.neutral.neutral800,
+      colorBorder: theme.colors.error.errorRed600,
+      fontFamily: theme.typography.fontFamily.poppins,
+      fontWeight: `${theme.typography.fontWeight[600]}`,
+      colorBgBase: theme.colors.neutral.neutral800, // Cor de fundo
+      defaultColor: theme.colors.error.errorRed600,
+      defaultHoverColor: theme.colors.neutral.neutral800, // Cor do texto (ajustado aqui)
+      defaultHoverBg: theme.colors.error.errorRed600,
+      defaultActiveColor: theme.colors.neutral.neutral800, // Cor de fundo no hover
+      defaultActiveBg: theme.colors.error.errorRed700,
       algorithm: true, // Habilitar o algoritmo de tema
-      defaultActiveBorderColor: theme.colors.error.errorRed700,
+      defaultActiveBorderColor: theme.colors.neutral.neutral800,
     },
   },
 };
