@@ -6,7 +6,7 @@ import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const TIMEZONE_AMERICA_SAO_PAULO = 'America/Sao_Paulo';
+export const TIMEZONE_AMERICA_SAO_PAULO = 'America/Sao_Paulo';
 
 // Função para formatar data e hora para um formato específico
 const FORMAT_DEFAULT_DATE_TIME = 'YYYY-MM-DDTHH:mm:ss';
@@ -16,9 +16,6 @@ export const formatExpirationDateTime = (
   time: string,
   format: string = FORMAT_DEFAULT_DATE_TIME,
 ) => {
-  console.log('date', date);
-  console.log('time', time);
-
   // Verificar se a data e o tempo são válidos antes de processar
   if (
     !date ||
@@ -41,14 +38,27 @@ export const isDateOrDayjs = (
   return val instanceof Date || dayjs(val).isValid();
 };
 
-// Função para verificar se a data está no futuro
-export const isFutureDate = (date: string, time: string): boolean => {
+// Função que verifica se a data/hora de expiração é após o momento atual
+export const isExpirationDateFuture = (
+  expirationDate: string,
+  expirationTime: string,
+): boolean => {
+  // Verifica se a data de expiração e a hora são válidas
+  const data = dayjs(expirationDate);
+  const time = dayjs(expirationTime, 'HH:mm:ss');
+
+  // Se qualquer uma das entradas for inválida, retorna falso
+  if (!data.isValid() || !time.isValid()) {
+    return false;
+  }
+
+  // Combina a data e a hora, considerando o timezone
   const expirationDateTime = dayjs.tz(
-    `${dayjs(date, 'YYYY-MM-DD', true).format('DD-MM-YYYY')} ${time}`,
-    'DD-MM-YYYY HH:mm:ss',
+    `${data.format('YYYY-MM-DD')} ${time.format('HH:mm:ss')}`,
     TIMEZONE_AMERICA_SAO_PAULO,
   );
 
+  // Verifica se a data/hora de expiração é após o momento atual
   return expirationDateTime.isAfter(
     dayjs().tz(TIMEZONE_AMERICA_SAO_PAULO),
     'minute',

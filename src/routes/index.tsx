@@ -5,7 +5,6 @@ import { NotFoundPage } from '@/pages/NotFound';
 import { TodoHomePage } from '@/pages/Todo';
 import { TodoDetailsPage } from '@/pages/Todo/Details';
 import { ToDoSavePage } from '@/pages/Todo/Save';
-import { AddTodoPage } from '@/pages/Todo/Add';
 
 export const router = createBrowserRouter([
   {
@@ -21,7 +20,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'add',
-        element: <AddTodoPage />,
+        element: <ToDoSavePage />,
       },
       {
         path: ':id',

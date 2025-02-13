@@ -4,21 +4,29 @@ import * as S from '@/components/shared/Spin/spin-styles';
 import { Spin as SpinAntd } from 'antd';
 type SpinProps = {
   loading: boolean;
-  children: ReactNode;
+  children?: ReactNode;
   text?: string;
+  colorText?: string;
+  hasAbsolutePosition?: boolean;
 };
-export const SpinCustom: FC<SpinProps> = ({ loading, children, text }) => {
+export const SpinCustom: FC<SpinProps> = ({
+  loading,
+  children,
+  text,
+  colorText,
+  hasAbsolutePosition = true,
+}) => {
   return (
     <>
-      {children}
-      <S.ContentStyled>
-        {loading && (
-          <S.Overlay>
+      {loading ? (
+        <S.ContentStyled>
+          <S.Overlay $hasAbsolutePosition={hasAbsolutePosition}>
             <SpinAntd size="large" indicator={<S.LoadingOutlinedStyled />} />
-            <S.LoadingText>{text}</S.LoadingText>
+            <S.LoadingText $colorText={colorText}>{text}</S.LoadingText>
           </S.Overlay>
-        )}
-      </S.ContentStyled>
+        </S.ContentStyled>
+      ) : null}
+      {children}
     </>
   );
 };

@@ -7,7 +7,7 @@ import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
 export type TodoBase = {
   title: string;
   description: string;
-  completionStatus: number;
+  isCompleted: number;
   active: ActivationState;
   expirationDate: string | null;
 };
@@ -33,8 +33,8 @@ export type CreateToDo = TodoBase & {
 // Tipo para a atualização de um ToDo
 export type UpdateToDo = TodoBase & {
   id: number;
-  idTag: number[] | null | undefined;
-  idCategory: number[] | null | undefined;
+  idTags: number[] | null | undefined;
+  idCategories: number[] | null | undefined;
 };
 
 // Tipo para um ToDo

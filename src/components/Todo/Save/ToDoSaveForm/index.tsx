@@ -1,74 +1,71 @@
 import { ActivationState } from '@/api/service/toDo/enum';
 import { ToDoDetails } from '@/api/service/toDo/types';
+
 import {
-  CreateTodoValidationType,
-  todoValidationSchema,
-} from '@/components/Todo/Add/validators';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
+  App,
   Col,
   DatePicker,
-  Form,
   Input,
   Row,
   Select,
-  Spin,
   Switch,
   TimePicker,
+  Form,
+  Skeleton,
 } from 'antd';
 import { FC } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
 import * as S from '@/components/Todo/Save/ToDoSaveForm/todo-save-form-styles';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { LabelForm } from '@/components/Todo/Save/ToDoSaveForm/Label';
 import ReactQuill from 'react-quill-new';
 import '@/styles/react-quill.css';
 import dayjs from 'dayjs';
-import { Category } from '@/api/service/category/types';
-import { Tag } from '@/api/service/tag/types';
 import { TodoActionButtons } from '@/components/Todo/Save/ActionButtonGroup';
 import { SpinCustom } from '@/components/shared/Spin';
+import {
+  useCategoriesAndTags,
+  useErrorHandling,
+  useTodoForm,
+} from '@/components/Todo/Save/ToDoSaveForm/hooks';
+import { useSaveToDo } from '@/api/service/toDo/actions';
+import { FieldError } from '@/components/shared/Form';
 
 type ToDoSaveFormProps = {
   toDoItem: ToDoDetails | null;
-  categories: Category[];
-  tags: Tag[];
   goToTodoPage: () => void;
-  // isSaving: boolean;
 };
+
 export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
   toDoItem,
-  tags,
-  categories,
-  // isSaving,
   goToTodoPage,
 }) => {
+  const { notification } = App.useApp();
+
+  const { isSaving, handleFormSubmit } = useSaveToDo({
+    notification,
+    goToTodoPage,
+  });
+
+  const { control, handleSubmit, errors, isExpirationEnabled, reset } =
+    useTodoForm({
+      toDoItem,
+      handleFormSubmit,
+    });
+
   const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-    watch,
-    setValue,
-  } = useForm<CreateTodoValidationType>({
-    resolver: yupResolver(todoValidationSchema),
-    mode: 'onChange',
-    defaultValues: {
-      isActive: toDoItem?.active,
-      isCompleted: toDoItem?.completionStatus,
-      title: toDoItem?.title || '',
-      description: toDoItem?.description || '',
-      expirationDate: toDoItem?.expirationDate
-        ? dayjs(toDoItem.expirationDate) // Mantém como dayjs
-        : null,
-      expirationTime: toDoItem?.expirationDate
-        ? dayjs(toDoItem.expirationDate).format('HH:mm:ss')
-        : null,
-      showExpiration: toDoItem?.expirationDate ? true : false,
-      categories: toDoItem?.categories?.map((category) => category.id) || [],
-      tags: toDoItem?.tags?.map((tag) => tag.id) || [],
-    },
+    categories,
+    tags,
+    errorCategories,
+    errorTags,
+    isLoadingCategoriesAndTags,
+  } = useCategoriesAndTags();
+
+  useErrorHandling({
+    errorCategories,
+    errorTags,
+    notification,
+    goToTodoPage,
   });
 
   const handleCancel = () => {
@@ -76,252 +73,295 @@ export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
     goToTodoPage();
   };
 
-  const isExpirationEnabled = watch('showExpiration');
   return (
-    <SpinCustom loading={false} text="Salvando os dados...">
-      <Form>
-        <Row gutter={[8, 8]}>
-          <Col xs={24} sm={20} lg={22}>
-            <S.FormItem>
-              <LabelForm
-                id="title" // ID do LabelForm
-                title="Título"
-                required
-                tooltipTitle="Campo obrigatório!"
-              />
-              <Controller
-                name="title"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    {...field}
-                    id="title" // ID do Input corresponde ao LabelForm
-                    placeholder="Digite o nome da tarefa"
-                    showCount
-                    allowClear={true}
-                    maxLength={100}
-                  />
-                )}
-              />
-            </S.FormItem>
-          </Col>
-          <Col xs={24} sm={4} lg={2}>
-            <S.FormItem>
-              <LabelForm
-                id="isActive" // ID do LabelForm
-                title="Ativo"
-                tooltipTitle="Selecione para ativar a tarefa"
-                tooltipActive={true}
-              />
-
-              <Controller
-                name="isActive"
-                control={control}
-                render={({ field }) => (
-                  <Switch
-                    ref={field.ref}
-                    id="isActive" // ID do Switch corresponde ao LabelForm
-                    defaultChecked={field.value === ActivationState.Active}
-                    checked={field.value === ActivationState.Active}
-                    checkedChildren={<CheckOutlined />}
-                    unCheckedChildren={<CloseOutlined />}
-                    style={{ flex: 'none' }}
-                    onChange={(checked: boolean) =>
-                      field.onChange(
-                        checked
-                          ? ActivationState.Active
-                          : ActivationState.Inactive,
-                      )
-                    }
-                  />
-                )}
-              />
-            </S.FormItem>
-          </Col>
-        </Row>
-
-        <S.FormItem>
-          <LabelForm
-            title="Descrição"
-            required
-            tooltipTitle="Campo obrigatório!"
-          />
-          <Controller
-            name={'description'}
-            control={control}
-            render={({ field }) => {
-              return (
-                <ReactQuill
-                  {...field}
-                  id="description"
-                  placeholder="Digite a descrição aqui"
-                  style={{ width: '100%' }}
-                />
-              );
-            }}
-          />
-        </S.FormItem>
-        <Row gutter={[8, 8]} align={'top'}>
-          <Col xs={24} sm={12}>
-            <S.FormItem>
-              <LabelForm
-                id="showExpiration" // ID do LabelForm
-                title="Mostrar data de expiração"
-                tooltipTitle="Selecione para exibir campos de data e hora de expiração"
-                tooltipActive={true}
-              />
-
-              <Controller
-                name="showExpiration"
-                control={control}
-                render={({ field }) => (
-                  <Switch
-                    title="Mostrar data de expiração"
-                    ref={field.ref}
-                    id="showExpiration" // ID do Switch corresponde ao LabelForm
-                    checkedChildren={<CheckOutlined />}
-                    unCheckedChildren={<CloseOutlined />}
-                    defaultChecked={field.value}
-                    checked={field.value === true}
-                    onChange={(checked: boolean) => {
-                      field.onChange(checked);
-                    }}
-                  />
-                )}
-              />
-            </S.FormItem>
-          </Col>
-          <Col xs={24} sm={12}>
-            <S.FormItem>
-              <LabelForm
-                id="isCompleted" // ID do LabelForm
-                title="Esta concluído?"
-                tooltipTitle="Selecione para marcar a tarefa como concluída"
-              />
-              <Controller
-                name="isCompleted"
-                control={control}
-                render={({ field }) => (
-                  <Switch
-                    ref={field.ref}
-                    id="isCompleted" // ID do Switch corresponde ao LabelForm
-                    defaultChecked={field.value === ActivationState.Active}
-                    checked={field.value === ActivationState.Active}
-                    checkedChildren={<CheckOutlined />}
-                    unCheckedChildren={<CloseOutlined />}
-                    onChange={(checked: boolean) =>
-                      field.onChange(
-                        checked
-                          ? ActivationState.Active
-                          : ActivationState.Inactive,
-                      )
-                    }
-                  />
-                )}
-              />
-            </S.FormItem>
-          </Col>
-        </Row>
-        {isExpirationEnabled && (
+    <SpinCustom loading={isSaving} text="Salvando os dados...">
+      <Skeleton active loading={isLoadingCategoriesAndTags}>
+        <Form layout="vertical" onFinish={handleSubmit(handleFormSubmit)}>
           <Row gutter={[8, 8]} align={'top'}>
-            <Col xs={24} md={12}>
-              <S.FormItem>
-                <LabelForm title="Data de Expiração" id="expirationDate" />
+            <Col xs={24} sm={20}>
+              <S.FormItem
+                validateStatus={errors.title ? 'error' : ''}
+                label="Título"
+                tooltip="Campo obrigatório!"
+                required
+                name="title"
+                help={
+                  errors.title ? (
+                    <FieldError name={'title'} errors={errors} />
+                  ) : null
+                }
+                hasFeedback
+              >
                 <Controller
-                  name={'expirationDate'}
+                  name="title"
                   control={control}
                   render={({ field }) => (
-                    <DatePicker
-                      id="expirationDate"
-                      placeholder="Selecione a data de expiração"
-                      style={{ width: '100%' }}
+                    <Input
                       {...field}
-                      format="DD/MM/YYYY"
-                      value={field.value}
-                      onChange={(date) => field.onChange(date)} // Apenas setar
+                      id="title" // ID do Input corresponde ao LabelForm
+                      placeholder="Digite o nome da tarefa"
+                      showCount
+                      allowClear={true}
+                      maxLength={100}
                     />
                   )}
                 />
               </S.FormItem>
             </Col>
-            <Col xs={24} md={12}>
-              <S.FormItem>
-                <LabelForm title="Hora de Expiração" id="expirationTime" />
+            <Col xs={24} sm={4}>
+              <S.FormItem
+                validateStatus={errors.isActive ? 'error' : 'success'}
+                label="Ativo"
+                tooltip="Selecione para ativar a tarefa"
+                hasFeedback
+                name={'isActive'}
+              >
                 <Controller
-                  name={'expirationTime'}
+                  name="isActive"
                   control={control}
                   render={({ field }) => (
-                    <TimePicker
-                      {...field}
-                      id="expirationTime"
-                      format="HH:mm:ss"
-                      placeholder="Selecione a hora de expiração"
-                      style={{ width: '100%' }}
-                      value={
-                        field.value ? dayjs(field.value, 'HH:mm:ss') : null
+                    <Switch
+                      ref={field.ref}
+                      id="isActive" // ID do Switch corresponde ao LabelForm
+                      defaultChecked={field.value === ActivationState.Active}
+                      checked={field.value === ActivationState.Active}
+                      checkedChildren={<CheckOutlined />}
+                      unCheckedChildren={<CloseOutlined />}
+                      onChange={(checked: boolean) =>
+                        field.onChange(
+                          checked
+                            ? ActivationState.Active
+                            : ActivationState.Inactive,
+                        )
                       }
-                      onChange={(time) => field.onChange(time)} // Apenas setar
                     />
                   )}
                 />
               </S.FormItem>
             </Col>
           </Row>
-        )}
-        <Row gutter={[8, 8]} align={'top'}>
-          <Col xs={24} md={12}>
-            <S.FormItem>
-              <LabelForm title="Tags" id="tags" />
-              <Controller
-                name={'tags'}
-                control={control}
-                render={({ field }) => (
-                  <Select
+
+          <S.FormItem
+            validateStatus={errors.description ? 'error' : ''}
+            label="Descrição"
+            tooltip="Campo obrigatório!"
+            required={errors.description ? true : false}
+            help={
+              errors.description ? (
+                <FieldError name={'description'} errors={errors} />
+              ) : null
+            }
+          >
+            <Controller
+              name={'description'}
+              control={control}
+              render={({ field }) => {
+                return (
+                  <ReactQuill
                     {...field}
-                    id="tags"
-                    placeholder="Selecione as tags"
-                    allowClear={true}
+                    placeholder="Digite a descrição aqui"
                     style={{ width: '100%' }}
-                  >
-                    {tags.map((option) => (
-                      <Select.Option key={option.id} value={option.id}>
-                        {option.name}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                )}
-              />
-            </S.FormItem>
-          </Col>
-          <Col xs={24} md={12}>
-            <S.FormItem>
-              <LabelForm title="Categorias" id="categories" />
-              <Controller
-                name={'categories'}
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    id="categories"
-                    placeholder="Selecione as categorias"
-                    allowClear={true}
-                    style={{ width: '100%' }}
-                  >
-                    {categories.map((option) => (
-                      <Select.Option key={option.id} value={option.id}>
-                        {option.name}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                )}
-              />
-            </S.FormItem>
-          </Col>
-        </Row>
-        <S.FormItem>
-          <TodoActionButtons onCancel={handleCancel} isLoading={false} />
-        </S.FormItem>
-      </Form>
+                  />
+                );
+              }}
+            />
+          </S.FormItem>
+          <Row gutter={[8, 8]}>
+            <Col xs={24} sm={12}>
+              <S.FormItem
+                id="showExpiration"
+                label="Mostrar data de expiração"
+                tooltip="Selecione para exibir campos de data e hora de expiração"
+                name="showExpiration"
+              >
+                <Controller
+                  name="showExpiration"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch
+                      title="Mostrar data de expiração"
+                      id="showExpiration" // ID do Switch corresponde ao LabelForm
+                      checkedChildren={<CheckOutlined />}
+                      unCheckedChildren={<CloseOutlined />}
+                      defaultChecked={field.value}
+                      checked={field.value === true}
+                      onChange={(checked: boolean) => {
+                        field.onChange(checked);
+                      }}
+                    />
+                  )}
+                />
+              </S.FormItem>
+            </Col>
+            <Col xs={24} sm={12}>
+              <S.FormItem
+                validateStatus={errors.isCompleted ? 'error' : 'success'}
+                label="Esta concluído?"
+                tooltip="Selecione para marcar a tarefa como concluída"
+                hasFeedback
+                name={'isCompleted'}
+              >
+                <Controller
+                  name="isCompleted"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch
+                      ref={field.ref}
+                      id="isCompleted" // ID do Switch corresponde ao LabelForm
+                      defaultChecked={field.value === ActivationState.Active}
+                      checked={field.value === ActivationState.Active}
+                      checkedChildren={<CheckOutlined />}
+                      unCheckedChildren={<CloseOutlined />}
+                      onChange={(checked: boolean) =>
+                        field.onChange(
+                          checked
+                            ? ActivationState.Active
+                            : ActivationState.Inactive,
+                        )
+                      }
+                    />
+                  )}
+                />
+              </S.FormItem>
+            </Col>
+          </Row>
+          {isExpirationEnabled && (
+            <Row gutter={[8, 8]} align={'top'}>
+              <Col xs={24} md={12}>
+                <S.FormItem
+                  validateStatus={errors.expirationDate ? 'error' : ''}
+                  label="Data de Expiração"
+                  name="expirationDate"
+                  help={
+                    errors.expirationDate ? (
+                      <FieldError name={'expirationDate'} errors={errors} />
+                    ) : null
+                  }
+                  hasFeedback
+                >
+                  <Controller
+                    name={'expirationDate'}
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        id="expirationDate"
+                        placeholder="Selecione a data de expiração"
+                        style={{ width: '100%' }}
+                        {...field}
+                        format="DD/MM/YYYY"
+                        value={field.value}
+                        onChange={(date) => field.onChange(date)} // Apenas setar
+                      />
+                    )}
+                  />
+                </S.FormItem>
+              </Col>
+              <Col xs={24} md={12}>
+                <S.FormItem
+                  validateStatus={errors.expirationTime ? 'error' : ''}
+                  label="Hora de Expiração"
+                  name="expirationTime"
+                  help={
+                    errors.expirationTime ? (
+                      <FieldError name={'expirationTime'} errors={errors} />
+                    ) : null
+                  }
+                  hasFeedback
+                >
+                  <Controller
+                    name={'expirationTime'}
+                    control={control}
+                    render={({ field }) => (
+                      <TimePicker
+                        {...field}
+                        id="expirationTime"
+                        format="HH:mm:ss"
+                        placeholder="Selecione a hora de expiração"
+                        style={{ width: '100%' }}
+                        value={
+                          field.value ? dayjs(field.value, 'HH:mm:ss') : null
+                        }
+                        onChange={(time) => field.onChange(time)} // Apenas setar
+                      />
+                    )}
+                  />
+                </S.FormItem>
+              </Col>
+            </Row>
+          )}
+          <Row gutter={[8, 8]} align={'top'}>
+            <Col xs={24} md={12}>
+              <S.FormItem
+                validateStatus={errors.tags ? 'error' : ''}
+                label="Tags"
+                name="tags"
+                help={
+                  errors.tags ? (
+                    <FieldError name={'tags'} errors={errors} />
+                  ) : null
+                }
+                hasFeedback
+              >
+                <Controller
+                  name={'tags'}
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      id="tags"
+                      placeholder="Selecione as tags"
+                      allowClear={true}
+                      style={{ width: '100%' }}
+                    >
+                      {tags.map((option) => (
+                        <Select.Option key={option.id} value={option.id}>
+                          {option.name}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </S.FormItem>
+            </Col>
+            <Col xs={24} md={12}>
+              <S.FormItem
+                validateStatus={errors.categories ? 'error' : ''}
+                label="Categorias"
+                name="categories"
+                help={
+                  errors.categories ? (
+                    <FieldError name={'categories'} errors={errors} />
+                  ) : null
+                }
+                hasFeedback
+              >
+                <Controller
+                  name={'categories'}
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      id="categories"
+                      placeholder="Selecione as categorias"
+                      allowClear={true}
+                      style={{ width: '100%' }}
+                    >
+                      {categories.map((option) => (
+                        <Select.Option key={option.id} value={option.id}>
+                          {option.name}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </S.FormItem>
+            </Col>
+          </Row>
+          <S.FormItem>
+            <TodoActionButtons onCancel={handleCancel} isLoading={false} />
+          </S.FormItem>
+        </Form>
+      </Skeleton>
     </SpinCustom>
   );
 };

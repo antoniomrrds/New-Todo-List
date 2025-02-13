@@ -7,12 +7,13 @@ import {
   formatExpirationDateTime,
   getEnumValuesAsNumbers,
   isDateOrDayjs,
-  isFutureDate,
+  isExpirationDateFuture,
 } from '@/utils';
 import { ActivationState } from '@/api/service/toDo/enum';
 export type expirationDate = string | Date | dayjs.Dayjs;
 
 export const todoValidationSchema = Yup.object({
+  id: Yup.number().nullable().optional(),
   showExpiration: Yup.boolean().default(false),
 
   title: Yup.string()
@@ -63,22 +64,13 @@ export const todoValidationSchema = Yup.object({
       'A data de expiração não pode ser anterior à data atual',
       (value, context) => {
         const { expirationTime } = context.parent;
-
-        // Verificar se ambos os valores são válidos
         if (value && expirationTime) {
-          const { formattedDate, formattedTime } = formatDateTime(
-            value,
-            expirationTime,
-          );
-
-          // Chamar a validação isFutureDate apenas se os valores forem válidos
-          if (isDateOrDayjs(formattedDate) && isDateOrDayjs(formattedTime)) {
-            return isFutureDate(formattedDate, formattedTime);
-          }
+          return isExpirationDateFuture(value.toString(), expirationTime);
         }
-        return true; // Se não for válido, não executa a validação de futuro
+        return true;
       },
     )
+
     .when('showExpiration', (showExpiration, schema) => {
       const isRequired = showExpiration[0] === true;
       return isRequired
@@ -125,6 +117,4 @@ export const todoValidationSchema = Yup.object({
   return originalObject;
 });
 
-export type CreateTodoValidationType = Yup.InferType<
-  typeof todoValidationSchema
->;
+export type SaveToDoValidationType = Yup.InferType<typeof todoValidationSchema>;

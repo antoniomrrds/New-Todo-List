@@ -1,13 +1,8 @@
 import { generateSpacingCss } from '@/styles/Theme';
+import { Form } from 'antd';
 import styled from 'styled-components';
 
-export const FormItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: start  !important;
-  gap: ${generateSpacingCss(10)};
-  height: ${({ theme }) => theme.container.fullHeightPercentage};
+export const FormItem = styled(Form.Item)`
+  margin-bottom: ${generateSpacingCss()} !important;
 
-  padding:  ${generateSpacingCss(7)} ${generateSpacingCss(10)};
-  `;
+`;

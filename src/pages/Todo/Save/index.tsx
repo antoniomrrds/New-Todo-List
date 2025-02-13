@@ -1,6 +1,5 @@
 import { AppHeader } from '@/components/Header';
 import * as G from '@/styles/global-styles';
-import { App as AppAntd, Grid } from 'antd';
 
 import { useNavigateFunction } from '@/helpers';
 import { parseIdOrDefault } from '@/utils';
@@ -10,18 +9,12 @@ import { NotFoundPage } from '@/pages/NotFound';
 import { useCallback } from 'react';
 import { BreadCrumb, BreadcrumbItems } from '@/components/shared/BreadCrumb';
 import { CardMainForm } from '@/components/Todo/Save/CardMainForm';
-import {
-  useCategoriesAndTags,
-  useErrorHandling,
-} from '@/components/Todo/Add/hooks';
-const { useBreakpoint } = Grid;
 
 type ToDoDetailsParams = {
   id?: string;
 };
 
 export const ToDoSavePage = () => {
-  const { notification } = AppAntd.useApp();
   const { id } = useParams<ToDoDetailsParams>();
   const todoId = parseIdOrDefault(id); // Converte ID para número ou null
 
@@ -29,7 +22,6 @@ export const ToDoSavePage = () => {
 
   const navigate = useNavigateFunction();
   const goToTodoPage = useCallback(() => navigate('/todo'), [navigate]);
-  const screens = useBreakpoint();
 
   // 🔥 Somente busca a tarefa se for edição
   const {
@@ -39,21 +31,6 @@ export const ToDoSavePage = () => {
   } = isEditing
     ? useQueryTodoDetails(todoId)
     : { toDoItem: null, errorToDos: null, isLoadingToDos: false };
-
-  const {
-    categories,
-    tags,
-    errorCategories,
-    errorTags,
-    isLoadingCategoriesAndTags,
-  } = useCategoriesAndTags();
-
-  useErrorHandling({
-    errorCategories,
-    errorTags,
-    notification,
-    goToTodoPage,
-  });
 
   if (isEditing && isLoadingToDos) {
     return <h2>Carregando...</h2>;
@@ -73,12 +50,7 @@ export const ToDoSavePage = () => {
   ];
 
   const cardMainFormProps = {
-    isEditing,
-    screens,
     toDoItem,
-    categories,
-    tags,
-    isLoadingCategoriesAndTags,
     goToTodoPage,
   };
 

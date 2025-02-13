@@ -1,4 +1,4 @@
-import { Empty, Spin } from 'antd';
+import { Empty } from 'antd';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { ToDo } from '@/api/service/toDo/types';
@@ -6,6 +6,7 @@ import * as S from '@/components/Todo/List/todo-list-container.styles';
 import ErrorCard from '@/components/Error/ErrorCard';
 import CardTasks from '@/components/Todo/List/CardTodo';
 import { StyledContainer } from '@/styles/global-styles';
+import { SpinCustom } from '@/components/shared/Spin';
 
 type ToDoList = {
   toDos: ToDo[];
@@ -15,7 +16,11 @@ type ToDoList = {
 
 const LoadingComponent = () => (
   <S.StyledCenteredContainer>
-    <Spin size="large" />
+    <SpinCustom
+      text="Carregando tarefas..."
+      loading={true}
+      hasAbsolutePosition={false}
+    />
   </S.StyledCenteredContainer>
 );
 
