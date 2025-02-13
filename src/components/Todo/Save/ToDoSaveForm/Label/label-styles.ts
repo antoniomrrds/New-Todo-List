@@ -7,6 +7,7 @@ const colorStyles = {
 export const TodoLabel = styled.label<{
   $tooltipActive?: boolean;
 }>`
+z-index: 0!important;
   font-size: ${({ theme }) => theme.typography.fontSizeSmall}!important;
   font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;
   line-height: ${({ theme }) => theme.typography.lineHeightDefault}!important;

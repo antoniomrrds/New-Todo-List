@@ -1,4 +1,5 @@
 import * as S from '@/components/shared/Pagination/pagination-styles';
+
 type isNumberORUndefined = number | undefined;
 
 type PaginationCustomProps = {
@@ -23,6 +24,6 @@ export const PaginationCustom = ({
     showPrevNextJumpers={true}
     pageSize={pageSize}
     showSizeChanger={false}
-    onChange={page => onChange(page)}
-    />
+    onChange={(page) => onChange(page)}
+  />
 );

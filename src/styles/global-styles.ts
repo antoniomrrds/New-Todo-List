@@ -47,7 +47,7 @@ export const GlobalStyle = createGlobalStyle`
         color: ${({ theme }) => theme.colors.neutral.neutral800}!important;
       }
     }
-    
+
     background-color: ${({ theme }) => theme.colors.neutral.neutral800} !important;
     border-radius: ${({ theme }) => theme.spacing.small} !important;
   }

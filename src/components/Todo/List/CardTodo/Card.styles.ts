@@ -1,3 +1,4 @@
+import { generateSpacingCss } from '@/styles/Theme';
 import { Card, Col } from 'antd';
 import styled from 'styled-components';
 
@@ -64,8 +65,7 @@ export const CreatorName = styled.div`
 export const CardsContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(${({ theme }) => theme.spacingFn(250)}, 1fr));
-  grid-gap:  ${({ theme }) => theme.spacingFn(20)};
-  padding: ${({ theme }) => theme.spacingFn(20)};
+  grid-gap:  ${generateSpacingCss(10)};
   justify-content: flex-start;
   margin: ${({ theme }) => theme.container.marginCenter};
 `;

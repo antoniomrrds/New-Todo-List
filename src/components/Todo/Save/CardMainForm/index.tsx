@@ -15,6 +15,7 @@ type CardMainFormProps = {
   tags: Tag[];
   categories: Category[];
   isLoadingCategoriesAndTags: boolean;
+  goToTodoPage: () => void;
 };
 
 export const CardMainForm: FC<CardMainFormProps> = ({
@@ -24,11 +25,13 @@ export const CardMainForm: FC<CardMainFormProps> = ({
   categories,
   tags,
   isLoadingCategoriesAndTags,
+  goToTodoPage,
 }) => {
   const cardMainFormProps = {
     toDoItem,
     categories,
     tags,
+    goToTodoPage,
   };
 
   return (

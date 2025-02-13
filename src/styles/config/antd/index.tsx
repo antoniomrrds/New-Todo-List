@@ -8,12 +8,13 @@ export const themeAntdConfigButtonSuccess: ThemeConfig = {
       borderColorDisabled: theme.colors.success.successGreen100,
       colorTextDisabled: theme.shades.light,
       colorBgContainerDisabled: theme.colors.success.successGreen500,
-      fontFamily: theme.typography.fontFamily.manrope,
-      fontWeight: 600,
-      colorBgBase: theme.colors.success.successGreen600, // Cor de fundo
-      defaultColor: theme.shades.light,
-      defaultHoverColor: theme.shades.light, // Cor do texto (ajustado aqui)
-      defaultHoverBg: theme.colors.success.successGreen800,
+      fontFamily: theme.typography.fontFamily.poppins,
+      fontWeight: `${theme.typography.fontWeight[600]}`,
+      colorBgBase: theme.colors.neutral.neutral800, // Cor de fundo
+      defaultColor: theme.colors.success.successGreen600,
+      defaultHoverColor: theme.colors.neutral.neutral800, // Cor do texto (ajustado aqui)
+      defaultHoverBg: theme.colors.success.successGreen600,
+      defaultHoverBorderColor: theme.colors.neutral.neutral800,
       defaultActiveColor: theme.shades.light, // Cor de fundo no hover
       algorithm: true, // Habilitar o algoritmo de tema
       defaultActiveBorderColor: theme.colors.success.successGreen700,

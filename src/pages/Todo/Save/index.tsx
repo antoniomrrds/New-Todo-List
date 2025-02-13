@@ -79,6 +79,7 @@ export const ToDoSavePage = () => {
     categories,
     tags,
     isLoadingCategoriesAndTags,
+    goToTodoPage,
   };
 
   return (
