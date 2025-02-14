@@ -60,7 +60,7 @@ export const useSaveToDo = ({ notification, goToTodoPage }: SaveTodoProps) => {
   );
 
   const handleFormSubmit = (data: SaveToDoValidationType) => {
-    console.log('data', mapFormDataSaveToDo(data));
+    // console.log('data', mapFormDataSaveToDo(data));
     mutation.mutate(mapFormDataSaveToDo(data));
   };
 

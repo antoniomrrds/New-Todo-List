@@ -23,13 +23,12 @@ export const useTodoForm = ({
     isCompleted: ActivationState.Inactive,
     showExpiration: false,
   };
-  console.log('toDoItem', toDoItem);
 
   // Valores com base no item a ser editado
   const defaultValuesForEdit = {
     id: toDoItem?.id || null,
     isActive: toDoItem?.active, // Default caso não haja valor
-    isCompleted: toDoItem?.isCompleted, // Default caso não haja valor
+    isCompleted: toDoItem?.isCompleted ?? ActivationState.Inactive,
     title: toDoItem?.title || '',
     description: toDoItem?.description || '',
     expirationDate: toDoItem?.expirationDate

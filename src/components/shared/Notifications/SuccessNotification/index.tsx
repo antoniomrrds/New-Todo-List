@@ -6,7 +6,7 @@ export const SuccessNotification = (
   message: string,
   description: string,
   pauseOnHover: boolean = true,
-  duration = 5,
+  duration = 2,
 ) => {
   // notification.destroy();
   notification.success({

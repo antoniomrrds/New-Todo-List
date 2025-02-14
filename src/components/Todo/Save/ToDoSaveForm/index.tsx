@@ -30,6 +30,7 @@ import {
 } from '@/components/Todo/Save/ToDoSaveForm/hooks';
 import { useSaveToDo } from '@/api/service/toDo/actions';
 import { FieldError } from '@/components/shared/Form';
+import { SelectProps } from 'antd/lib';
 
 type ToDoSaveFormProps = {
   toDoItem: ToDoDetails | null;
@@ -52,6 +53,13 @@ export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
       toDoItem,
       handleFormSubmit,
     });
+
+  const sharedProps: SelectProps = {
+    mode: 'multiple',
+    style: { width: '100%' },
+    maxTagCount: 'responsive',
+    allowClear: true,
+  };
 
   const {
     categories,
@@ -311,7 +319,7 @@ export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
                       id="tags"
                       placeholder="Selecione as tags"
                       allowClear={true}
-                      style={{ width: '100%' }}
+                      {...sharedProps}
                     >
                       {tags.map((option) => (
                         <Select.Option key={option.id} value={option.id}>
@@ -341,10 +349,9 @@ export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
                   render={({ field }) => (
                     <Select
                       {...field}
+                      {...sharedProps}
                       id="categories"
                       placeholder="Selecione as categorias"
-                      allowClear={true}
-                      style={{ width: '100%' }}
                     >
                       {categories.map((option) => (
                         <Select.Option key={option.id} value={option.id}>
