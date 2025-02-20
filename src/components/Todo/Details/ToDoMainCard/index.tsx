@@ -32,7 +32,7 @@ export const ToDoMainCard: FC<ToDoMainCardProps> = ({
   return (
     <S.CardMain>
       <S.HeaderMain $screens={screens}>
-        {toDoItem.title}
+        {toDoItem.name}
         <TodoDetailsDropdown todoId={todoId} />
       </S.HeaderMain>
       <DividerCustom margin={5} />

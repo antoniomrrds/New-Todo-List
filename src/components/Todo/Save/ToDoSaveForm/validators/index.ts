@@ -16,10 +16,10 @@ export const todoValidationSchema = Yup.object({
   id: Yup.number().nullable().optional(),
   showExpiration: Yup.boolean().default(false),
 
-  title: Yup.string()
+  name: Yup.string()
     .trim()
-    .required('O Titulo é obrigatório!')
-    .min(5, 'O título deve ter no mínimo 5 caracteres.'),
+    .required('O nome é obrigatório!')
+    .min(5, 'O nome deve ter no mínimo 5 caracteres.'),
 
   description: Yup.string()
     .trim()

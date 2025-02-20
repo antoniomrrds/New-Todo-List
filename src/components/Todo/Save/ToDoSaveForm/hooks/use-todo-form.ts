@@ -28,8 +28,8 @@ export const useTodoForm = ({
   const defaultValuesForEdit = {
     id: toDoItem?.id || null,
     isActive: toDoItem?.active, // Default caso não haja valor
-    isCompleted: toDoItem?.isCompleted ?? ActivationState.Inactive,
-    title: toDoItem?.title || '',
+    isCompleted: toDoItem?.isCompleted,
+    name: toDoItem?.name || '',
     description: toDoItem?.description || '',
     expirationDate: toDoItem?.expirationDate
       ? dayjs(toDoItem.expirationDate)
@@ -58,6 +58,7 @@ export const useTodoForm = ({
     defaultValues,
   });
 
+  console.log('errors', errors);
   const isExpirationEnabled = watch('showExpiration');
 
   return {

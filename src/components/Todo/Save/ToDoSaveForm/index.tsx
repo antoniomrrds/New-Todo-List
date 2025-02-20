@@ -88,25 +88,25 @@ export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
           <Row gutter={[8, 8]} align={'top'}>
             <Col xs={24} sm={20}>
               <S.FormItem
-                validateStatus={errors.title ? 'error' : ''}
-                label="Título"
+                validateStatus={errors.name ? 'error' : ''}
+                label="Nome"
                 tooltip="Campo obrigatório!"
-                required
-                name="title"
+                required={errors.name ? true : false}
+                name="name"
                 help={
-                  errors.title ? (
-                    <FieldError name={'title'} errors={errors} />
+                  errors.name ? (
+                    <FieldError name={'name'} errors={errors} />
                   ) : null
                 }
                 hasFeedback
               >
                 <Controller
-                  name="title"
+                  name="name"
                   control={control}
                   render={({ field }) => (
                     <Input
                       {...field}
-                      id="title" // ID do Input corresponde ao LabelForm
+                      id="name" // ID do Input corresponde ao LabelForm
                       placeholder="Digite o nome da tarefa"
                       showCount
                       allowClear={true}

@@ -5,7 +5,7 @@ import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
 
 // Tipo comum para a parte do "ToDo"
 export type TodoBase = {
-  title: string;
+  name: string;
   description: string;
   isCompleted: ActivationState;
   active: ActivationState;
@@ -14,7 +14,7 @@ export type TodoBase = {
 
 // Tipo para os parâmetros de filtro
 export type ToDoFilter = {
-  Title: string;
+  name: string;
   Status: TodoStatus;
   PageSize: number;
   Page: number;

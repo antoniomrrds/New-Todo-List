@@ -30,6 +30,7 @@ export const App = () => {
               stack: {
                 threshold: 1,
               },
+              maxCount: 1,
             }}
             message={{
               maxCount: 1,

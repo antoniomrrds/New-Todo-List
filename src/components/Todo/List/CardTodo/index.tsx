@@ -43,7 +43,7 @@ const CardTasks: FC<Props> = ({ data }) => {
         return (
           <S.PaperCard $Color={color} key={todoItem.id} bordered={false}>
             <BadgeStatus task={todoItem} />
-            <S.CardMeta title={todoItem.title} />
+            <S.CardMeta title={todoItem.name} />
             <S.CreatorName>
               <Avatar
                 style={{ backgroundColor: color }}

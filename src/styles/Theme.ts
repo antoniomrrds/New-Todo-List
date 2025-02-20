@@ -48,7 +48,7 @@ export const theme = {
   },
   container: {
     maxWidth: '1537px', // Largura máxima do contêiner
-    minWidth: '300px', // Largura mínima do contêiner
+    minWidth: '400px', // Largura mínima do contêiner
     fullWidth: '100dvh', // Largura total em unidades de altura do viewport
     fullHeight: '100dvh', // Altura total em unidades de altura do viewport
     fullWidthPercentage: '100%', // Largura total em porcentagem

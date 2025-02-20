@@ -23,7 +23,7 @@ const mapFormDataSaveToDo = (
     active: data.isActive,
     idTags: data.tags,
     idCategories: data.categories,
-    title: data.title,
+    name: data.name,
     description: data.description,
     isCompleted: data.isCompleted,
     expirationDate: data.expirationDateTime || null,

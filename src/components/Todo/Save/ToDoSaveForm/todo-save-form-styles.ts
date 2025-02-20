@@ -3,6 +3,5 @@ import { Form } from 'antd';
 import styled from 'styled-components';
 
 export const FormItem = styled(Form.Item)`
-  margin-bottom: ${generateSpacingCss()} !important;
-
+  margin-bottom: ${generateSpacingCss(1)} !important;
 `;

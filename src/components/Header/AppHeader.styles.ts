@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Drawer as DrawerAntd } from 'antd';
+import { Avatar, Drawer as DrawerAntd, Menu, Button } from 'antd';
 import { size } from '@/styles/breakpoints';
 import { NavLink } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -22,6 +22,7 @@ export const Header = styled.header`
     border-bottom: ${generateSpacingCss(2)} solid ${colorStyles.neutral200};
     box-sizing: border-box;
     height: ${generateSpacingCss(55)};
+
     &:hover {
       color: ${colorStyles.neutral800};
       border-bottom: ${generateSpacingCss(2)} solid ${colorStyles.successGreen600};
@@ -198,13 +199,33 @@ export const NavLinkStyled = styled(NavLink)`
       color: ${colorStyles.neutral200};
     }
 }
-
-
-
-
 `;
+
+export const ButtonSignInStyled = styled(Button)`
+  order: 3;
+  background: ${colorStyles.successGreen600};
+  border: ${({ theme }) => theme.borders.small} solid ${colorStyles.successGreen600};
+  color: ${colorStyles.neutral800};
+
+  &:hover {
+    background: ${colorStyles.neutral800} !important;
+    color: ${colorStyles.successGreen600} !important;
+  }
+`;
+
 export const GiHamburgerMenuStyled = styled(GiHamburgerMenu)`
   font-size: ${({ theme }) => theme.typography.fontSizeXlarge};
+`;
+
+export const AvatarStyled = styled(Avatar)`
+order: 3;
+`;
+
+export const StyledMenu = styled(Menu)`
+  background-color: #f0f0f0; /* Cor de fundo personalizada */
+  border-radius: 5px;
+  padding: 10px 0;
+  width: 200px;
 `;
 
 export const MenuButton = styled.button`
