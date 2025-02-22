@@ -7,6 +7,7 @@ import { TodoDetailsPage } from '@/pages/Todo/Details';
 import { ToDoSavePage } from '@/pages/Todo/Save';
 import { SignInPage } from '@/pages/Auth/SignIn';
 import { SignUpPage } from '@/pages/Auth/SignUp';
+import PrivateRoute from '@/routes/Private';
 
 export const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'add',
-        element: <ToDoSavePage />,
+        element: <PrivateRoute element={<ToDoSavePage />} />,
       },
       {
         path: ':id',

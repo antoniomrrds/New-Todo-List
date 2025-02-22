@@ -44,7 +44,7 @@ export const MainContainer = styled.main`
   width: ${({ theme }) => theme.container.fullWidthPercentage} !important;
   border-top: ${({ theme }) => theme.borders.small} solid ${colorStyles.successGreen600};
   background: ${colorStyles.neutral800} !important;
-
+  position: relative;
   &:hover {
      ${boxShadow};
   }

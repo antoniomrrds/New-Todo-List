@@ -10,19 +10,10 @@ import { FormattedError } from '@/api/error/types';
 import { SignUpValidationType } from '@/components/Auth/SignUp/Validation';
 type SignUpProps = {
   notification: NotificationInstance;
-  goToTodoPage: () => void;
+  navigateToSignIn: () => void;
 };
 
-const mapSignUpData = (data: SignUpValidationType): SignUp => {
-  return {
-    email: data.email,
-    name: data.name,
-    password: data.password,
-    confirmPassword: data.confirmPassword,
-  };
-};
-
-export const useSignUp = ({ goToTodoPage, notification }: SignUpProps) => {
+export const useSignUp = ({ navigateToSignIn, notification }: SignUpProps) => {
   const mutation = useMutation(
     (signUpData: SignUp) => authApi.signUp(signUpData),
     {
@@ -32,7 +23,7 @@ export const useSignUp = ({ goToTodoPage, notification }: SignUpProps) => {
           `Usuário cadastrado com sucesso`,
           `O usuário foi cadastrado com sucesso`,
         );
-        goToTodoPage();
+        navigateToSignIn();
       },
       onError: (error: FormattedError) => {
         const { errors, status, message } = error;
@@ -45,7 +36,7 @@ export const useSignUp = ({ goToTodoPage, notification }: SignUpProps) => {
           );
         } else {
           ErrorNotification(notification, `Erro ao cadastrar usuário`, message);
-          goToTodoPage();
+          navigateToSignIn();
         }
         console.error('Erro no cadastro', error);
       },
@@ -53,7 +44,7 @@ export const useSignUp = ({ goToTodoPage, notification }: SignUpProps) => {
   );
 
   const handleFormSubmit = (values: SignUpValidationType) => {
-    mutation.mutate(mapSignUpData(values));
+    mutation.mutate(values);
   };
   return { isSaving: mutation.isLoading, handleFormSubmit };
 };

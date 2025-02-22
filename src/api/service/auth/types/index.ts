@@ -1,6 +1,15 @@
-export type SignUp = {
+type Base = {
+  password: string;
+  email: string;
+};
+
+export type SignIn = Base;
+export type SignUp = Base & {
+  name: string;
+  confirmPassword: string;
+};
+
+export type User = {
   name: string;
   email: string;
-  password: string;
-  confirmPassword: string;
 };

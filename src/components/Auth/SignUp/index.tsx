@@ -14,14 +14,13 @@ import { useCallback } from 'react';
 import { SpinCustom } from '@/components/shared/Spin';
 
 export const SignUp: React.FC = () => {
-  const navigation = useNavigateFunction();
   const { notification } = App.useApp();
   const navigate = useNavigateFunction();
-  const goToTodoPage = useCallback(() => navigate('/sign-in'), [navigate]);
+  const navigateToSignIn = useCallback(() => navigate('/sign-in'), [navigate]);
 
   const { handleFormSubmit, isSaving } = useSignUp({
     notification,
-    goToTodoPage,
+    navigateToSignIn,
   });
 
   const {
@@ -134,6 +133,7 @@ export const SignUp: React.FC = () => {
                     <FieldError name={'confirmPassword'} errors={errors} />
                   ) : null
                 }
+                hasFeedback
               >
                 <Controller
                   name="confirmPassword"
@@ -156,7 +156,7 @@ export const SignUp: React.FC = () => {
                     type="primary"
                     htmlType="submit"
                     block
-                    onClick={() => navigation('/sign-in')}
+                    onClick={() => navigateToSignIn()}
                     $background={theme.colors.neutral.neutral200}
                     $color={theme.colors.success.successGreen600}
                   >
