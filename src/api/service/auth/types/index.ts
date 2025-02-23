@@ -10,6 +10,6 @@ export type SignUp = Base & {
 };
 
 export type User = {
-  name: string;
-  email: string;
+  Name: string;
+  Email: string;
 };

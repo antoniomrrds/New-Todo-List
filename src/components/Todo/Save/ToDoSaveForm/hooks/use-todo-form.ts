@@ -58,7 +58,6 @@ export const useTodoForm = ({
     defaultValues,
   });
 
-  console.log('errors', errors);
   const isExpirationEnabled = watch('showExpiration');
 
   return {

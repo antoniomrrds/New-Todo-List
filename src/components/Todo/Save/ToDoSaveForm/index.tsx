@@ -353,7 +353,7 @@ export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
                       id="categories"
                       placeholder="Selecione as categorias"
                     >
-                      {categories.map((option) => (
+                      {categories?.map((option) => (
                         <Select.Option key={option.id} value={option.id}>
                           {option.name}
                         </Select.Option>

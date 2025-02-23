@@ -15,4 +15,8 @@ export const authApi = {
     );
     return response.data;
   },
+  signOut: async () => {
+    const response = await handleRequest(axiosInstance.get('/auth/sign-out'));
+    return response;
+  },
 };

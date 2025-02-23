@@ -3,7 +3,7 @@ import * as S from './sign-in-styles';
 import { theme } from '@/styles/Theme';
 import Dev from '@/assets/images/login/dev-product.png';
 import { useNavigateFunction } from '@/helpers';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSignIn } from '@/api/service/auth';
 import { FieldError } from '@/components/shared/Form';
 import {
@@ -13,12 +13,17 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import { SpinCustom } from '@/components/shared/Spin';
+import { useAuth } from '@/context/auth'; // Importando o useAuth
 
 export const SignIn: React.FC = () => {
-  const { notification } = App.useApp();
   const navigate = useNavigateFunction();
+
+  const { notification } = App.useApp();
   const goToTodoPage = useCallback(() => navigate('/todo'), [navigate]);
   const navigateToSignUp = useCallback(() => navigate('/sign-up'), [navigate]);
+  const [loading, setLoading] = useState(false); // Estado para controlar o carregamento
+  // Quando a página for carregada, verificar se o usuário está autenticado
+
   const { handleFormSubmit, isSaving } = useSignIn({
     notification,
     goToTodoPage,
@@ -37,12 +42,25 @@ export const SignIn: React.FC = () => {
     },
   });
 
+  const { isAuthenticated } = useAuth();
+  useEffect(() => {
+    if (isAuthenticated) {
+      goToTodoPage();
+      setLoading(true); // Se estiver autenticado, mantemos o carregamento
+    } else {
+      setLoading(false); // Caso não esteja, liberamos o conteúdo do formulário
+    }
+  }, [isAuthenticated]);
+
+  if (loading) {
+    return null;
+  }
   return (
     <S.LayoutStyled>
       <S.MainContainer>
         <SpinCustom
           loading={isSaving}
-          text="Salvando os dados..."
+          text="Entrando no sistema..."
           hasAbsolutePosition
         >
           <Row>

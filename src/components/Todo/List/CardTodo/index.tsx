@@ -35,7 +35,6 @@ const CardTasks: FC<Props> = ({ data }) => {
       });
     }
   };
-
   return (
     <S.CardsContainer>
       {data.map((todoItem) => {
@@ -50,6 +49,8 @@ const CardTasks: FC<Props> = ({ data }) => {
                 alt="Criador"
                 icon={<I.UserOutlinedStyled key={'user-card-item'} />}
               />
+
+              <span className="creator-name">{todoItem?.userName} </span>
             </S.CreatorName>
             <Row justify={'center'} align={'middle'}>
               <S.ActionsItemContatiner

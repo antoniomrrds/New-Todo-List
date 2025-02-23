@@ -40,6 +40,9 @@ export type UpdateToDo = TodoBase & {
 // Tipo para um ToDo
 export type ToDo = TodoBase & {
   id: number;
+  idUser: number;
+  userName: string;
+  userEmail: string;
   status: TodoStatus;
   createdAt: string;
   updatedAt: string;

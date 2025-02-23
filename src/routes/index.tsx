@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <TodoHomePage />,
+        element: <PrivateRoute element={<TodoHomePage />} />,
       },
       {
         path: 'add',
@@ -27,11 +27,11 @@ export const router = createBrowserRouter([
       },
       {
         path: ':id',
-        element: <TodoDetailsPage />,
+        element: <PrivateRoute element={<TodoDetailsPage />} />,
       },
       {
         path: ':id/edit', // 🔹 Rota correta para edição
-        element: <ToDoSavePage />,
+        element: <PrivateRoute element={<ToDoSavePage />} />,
       },
     ],
   },

@@ -10,13 +10,16 @@ import {
 } from '@/components/Auth/SignUp/Validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSignUp } from '@/api/service/auth';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { SpinCustom } from '@/components/shared/Spin';
+import { useAuth } from '@/context/auth';
 
 export const SignUp: React.FC = () => {
   const { notification } = App.useApp();
   const navigate = useNavigateFunction();
+  const goToTodoPage = useCallback(() => navigate('/todo'), [navigate]);
   const navigateToSignIn = useCallback(() => navigate('/sign-in'), [navigate]);
+  const [loading, setLoading] = useState(true);
 
   const { handleFormSubmit, isSaving } = useSignUp({
     notification,
@@ -31,6 +34,20 @@ export const SignUp: React.FC = () => {
     resolver: yupResolver(signUpValidationSchema),
     mode: 'onChange',
   });
+
+  const { isAuthenticated } = useAuth();
+  useEffect(() => {
+    if (isAuthenticated) {
+      goToTodoPage();
+      setLoading(true); // Se estiver autenticado, mantemos o carregamento
+    } else {
+      setLoading(false); // Caso não esteja, liberamos o conteúdo do formulário
+    }
+  }, [isAuthenticated]);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <S.LayoutStyled>

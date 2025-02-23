@@ -5,10 +5,12 @@ export const useCategoriesAndTags = () => {
   const { categories, errorCategories, isLoadingCategories } =
     useQueryCategories();
   const { tags, errorTags, isLoadingTags } = useQueryTags();
+  const categoriesOrDefault = categories || [];
+  const tagsOrDefault = tags || [];
 
   return {
-    categories,
-    tags,
+    categories: categoriesOrDefault,
+    tags: tagsOrDefault,
     errorCategories,
     errorTags,
     isLoadingCategoriesAndTags: isLoadingCategories || isLoadingTags,

@@ -32,7 +32,6 @@ export const useSignIn = ({ goToTodoPage, notification }: SignInProps) => {
           );
         } else {
           ErrorNotification(notification, 'Error ao logar o usuário', message);
-          goToTodoPage();
         }
       },
     },

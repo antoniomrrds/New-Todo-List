@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   HomeOutlined,
   AppstoreAddOutlined,
@@ -12,7 +12,9 @@ import { size } from '@/styles/breakpoints';
 import { useWindowWidth } from '@/utils/window-with';
 import { useNavigateFunction } from '@/helpers';
 import * as I from '@/components/shared/Icons';
-import { Dropdown, MenuProps } from 'antd';
+import { App, Dropdown, MenuProps } from 'antd';
+import { useAuth } from '@/context/auth';
+import { useSignOut } from '@/api/service/auth/actions';
 
 type MenuItem = {
   key: string;
@@ -51,12 +53,19 @@ const items: MenuItem[] = [
 export const AppHeader: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigateFunction();
-
+  const { user, isAuthenticated } = useAuth();
   const showDrawer = () => setVisible(true);
   const onClose = () => setVisible(false);
   const sizeValue = useWindowWidth();
   const isTabletXS = sizeValue >= parseInt(size.tabletXS.replace('px', ''));
+  const { notification } = App.useApp();
 
+  const navigateToSignIn = useCallback(() => navigate('/sign-in'), [navigate]);
+
+  const { handleFormSubmit } = useSignOut({
+    navigateToSignIn,
+    notification,
+  });
   if (isTabletXS && visible) {
     onClose();
   }
@@ -69,7 +78,7 @@ export const AppHeader: React.FC = () => {
     {
       className: 'disabled',
       key: '1',
-      label: 'Scorpion',
+      label: `${user?.Name}`,
       icon: <UserOutlined />,
     },
     {
@@ -81,10 +90,14 @@ export const AppHeader: React.FC = () => {
       //  onClick: () => navigate(`/todo/${todoId}/edit`),
     },
     {
-      key: 'delete',
+      key: 'sign-out',
       label: 'Sair',
       icon: <LogoutOutlined />,
-      //  onClick: () => showModal(todoId),
+
+      onClick: async () => {
+        // Aguardar o logout ser completado antes de navegar
+        handleFormSubmit(); // Esperar o logout
+      },
     },
   ];
 
@@ -108,26 +121,30 @@ export const AppHeader: React.FC = () => {
         <S.MenuButton onClick={showDrawer}>
           <S.GiHamburgerMenuStyled />
         </S.MenuButton>
-        <Dropdown
-          key={'dropdown-avatar'}
-          menu={{ items: itemsProfile }}
-          trigger={['click']}
-          rootClassName="ant-dropdown-menu-custom"
-        >
-          <S.AvatarStyled
-            key={'avatar'}
-            src="https://yt3.ggpht.com/yti/ANjgQV_p8fC_-snKRNWvoBTngV4-3fHB6iWYisDUWEdrxCZ25II=s88-c-k-c0x00ffffff-no-rj"
-            size={42.23}
-            icon={<I.UserOutlinedStyled />}
-          />
-        </Dropdown>
-        <S.ButtonSignInStyled
-          type="primary"
-          size="large"
-          onClick={() => navigation('/sign-in')}
-        >
-          Entrar
-        </S.ButtonSignInStyled>
+
+        {isAuthenticated ? (
+          <Dropdown
+            key={'dropdown-avatar'}
+            menu={{ items: itemsProfile }}
+            trigger={['click']}
+            rootClassName="ant-dropdown-menu-custom"
+          >
+            <S.AvatarStyled
+              key={'avatar'}
+              src="https://yt3.ggpht.com/yti/ANjgQV_p8fC_-snKRNWvoBTngV4-3fHB6iWYisDUWEdrxCZ25II=s88-c-k-c0x00ffffff-no-rj"
+              size={42.23}
+              icon={<I.UserOutlinedStyled />}
+            />
+          </Dropdown>
+        ) : (
+          <S.ButtonSignInStyled
+            type="primary"
+            size="large"
+            onClick={() => navigation('/sign-in')}
+          >
+            Entrar
+          </S.ButtonSignInStyled>
+        )}
       </S.Nav>
       <S.Drawer
         placement="left"

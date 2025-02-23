@@ -40,6 +40,7 @@ background: ${({ theme }) => theme.colors.neutral.neutral100};
 `;
 
 export const CreatorName = styled.div`
+ font-family: ${({ theme }) => theme.typography.fontFamily.poppins};
   display: flex;
   align-items: center;
   padding:  ${({ theme }) => `${theme.spacingFn(7)} ${theme.spacingFn(7)}`};
@@ -54,11 +55,13 @@ export const CreatorName = styled.div`
   }
 
   .creator-name {
-    color: ${({ theme }) => theme.colors.success.successGreen600};
+    color: ${({ theme }) => theme.colors.neutral.neutral800};
     white-space: nowrap;
+    font-weight: ${({ theme }) => theme.typography.fontWeight[600]};
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 60%;
+    margin-left:  ${({ theme }) => theme.spacing.small};
   }
 `;
 
