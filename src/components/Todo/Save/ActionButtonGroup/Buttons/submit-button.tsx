@@ -5,11 +5,13 @@ import { PlusOutlined } from '@ant-design/icons';
 type SubmitButtonProps = {
   block?: boolean;
   isLoading: boolean;
+  idUser?: number;
 };
 
 export const SubmitButton = ({
   block = false,
   isLoading,
+  idUser = 0,
 }: SubmitButtonProps) => (
   <ConfigProvider theme={S.themeAntdConfigButtonSuccess}>
     <ButtonAntd
@@ -19,7 +21,7 @@ export const SubmitButton = ({
       icon={<PlusOutlined />}
       block={block}
     >
-      Criar Tarefa
+      {idUser != 0 ? 'Editar' : 'Criar'}
     </ButtonAntd>
   </ConfigProvider>
 );

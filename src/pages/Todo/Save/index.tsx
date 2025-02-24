@@ -55,12 +55,12 @@ export const ToDoSavePage = () => {
   };
 
   return (
-    <G.StyledLayout>
+    <G.LayoutStyled>
       <AppHeader />
       <G.StyledContent>
         <BreadCrumb items={breadcrumbItems} />
         <CardMainForm {...cardMainFormProps} />
       </G.StyledContent>
-    </G.StyledLayout>
+    </G.LayoutStyled>
   );
 };

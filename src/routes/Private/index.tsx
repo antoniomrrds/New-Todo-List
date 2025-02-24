@@ -29,12 +29,12 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     return () => clearInterval(intervalId);
   }, [getUserFromCookie, setUser]);
 
-  useEffect(() => {
-    // Quando o estado de autenticação mudar, se já estiver autenticado, paramos o carregamento
-    if (isAuthenticated) {
-      setLoading(false);
-    }
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   // Quando o estado de autenticação mudar, se já estiver autenticado, paramos o carregamento
+  //   if (isAuthenticated) {
+  //     setLoading(false);
+  //   }
+  // }, [isAuthenticated]);
 
   // Durante o carregamento, podemos retornar null ou um componente de loading
   if (loading) {

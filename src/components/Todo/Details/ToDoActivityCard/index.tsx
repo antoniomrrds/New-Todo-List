@@ -1,7 +1,7 @@
 import { ToDoDetails } from '@/api/service/toDo/types';
 import { obtainTodoStatusDetails } from '@/components/Todo/List/CardTodo/ToDoStatusBadge';
 import * as S from '@/components/Todo/Details/ToDoActivityCard/todo-activity-card-styles';
-import { Flex } from 'antd';
+import { Flex, Tooltip } from 'antd';
 import { FC } from 'react';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import {
@@ -10,7 +10,7 @@ import {
   FaCalendarDay,
   FaInfinity,
 } from 'react-icons/fa6';
-// import { FaIdBadge } from 'react-icons/fa'; // para usar quando for atualizado por um usuário
+import { FaIdBadge } from 'react-icons/fa'; // para usar quando for atualizado por um usuário
 import { purple } from '@ant-design/colors';
 
 type ToDoActivityCardProps = {
@@ -55,6 +55,15 @@ export const ToDoActivityCard: FC<ToDoActivityCardProps> = ({ toDoItem }) => {
             <FaInfinity style={{ fontSize: '1em', color: purple.primary }} />
           )}
         </S.TextCustom>
+      </S.FlexContentItem>
+      <S.FlexContentItem align="center" justify="space-between">
+        <Flex align="center" gap={2}>
+          <FaIdBadge />
+          <S.TextCustom>Cadastrado Por:</S.TextCustom>
+        </Flex>
+        <Tooltip title={toDoItem.name}>
+          <S.TextCustom $marginRight>{toDoItem.name}</S.TextCustom>
+        </Tooltip>
       </S.FlexContentItem>
     </S.ActivityCard>
   );

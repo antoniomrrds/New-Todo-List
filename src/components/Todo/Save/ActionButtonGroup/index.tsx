@@ -9,11 +9,13 @@ import {
 type ActionButtonGroupProps = {
   onCancel: () => void;
   isLoading: boolean;
+  idUser?: number;
 };
 
 export const TodoActionButtons: FC<ActionButtonGroupProps> = ({
   onCancel,
   isLoading,
+  idUser,
 }) => {
   const screens = useBreakpoint();
   const isMobile = screens === 'xs';
@@ -24,7 +26,7 @@ export const TodoActionButtons: FC<ActionButtonGroupProps> = ({
         <CancelButton onCancel={onCancel} block={isMobile} />
       </Col>
       <Col xs={24} sm={{ flex: 'none' }}>
-        <SubmitButton isLoading={isLoading} block={isMobile} />
+        <SubmitButton isLoading={isLoading} block={isMobile} idUser={idUser} />
       </Col>
     </Row>
   );

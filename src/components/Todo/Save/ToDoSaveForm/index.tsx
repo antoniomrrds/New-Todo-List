@@ -365,7 +365,11 @@ export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
             </Col>
           </Row>
           <S.FormItem>
-            <TodoActionButtons onCancel={handleCancel} isLoading={false} />
+            <TodoActionButtons
+              onCancel={handleCancel}
+              isLoading={false}
+              idUser={toDoItem?.id}
+            />
           </S.FormItem>
         </Form>
       </Skeleton>

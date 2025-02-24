@@ -56,8 +56,8 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
           <Input
             placeholder="Buscar tarefas por título"
             allowClear
-            value={localFilters.Title}
-            onChange={(e) => updateLocalFilters('Title', e.target.value.trim())}
+            value={localFilters.name}
+            onChange={(e) => updateLocalFilters('name', e.target.value.trim())}
           />
         </Col>
         <Col xs={24} md={8}>

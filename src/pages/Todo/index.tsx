@@ -16,7 +16,7 @@ import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
 import { FloatButton } from 'antd';
 
 export const DEFAULT_FILTERS: ToDoFilter = {
-  Title: '',
+  name: '',
   Status: TodoStatus.Unfiltered,
   PageSize: 20,
   Page: 1,

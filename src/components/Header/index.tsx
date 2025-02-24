@@ -15,7 +15,7 @@ import * as I from '@/components/shared/Icons';
 import { App, Dropdown, MenuProps } from 'antd';
 import { useAuth } from '@/context/auth';
 import { useSignOut } from '@/api/service/auth/actions';
-
+import { FaHouseUser } from 'react-icons/fa';
 type MenuItem = {
   key: string;
   icon: JSX.Element;
@@ -42,12 +42,6 @@ const items: MenuItem[] = [
     label: 'about',
     link: '/about',
   },
-  // {
-  //   key: 'profile',
-  //   icon: <UserOutlined />,
-  //   label: 'profile',
-  //   link: '/profile',
-  // },
 ];
 
 export const AppHeader: React.FC = () => {
@@ -61,6 +55,7 @@ export const AppHeader: React.FC = () => {
   const { notification } = App.useApp();
 
   const navigateToSignIn = useCallback(() => navigate('/sign-in'), [navigate]);
+  const navigteToProfile = useCallback(() => navigate('/profile'), [navigate]);
 
   const { handleFormSubmit } = useSignOut({
     navigateToSignIn,
@@ -77,17 +72,18 @@ export const AppHeader: React.FC = () => {
   const itemsProfile: MenuProps['items'] = [
     {
       className: 'disabled',
+      icon: <FaHouseUser />,
       key: '1',
-      label: `${user?.Name}`,
-      icon: <UserOutlined />,
+      label: `${user?.Name} `,
     },
     {
       type: 'divider',
     },
     {
-      key: 'edit',
-      label: <span>Editar</span>,
-      //  onClick: () => navigate(`/todo/${todoId}/edit`),
+      key: 'profile',
+      icon: <UserOutlined />,
+      label: 'Meus dados',
+      onClick: () => navigteToProfile(),
     },
     {
       key: 'sign-out',

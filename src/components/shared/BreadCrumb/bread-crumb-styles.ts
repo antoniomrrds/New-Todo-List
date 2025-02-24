@@ -6,7 +6,7 @@ export const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.spacing.medium};  
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
   border-bottom: 3px solid ${({ theme }) => theme.colors.success.successGreen600};
   padding: ${({ theme }) => theme.spacing.small};
   background-color: ${({ theme }) => theme.colors.neutral.neutral100};
@@ -18,7 +18,7 @@ export const themeAntdConfigBreadCrumb: ThemeConfig = {
     Breadcrumb: {
       fontSize: +`${themeAntd.typography.fontSizeMedium}`,
       colorText: themeAntd.colors.success.successGreen600,
-      itemColor: themeAntd.colors.primaryColor,
+      itemColor: themeAntd.colors.neutral.neutral800,
       separatorColor: themeAntd.colors.neutral.neutral800,
     },
   },
