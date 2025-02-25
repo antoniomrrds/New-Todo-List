@@ -9,7 +9,7 @@ export type SignUp = Base & {
   confirmPassword: string;
 };
 
-export type User = {
+export type AuthUser = {
   Name: string;
   Email: string;
 };

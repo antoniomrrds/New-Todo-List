@@ -1,4 +1,4 @@
-import { User } from '@/api/service/auth';
+import { AuthUser } from '@/api/service/auth';
 import Cookies from 'js-cookie';
 import React, {
   createContext,
@@ -13,11 +13,11 @@ import React, {
 // Tipos de estado e ação para o reducer
 type State = {
   isAuthenticated: boolean;
-  user: User | null;
+  user: AuthUser | null;
 };
 
 type Action =
-  | { type: 'SET_USER'; user: User }
+  | { type: 'SET_USER'; user: AuthUser }
   | { type: 'LOGOUT' }
   | { type: 'SET_AUTHENTICATED'; isAuthenticated: boolean };
 
@@ -47,9 +47,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Tipo do contexto
 type AuthContextType = {
   isAuthenticated: boolean;
-  user: User | null;
+  user: AuthUser | null;
   logout: () => void;
-  setUser: (user: User) => void;
+  setUser: (user: AuthUser) => void;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
 };
 
@@ -137,7 +137,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     () => ({
       isAuthenticated: state.isAuthenticated,
       user: state.user,
-      setUser: (user: User) => dispatch({ type: 'SET_USER', user }),
+      setUser: (user: AuthUser) => dispatch({ type: 'SET_USER', user }),
       logout,
       setIsAuthenticated: (isAuthenticated: boolean) =>
         dispatch({ type: 'SET_AUTHENTICATED', isAuthenticated }),

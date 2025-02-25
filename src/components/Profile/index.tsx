@@ -15,7 +15,7 @@ export const Profile: FC = () => {
   const navigate = useNavigateFunction();
   return (
     <Row gutter={[10, 10]}>
-      <Col flex={isTabletXS ? '' : '0 1 200px'} xs={24} sm={24} md={24}>
+      <Col flex={isTabletXS ? '' : '0 1 300px'} xs={24} sm={24} md={24}>
         {isTabletXS == false && (
           <Image
             preview={false}
@@ -44,11 +44,6 @@ export const Profile: FC = () => {
                 type="link"
                 onClick={() => navigate('/profile/change-password')}
                 block
-                // style={{
-                //   color: '#000',
-                //   backgroundColor: '#fff',
-                //   width: '100%',
-                // }}
               >
                 Alterar Senha
               </S.ButtonStyled>
@@ -73,12 +68,6 @@ export const Profile: FC = () => {
         style={{ display: 'flex', width: '100%' }}
       >
         <S.CardMain>
-          <S.HeaderMain $screens={screens}>Meus dados</S.HeaderMain>
-          <S.HeaderSubtitle>
-            Aqui você pode visualizar seus dados, alterar informações e ter mais
-            dados sobre seu acesso!
-          </S.HeaderSubtitle>
-          <DividerCustom margin={10} />
           <Outlet /> {/* Renderiza a página correspondente */}
         </S.CardMain>
       </Col>

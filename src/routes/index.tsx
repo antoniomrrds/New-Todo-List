@@ -11,6 +11,7 @@ import PrivateRoute from '@/routes/Private';
 import { ProfilePage } from '@/pages/Profile';
 import { ProfileDetails } from '@/components/Profile/ProfileDetails';
 import { ProfileSettings } from '@/components/Profile/ProfileSettings';
+import { ProfileChangePassword } from '@/components/Profile/ChangePassword';
 
 export const router = createBrowserRouter([
   {
@@ -63,10 +64,15 @@ export const router = createBrowserRouter([
   },
   {
     path: '/profile',
-    element: <ProfilePage />, // Profile será o layout principal
+    element: (
+      <PrivateRoute>
+        <ProfilePage />
+      </PrivateRoute>
+    ),
     children: [
       { path: 'details', element: <ProfileDetails /> },
       { path: 'settings', element: <ProfileSettings /> },
+      { path: 'change-password', element: <ProfileChangePassword /> },
     ],
   },
   {
