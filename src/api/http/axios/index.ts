@@ -1,3 +1,4 @@
+import { ErrorCodes } from '@/api/error/error-codes';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -22,6 +23,18 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  },
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === ErrorCodes.UNAUTHORIZED) {
+      Cookies.remove('sessionData');
+      Cookies.remove('token');
+      window.location.href = '/sign-in';
+    }
     return Promise.reject(error);
   },
 );

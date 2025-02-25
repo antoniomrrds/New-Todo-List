@@ -12,7 +12,7 @@ type SignInProps = {
 };
 
 export const useSignOut = ({ navigateToSignIn, notification }: SignInProps) => {
-  const { setIsAuthenticated, logout } = useAuth();
+  const { logout } = useAuth();
 
   const mutation = useMutation(() => authApi.signOut(), {
     onSuccess: () => {
@@ -20,7 +20,6 @@ export const useSignOut = ({ navigateToSignIn, notification }: SignInProps) => {
       navigateToSignIn();
     },
     onError: (error: FormattedError) => {
-      setIsAuthenticated(false);
       const { errors, status } = error;
 
       if (status === ErrorCodes.BAD_REQUEST) {

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { HomePage } from '@/pages/Home';
 import { AppHeader } from '@/components/Header';
 import { NotFoundPage } from '@/pages/NotFound';
@@ -9,6 +9,8 @@ import { SignInPage } from '@/pages/Auth/SignIn';
 import { SignUpPage } from '@/pages/Auth/SignUp';
 import PrivateRoute from '@/routes/Private';
 import { ProfilePage } from '@/pages/Profile';
+import { ProfileDetails } from '@/components/Profile/ProfileDetails';
+import { ProfileSettings } from '@/components/Profile/ProfileSettings';
 
 export const router = createBrowserRouter([
   {
@@ -17,22 +19,28 @@ export const router = createBrowserRouter([
   },
   {
     path: '/todo',
+    element: (
+      <PrivateRoute>
+        <Outlet />
+        {/* Agora, as sub-rotas de "/todo" serão renderizadas aqui */}
+      </PrivateRoute>
+    ),
     children: [
       {
         path: '',
-        element: <PrivateRoute element={<TodoHomePage />} />,
+        element: <TodoHomePage />,
       },
       {
         path: 'add',
-        element: <PrivateRoute element={<ToDoSavePage />} />,
+        element: <ToDoSavePage />,
       },
       {
         path: ':id',
-        element: <PrivateRoute element={<TodoDetailsPage />} />,
+        element: <TodoDetailsPage />,
       },
       {
-        path: ':id/edit', // 🔹 Rota correta para edição
-        element: <PrivateRoute element={<ToDoSavePage />} />,
+        path: ':id/edit',
+        element: <ToDoSavePage />,
       },
     ],
   },
@@ -55,7 +63,11 @@ export const router = createBrowserRouter([
   },
   {
     path: '/profile',
-    element: <PrivateRoute element={<ProfilePage />} />,
+    element: <ProfilePage />, // Profile será o layout principal
+    children: [
+      { path: 'details', element: <ProfileDetails /> },
+      { path: 'settings', element: <ProfileSettings /> },
+    ],
   },
   {
     path: '*',

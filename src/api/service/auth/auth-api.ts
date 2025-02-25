@@ -19,4 +19,10 @@ export const authApi = {
     const response = await handleRequest(axiosInstance.get('/auth/sign-out'));
     return response;
   },
+  isLoggedIn: async () => {
+    const response = await handleRequest(
+      axiosInstance.get('/auth/is-logged-in'),
+    );
+    return response;
+  },
 };

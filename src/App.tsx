@@ -39,6 +39,7 @@ export const App = () => {
               }}
             >
               <GlobalStyle />
+
               {/* RouterProvider já se encarrega de fornecer o contexto de roteamento */}
               <RouterProvider router={router} />
             </AppAntd>

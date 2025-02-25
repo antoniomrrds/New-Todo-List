@@ -10,16 +10,16 @@ import {
 } from '@/components/Auth/SignUp/Validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSignUp } from '@/api/service/auth';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { SpinCustom } from '@/components/shared/Spin';
 import { useAuth } from '@/context/auth';
+import { Navigate } from 'react-router-dom';
 
 export const SignUp: React.FC = () => {
-  const { notification } = App.useApp();
   const navigate = useNavigateFunction();
-  const goToTodoPage = useCallback(() => navigate('/todo'), [navigate]);
+  const { isAuthenticated } = useAuth();
+  const { notification } = App.useApp();
   const navigateToSignIn = useCallback(() => navigate('/sign-in'), [navigate]);
-  const [loading, setLoading] = useState(true);
 
   const { handleFormSubmit, isSaving } = useSignUp({
     notification,
@@ -35,18 +35,8 @@ export const SignUp: React.FC = () => {
     mode: 'onChange',
   });
 
-  const { isAuthenticated } = useAuth();
-  useEffect(() => {
-    if (isAuthenticated) {
-      goToTodoPage();
-      setLoading(true); // Se estiver autenticado, mantemos o carregamento
-    } else {
-      setLoading(false); // Caso não esteja, liberamos o conteúdo do formulário
-    }
-  }, [isAuthenticated]);
-
-  if (loading) {
-    return null;
+  if (isAuthenticated) {
+    return <Navigate to="/todo" />;
   }
 
   return (

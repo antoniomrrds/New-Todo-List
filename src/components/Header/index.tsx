@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   HomeOutlined,
   AppstoreAddOutlined,
@@ -44,30 +44,34 @@ const items: MenuItem[] = [
   },
 ];
 
-export const AppHeader: React.FC = () => {
+export const AppHeader = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigateFunction();
-  const { user, isAuthenticated } = useAuth();
-  const showDrawer = () => setVisible(true);
-  const onClose = () => setVisible(false);
+  const navigateToSignIn = useCallback(() => navigate('/sign-in'), [navigate]);
   const sizeValue = useWindowWidth();
   const isTabletXS = sizeValue >= parseInt(size.tabletXS.replace('px', ''));
-  const { notification } = App.useApp();
 
-  const navigateToSignIn = useCallback(() => navigate('/sign-in'), [navigate]);
+  const showDrawer = () => setVisible(true);
+  const onClose = () => setVisible(false);
+
+  // Only trigger when screen size changes, not when visible changes
+
   const navigteToProfile = useCallback(() => navigate('/profile'), [navigate]);
+  const handleNavigateHome = useCallback(() => navigate('/'), [navigate]);
+
+  const { user, isAuthenticated } = useAuth();
+  const { notification } = App.useApp();
 
   const { handleFormSubmit } = useSignOut({
     navigateToSignIn,
     notification,
   });
-  if (isTabletXS && visible) {
-    onClose();
-  }
 
-  const handleNavigateHome = () => {
-    navigate('/');
-  };
+  useEffect(() => {
+    if (isTabletXS && visible) {
+      setVisible(false); // Only set to false if the drawer is visible and we are on tablet
+    }
+  }, [isTabletXS]);
 
   const itemsProfile: MenuProps['items'] = [
     {
@@ -91,13 +95,10 @@ export const AppHeader: React.FC = () => {
       icon: <LogoutOutlined />,
 
       onClick: async () => {
-        // Aguardar o logout ser completado antes de navegar
         handleFormSubmit(); // Esperar o logout
       },
     },
   ];
-
-  const navigation = useNavigateFunction();
 
   return (
     <S.Header>
@@ -123,6 +124,7 @@ export const AppHeader: React.FC = () => {
             key={'dropdown-avatar'}
             menu={{ items: itemsProfile }}
             trigger={['click']}
+            placement="topRight"
             rootClassName="ant-dropdown-menu-custom"
           >
             <S.AvatarStyled
@@ -136,7 +138,7 @@ export const AppHeader: React.FC = () => {
           <S.ButtonSignInStyled
             type="primary"
             size="large"
-            onClick={() => navigation('/sign-in')}
+            onClick={() => navigateToSignIn()}
           >
             Entrar
           </S.ButtonSignInStyled>
