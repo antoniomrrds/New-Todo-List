@@ -33,7 +33,7 @@ export const Profile: FC = () => {
               {/* Botões de navegação */}
               <S.ButtonStyled
                 type="link"
-                onClick={() => navigate('/profile/details')}
+                onClick={() => navigate('/profile')}
                 block
               >
                 Meus Dados

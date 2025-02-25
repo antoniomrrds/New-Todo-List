@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import * as S from '@/components/Profile/ProfileDetails/profile-details-styles';
-import { Col, Grid, Input, Row, Form } from 'antd';
+import { Col, Grid, Input, Row, Form, App } from 'antd';
 import { DividerCustom } from '@/components/shared/Divider';
 import { FieldError } from '@/components/shared/Form';
 import { SpinCustom } from '@/components/shared/Spin';
@@ -10,12 +10,17 @@ import {
   profileUserValidationSchema,
   ProfileUserValidationType,
 } from '@/components/Profile/ProfileDetails/Validation';
-import { useQueryUserWithoutPassword } from '@/api/service/user';
+import {
+  useQueryUserWithoutPassword,
+  userUpdateUser,
+} from '@/api/service/user';
 const { useBreakpoint } = Grid;
 
 export const ProfileDetails: FC = () => {
-  const { user, userDataError, isLoadingUser } = useQueryUserWithoutPassword();
+  const { notification } = App.useApp();
 
+  const { user, userDataError, isLoadingUser } = useQueryUserWithoutPassword();
+  const { handleFormSubmit, isUpdating } = userUpdateUser({ notification });
   const {
     control,
     handleSubmit,
@@ -75,7 +80,11 @@ export const ProfileDetails: FC = () => {
         text="Mudando a senha..."
         hasAbsolutePosition
       >
-        <Form style={{ width: '100%' }} layout="vertical">
+        <Form
+          style={{ width: '100%' }}
+          layout="vertical"
+          onFinish={handleSubmit(handleFormSubmit)}
+        >
           <S.FormItem
             name="id"
             label="Id de usuário"
@@ -155,7 +164,7 @@ export const ProfileDetails: FC = () => {
                 type="primary"
                 htmlType="submit"
                 block
-                loading={false}
+                loading={isUpdating}
               >
                 Salvar alterações
               </S.ButtonStyled>

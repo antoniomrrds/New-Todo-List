@@ -69,8 +69,24 @@ type AuthProviderProps = {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const [loading, setLoading] = useState<boolean>(true); // Estado de carregamento
-  const [isCheckingCookies, setIsCheckingCookies] = useState<boolean>(false); // Estado para verificar se os cookies estão sendo checados
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Atualiza os cookies sempre que o usuário for atualizado
+  const setUser = (user: AuthUser) => {
+    dispatch({ type: 'SET_USER', user });
+
+    Cookies.set(
+      'sessionData',
+      JSON.stringify({
+        Name: user.Name,
+        Email: user.Email,
+      }),
+      { expires: 10 }, // Garante que o cookie persiste
+    );
+
+    // Forçar atualização do estado para refletir a mudança imediatamente
+    loadData();
+  };
 
   // Função para carregar dados de autenticação dos cookies
   const loadData = () => {
@@ -79,7 +95,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     if (savedToken && savedUser) {
       try {
-        // Tente parsear o usuário e definir o estado
         const parsedUser = JSON.parse(savedUser);
         dispatch({ type: 'SET_USER', user: parsedUser });
         dispatch({ type: 'SET_AUTHENTICATED', isAuthenticated: true });
@@ -90,7 +105,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } else {
       logout();
     }
-    setLoading(false); // Atualiza o estado de carregamento após verificar os cookies
+    setLoading(false);
   };
 
   // Função de logout
@@ -100,44 +115,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: 'LOGOUT' });
   };
 
-  // Função para verificar os cookies a cada 3 segundos
-  const checkCookiesPeriodically = () => {
-    const interval = setInterval(() => {
-      const savedUser = Cookies.get('sessionData');
-      const savedToken = Cookies.get('token');
-
-      if (savedToken && savedUser) {
-        // Se os cookies existirem, parar a verificação
-        if (!isCheckingCookies) {
-          loadData();
-          setIsCheckingCookies(true); // Interrompe a verificação contínua
-        }
-      } else {
-        // Caso contrário, continue verificando
-        setIsCheckingCookies(false); // Permite checar novamente após o logout
-      }
-    }, 3000); // Verifica a cada 3 segundos (ajuste conforme necessário)
-
-    return interval;
-  };
-
-  // Verificação inicial de cookies no momento em que o componente é montado
   useEffect(() => {
-    loadData(); // Verificação inicial de cookies ao carregar a página
-
-    const interval = checkCookiesPeriodically();
-
-    return () => {
-      clearInterval(interval); // Limpa o intervalo quando o componente for desmontado
-    };
-  }, []); // A dependência vazia garante que isso será executado apenas uma vez
+    loadData();
+  }, []);
 
   // Memoriza o valor do contexto para evitar re-renderizações desnecessárias
   const authContextValue = useMemo(
     () => ({
       isAuthenticated: state.isAuthenticated,
       user: state.user,
-      setUser: (user: AuthUser) => dispatch({ type: 'SET_USER', user }),
+      setUser,
       logout,
       setIsAuthenticated: (isAuthenticated: boolean) =>
         dispatch({ type: 'SET_AUTHENTICATED', isAuthenticated }),
@@ -146,7 +133,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 
   if (loading) {
-    // Exibe um loader ou nada enquanto verifica o estado de autenticação
     return null;
   }
 

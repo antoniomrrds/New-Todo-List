@@ -10,3 +10,7 @@ export type User = Base & {
 };
 
 export type UserWithoutPassWord = User;
+
+export type UpdateUserProfile = {
+  name: string;
+};

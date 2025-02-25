@@ -70,7 +70,7 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { path: 'details', element: <ProfileDetails /> },
+      { path: '', index: true, element: <ProfileDetails /> },
       { path: 'settings', element: <ProfileSettings /> },
       { path: 'change-password', element: <ProfileChangePassword /> },
     ],
