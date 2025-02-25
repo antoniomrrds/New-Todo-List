@@ -25,7 +25,6 @@ export const ProfileChangePassword: FC = () => {
     resolver: yupResolver(changePasswordValidationSchema),
     mode: 'onChange',
   });
-  console.log('erros');
 
   const { handleFormSubmit, isSaving } = useChangePassword({
     notification,
