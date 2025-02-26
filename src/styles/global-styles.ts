@@ -128,10 +128,10 @@ export const StyledContent = styled.main`
   min-width: ${({ theme }) => theme.container.minWidth};
 `;
 
-export const StyledContainer = styled.main`
+export const StyledContainer = styled.section`
   max-width: ${({ theme }) => theme.container.maxWidth};
   margin: ${({ theme }) => theme.container.marginCenter};
   width: ${({ theme }) => theme.container.fullWidthPercentage};
   min-width: ${({ theme }) => theme.container.minWidth};
-  padding: ${({ theme }) => theme.spacing.small} !important;
+  padding: ${({ theme }) => theme.spacing.xsmall} !important;
 `;

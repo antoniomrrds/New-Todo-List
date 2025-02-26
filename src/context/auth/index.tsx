@@ -72,8 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const parsedUser = JSON.parse(savedUser);
         setUser(parsedUser);
         setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Erro ao parsear os dados do usuário do cookie:', error);
+      } catch {
         logout();
       }
     } else {

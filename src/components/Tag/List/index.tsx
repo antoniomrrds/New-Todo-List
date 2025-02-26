@@ -3,9 +3,9 @@ import { AxiosError } from 'axios';
 import React from 'react';
 import * as S from '@/components/Todo/List/todo-list-container.styles';
 import ErrorCard from '@/components/Error/ErrorCard';
-import { StyledContainer } from '@/styles/global-styles';
 import { SpinCustom } from '@/components/shared/Spin';
 import { Tag } from '@/api/service/tag/types';
+import { Items } from '@/components/Tag/List/Items';
 
 type TagList = {
   tags: Tag[];
@@ -14,19 +14,19 @@ type TagList = {
 };
 
 const LoadingComponent = () => (
-  <S.StyledCenteredContainer>
+  <S.GridCenteredContainer>
     <SpinCustom
       text="Carregando tarefas..."
       loading={true}
       hasAbsolutePosition={false}
     />
-  </S.StyledCenteredContainer>
+  </S.GridCenteredContainer>
 );
 
 const ErrorComponent = ({ message }: { message: string }) => (
-  <S.StyledCenteredContainer>
+  <S.GridCenteredContainer>
     <ErrorCard message={message} />
-  </S.StyledCenteredContainer>
+  </S.GridCenteredContainer>
 );
 
 export const TagListContainer: React.FC<TagList> = ({
@@ -40,16 +40,16 @@ export const TagListContainer: React.FC<TagList> = ({
   const getContent = () => {
     if (isLoading) return <LoadingComponent />;
     if (error) return <ErrorComponent message={error.message} />;
-    if (tags.length > 0) return;
+    if (tags.length > 0) return <Items data={tags} />;
     return (
-      <S.StyledCenteredContainer>
+      <S.GridCenteredContainer>
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description={noFilteredTasksMessage}
         />
-      </S.StyledCenteredContainer>
+      </S.GridCenteredContainer>
     );
   };
 
-  return <StyledContainer>{getContent()}</StyledContainer>;
+  return <S.GridCenteredContainer>{getContent()}</S.GridCenteredContainer>;
 };

@@ -33,7 +33,6 @@ export const TagPage = () => {
   const hasCustomFilters = !areObjectsEqual(filters, DEFAULT_FILTERS_TAG);
 
   const { dataTags, errorTags, isLoadingTags } = useQueryFilteredTags(filters);
-
   useEffect(() => {
     const savedFilters = getObjectFromLocalStorage(
       'tagFilters',
@@ -70,13 +69,13 @@ export const TagPage = () => {
           tags={dataTags?.items || []}
         />
         <FloatButton.BackTop type="primary" tooltip="↑ Voltar ao topo" />
-        <PaginationCustom
-          pageDefault={filters.Page}
-          pageSize={dataTags?.pageSize}
-          totalItems={dataTags?.totalItems}
-          onChange={(page) => updateFilters({ Page: page })}
-        />
       </S.ContentStyled>
+      <PaginationCustom
+        pageDefault={filters.Page}
+        pageSize={dataTags?.pageSize}
+        totalItems={dataTags?.totalItems}
+        onChange={(page) => updateFilters({ Page: page })}
+      />
       <AppFooter />
     </S.LayoutStyled>
   );
