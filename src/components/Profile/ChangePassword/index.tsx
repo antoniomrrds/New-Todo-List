@@ -33,7 +33,7 @@ export const ProfileChangePassword: FC = () => {
   const screens = useBreakpoint();
 
   return (
-    <>
+    <S.CardMain>
       <S.HeaderMain $screens={screens}>Senha de acesso </S.HeaderMain>
       <S.HeaderSubtitle>
         Aqui você pode mudar a sua senha de acesso ao sistema.
@@ -90,6 +90,6 @@ export const ProfileChangePassword: FC = () => {
           </Row>
         </Form>
       </SpinCustom>
-    </>
+    </S.CardMain>
   );
 };

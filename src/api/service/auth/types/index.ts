@@ -12,4 +12,10 @@ export type SignUp = Base & {
 export type AuthUser = {
   Name: string;
   Email: string;
+  Roles: Roles[];
 };
+
+export enum Roles {
+  User = 0,
+  Admin = 1,
+}

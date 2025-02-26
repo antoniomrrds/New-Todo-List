@@ -67,9 +67,7 @@ export const Profile: FC = () => {
         md={24}
         style={{ display: 'flex', width: '100%' }}
       >
-        <S.CardMain>
-          <Outlet /> {/* Renderiza a página correspondente */}
-        </S.CardMain>
+        <Outlet /> {/* Renderiza a página correspondente */}
       </Col>
     </Row>
   );

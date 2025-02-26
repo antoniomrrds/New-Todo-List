@@ -67,7 +67,7 @@ export const ProfileDetails: FC = () => {
   }
 
   return (
-    <>
+    <S.CardMain>
       <S.HeaderMain $screens={screens}>Meus dados</S.HeaderMain>
       <S.HeaderSubtitle>
         Aqui você pode visualizar seus dados, alterar informações e ter mais
@@ -172,6 +172,6 @@ export const ProfileDetails: FC = () => {
           </Row>
         </Form>
       </SpinCustom>
-    </>
+    </S.CardMain>
   );
 };

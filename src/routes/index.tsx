@@ -12,6 +12,8 @@ import { ProfilePage } from '@/pages/Profile';
 import { ProfileDetails } from '@/components/Profile/ProfileDetails';
 import { ProfileSettings } from '@/components/Profile/ProfileSettings';
 import { ProfileChangePassword } from '@/components/Profile/ChangePassword';
+import { Roles } from '@/api/service/auth';
+import { TagPage } from '@/pages/Tag';
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +48,14 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    path: '/tag',
+    element: (
+      <PrivateRoute allowedRoles={[Roles.Admin]}>
+        <TagPage />
+      </PrivateRoute>
+    ),
+  },
+  {
     path: '/learn',
     element: (
       <>
@@ -66,11 +76,11 @@ export const router = createBrowserRouter([
     path: '/profile',
     element: (
       <PrivateRoute>
-        <ProfilePage />
+        <ProfilePage /> {/* 🔹 Agora o ProfilePage é o elemento principal */}
       </PrivateRoute>
     ),
     children: [
-      { path: '', index: true, element: <ProfileDetails /> },
+      { index: true, element: <ProfileDetails /> }, // ✅ Define ProfileDetails como a página padrão
       { path: 'settings', element: <ProfileSettings /> },
       { path: 'change-password', element: <ProfileChangePassword /> },
     ],

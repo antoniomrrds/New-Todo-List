@@ -16,11 +16,13 @@ import { App, Dropdown, MenuProps } from 'antd';
 import { useAuth } from '@/context/auth';
 import { useSignOut } from '@/api/service/auth/actions';
 import { FaHouseUser } from 'react-icons/fa';
+import { Roles } from '@/api/service/auth';
 type MenuItem = {
   key: string;
   icon: JSX.Element;
   label: string;
   link: string;
+  allowedRoles?: Roles[];
 };
 
 const items: MenuItem[] = [
@@ -37,10 +39,11 @@ const items: MenuItem[] = [
     link: '/todo',
   },
   {
-    key: 'about',
+    key: 'tag',
     icon: <BookOutlined />,
-    label: 'about',
-    link: '/about',
+    label: 'Tag',
+    link: '/tag',
+    allowedRoles: [Roles.Admin],
   },
 ];
 
@@ -72,6 +75,12 @@ export const AppHeader = () => {
       setVisible(false); // Only set to false if the drawer is visible and we are on tablet
     }
   }, [isTabletXS]);
+
+  console.log('user', user);
+  const filteredItems = items.filter((item) => {
+    if (!item.allowedRoles) return true;
+    return user?.Roles.some((role) => item.allowedRoles!.includes(role)); // Verifica se o usuário tem permissão
+  });
 
   const itemsProfile: MenuProps['items'] = [
     {
@@ -106,7 +115,7 @@ export const AppHeader = () => {
         <S.Logo src={logo} onClick={handleNavigateHome} alt="Logo" />
 
         <S.NavUl>
-          {items.map((item) => (
+          {filteredItems.map((item) => (
             <li key={item.key}>
               <S.NavLinkStyled to={item.link}>
                 {item.icon}
@@ -140,7 +149,7 @@ export const AppHeader = () => {
             size="large"
             onClick={() => navigateToSignIn()}
           >
-            Entrar
+            Login
           </S.ButtonSignInStyled>
         )}
       </S.Nav>

@@ -10,10 +10,11 @@ const colorStyles = {
   neutral800: css`${({ theme }) => theme.colors.neutral.neutral800}`,
 };
 
-export const CardMain = styled.article`
+export const CardMain = styled.section`
   background: ${({ theme }) => theme.colors.neutral.neutral100};
   border: ${({ theme }) => theme.borders.small} solid ${({ theme }) => theme.colors.success.successGreen600};
   width: ${({ theme }) => theme.container.fullWidthPercentage};
+  max-height: max-content;
   padding: ${({ theme }) => theme.spacing.small}!important;
 `;
 
