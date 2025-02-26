@@ -48,7 +48,6 @@ export const TableStyled = styled(Table)<TableProps<Tag>>`
     color: ${({ theme }) => theme.colors.neutral.neutral800};
   }
 `;
-
 export const Paragraph = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSizeSmall}!important;
   font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;

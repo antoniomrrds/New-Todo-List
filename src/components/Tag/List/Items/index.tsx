@@ -114,7 +114,6 @@ export const Items: FC<Props> = ({ data }) => {
           ),
         }}
       />
-
       <ConfirmToDoDeleteDialog
         open={isModalOpen}
         onConfirm={confirmAndCloseModal}
