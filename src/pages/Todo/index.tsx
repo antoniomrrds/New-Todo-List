@@ -1,4 +1,3 @@
-import { useSearchParams } from 'react-router-dom';
 import AppFooter from '@/components/Footer';
 import { AppHeader } from '@/components/Header';
 import { StyledContainer, StyledLayout } from '@/styles/global-styles';
@@ -11,7 +10,11 @@ import { ToDoSearchBar } from '@/components/Todo/List/SearchBar';
 import { PaginationCustom } from '@/components/shared/Pagination';
 import { useNavigateToPath } from '@/helpers';
 import { AxiosError } from 'axios';
-import { encodeObject, decodeObject, areObjectsEqual } from '@/utils';
+import {
+  saveObjectToLocalStorage,
+  getObjectFromLocalStorage,
+  areObjectsEqual,
+} from '@/utils';
 import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
 import { FloatButton } from 'antd';
 
@@ -24,12 +27,11 @@ export const DEFAULT_FILTERS: ToDoFilter = {
 };
 
 export const TodoHomePage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigateTo = useNavigateToPath();
 
-  // 🔹 Sempre sincronizar filtros com a URL ao carregar ou mudar a URL
-  const [filters, setFilters] = useState<ToDoFilter>(
-    decodeObject(searchParams.get('filter'), DEFAULT_FILTERS),
+  // 🔹 Sempre sincronizar filtros com o localStorage ao carregar
+  const [filters, setFilters] = useState<ToDoFilter>(() =>
+    getObjectFromLocalStorage('todoFilters', DEFAULT_FILTERS),
   );
 
   const hasCustomFilters = !areObjectsEqual(filters, DEFAULT_FILTERS);
@@ -37,26 +39,22 @@ export const TodoHomePage = () => {
   const { errorToDos, dataToDos, isLoadingToDos } =
     useQueryFilteredTodos(filters);
 
-  // 🔹 Sincroniza os filtros sempre que a URL muda
+  // 🔹 Sincroniza os filtros sempre que o localStorage ou o estado de filtros muda
   useEffect(() => {
-    const urlFilters: ToDoFilter = decodeObject(
-      searchParams.get('filter'),
+    const savedFilters = getObjectFromLocalStorage(
+      'todoFilters',
       DEFAULT_FILTERS,
     );
-    if (!areObjectsEqual(filters, urlFilters)) {
-      setFilters(urlFilters);
+    if (!areObjectsEqual(filters, savedFilters)) {
+      setFilters(savedFilters);
     }
-  }, [searchParams]);
+  }, [filters]);
 
-  // 🔹 Atualiza os filtros e a URL ao mesmo tempo
+  // 🔹 Atualiza os filtros e o localStorage ao mesmo tempo
   const updateFilters = (updatedFilters: Partial<ToDoFilter>) => {
     const newFilters = { ...filters, ...updatedFilters };
     setFilters(newFilters);
-    setSearchParams(
-      areObjectsEqual(newFilters, DEFAULT_FILTERS)
-        ? {}
-        : { filter: encodeObject(newFilters) },
-    );
+    saveObjectToLocalStorage('todoFilters', newFilters); // Armazena no localStorage
   };
 
   return (

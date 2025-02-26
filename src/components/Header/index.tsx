@@ -17,6 +17,7 @@ import { useAuth } from '@/context/auth';
 import { useSignOut } from '@/api/service/auth/actions';
 import { FaHouseUser } from 'react-icons/fa';
 import { Roles } from '@/api/service/auth';
+
 type MenuItem = {
   key: string;
   icon: JSX.Element;
@@ -49,6 +50,7 @@ const items: MenuItem[] = [
 
 export const AppHeader = () => {
   const [visible, setVisible] = useState(false);
+  const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
   const navigate = useNavigateFunction();
   const navigateToSignIn = useCallback(() => navigate('/sign-in'), [navigate]);
   const sizeValue = useWindowWidth();
@@ -56,8 +58,6 @@ export const AppHeader = () => {
 
   const showDrawer = () => setVisible(true);
   const onClose = () => setVisible(false);
-
-  // Only trigger when screen size changes, not when visible changes
 
   const navigteToProfile = useCallback(() => navigate('/profile'), [navigate]);
   const handleNavigateHome = useCallback(() => navigate('/'), [navigate]);
@@ -72,15 +72,18 @@ export const AppHeader = () => {
 
   useEffect(() => {
     if (isTabletXS && visible) {
-      setVisible(false); // Only set to false if the drawer is visible and we are on tablet
+      setVisible(false);
     }
   }, [isTabletXS]);
 
-  console.log('user', user);
-  const filteredItems = items.filter((item) => {
-    if (!item.allowedRoles) return true;
-    return user?.Roles.some((role) => item.allowedRoles!.includes(role)); // Verifica se o usuário tem permissão
-  });
+  useEffect(() => {
+    const filtered = items.filter((item) => {
+      if (!item.allowedRoles) return true;
+      return user?.Roles?.some((role) => item.allowedRoles!.includes(role));
+    });
+
+    setFilteredItems(filtered);
+  }, [user]);
 
   const itemsProfile: MenuProps['items'] = [
     {
@@ -102,9 +105,8 @@ export const AppHeader = () => {
       key: 'sign-out',
       label: 'Sair',
       icon: <LogoutOutlined />,
-
       onClick: async () => {
-        handleFormSubmit(); // Esperar o logout
+        handleFormSubmit();
       },
     },
   ];
@@ -171,7 +173,7 @@ export const AppHeader = () => {
           <S.CloseCircleFilledStyled onClick={onClose} />
         </S.NavDrawer>
         <S.NavUlDrawer key={'drawer-menu'}>
-          {items.map((item) => (
+          {filteredItems.map((item) => (
             <S.NavLiDrawer key={item.key}>
               <S.NavLinkDrawerStyled to={item.link}>
                 {item.icon}

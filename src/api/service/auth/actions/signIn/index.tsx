@@ -12,12 +12,13 @@ type SignInProps = {
 };
 
 export const useSignIn = ({ goToTodoPage, notification }: SignInProps) => {
-  const { setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated, loadData } = useAuth();
   const mutation = useMutation(
     (signUpData: SignIn) => authApi.signIn(signUpData),
     {
       onSuccess: () => {
         setIsAuthenticated(true);
+        loadData();
         goToTodoPage();
       },
       onError: (error: FormattedError) => {

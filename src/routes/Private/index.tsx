@@ -15,6 +15,7 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children, allowedRoles }) => {
     return <Navigate to="/sign-in" />; // Se não estiver autenticado, redireciona
   }
 
+  console.log('user', user);
   if (
     allowedRoles &&
     (!user || !user.Roles.some((role) => allowedRoles.includes(role)))
