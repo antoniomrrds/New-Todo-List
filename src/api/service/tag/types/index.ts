@@ -12,7 +12,6 @@ export type Tag = TagBase & {
   id: number;
   createdAt: string;
   updatedAt: string;
-  color: string;
   createdAtFormatted: string;
   updatedAtFormatted: string;
 };

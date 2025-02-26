@@ -15,19 +15,19 @@ type ToDoList = {
 };
 
 const LoadingComponent = () => (
-  <S.StyledCenteredContainer>
+  <S.GridCenteredContainer>
     <SpinCustom
       text="Carregando tarefas..."
       loading={true}
       hasAbsolutePosition={false}
     />
-  </S.StyledCenteredContainer>
+  </S.GridCenteredContainer>
 );
 
 const ErrorComponent = ({ message }: { message: string }) => (
-  <S.StyledCenteredContainer>
+  <S.GridCenteredContainer>
     <ErrorCard message={message} />
-  </S.StyledCenteredContainer>
+  </S.GridCenteredContainer>
 );
 
 const TodoListContainer: React.FC<ToDoList> = ({ toDos, isLoading, error }) => {
@@ -39,12 +39,12 @@ const TodoListContainer: React.FC<ToDoList> = ({ toDos, isLoading, error }) => {
     if (error) return <ErrorComponent message={error.message} />;
     if (toDos.length > 0) return <CardTasks data={toDos} />;
     return (
-      <S.StyledCenteredContainer>
+      <S.GridCenteredContainer>
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description={noFilteredTasksMessage}
         />
-      </S.StyledCenteredContainer>
+      </S.GridCenteredContainer>
     );
   };
 

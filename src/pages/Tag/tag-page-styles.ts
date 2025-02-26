@@ -18,7 +18,6 @@ export const ContainerStyled = styled.main`
 
 export const ContentStyled = styled.main`
   flex-grow: 1; /* Ocupa o restante do espaço */
-  padding: ${({ theme }) => theme.spacing.medium};
   max-width: ${({ theme }) => theme.container.maxWidth};
   margin: ${({ theme }) => theme.container.marginCenter};
   width: ${({ theme }) => theme.container.fullWidthPercentage};

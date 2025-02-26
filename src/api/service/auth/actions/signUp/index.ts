@@ -38,7 +38,6 @@ export const useSignUp = ({ navigateToSignIn, notification }: SignUpProps) => {
           ErrorNotification(notification, `Erro ao cadastrar usuário`, message);
           navigateToSignIn();
         }
-        console.error('Erro no cadastro', error);
       },
     },
   );
