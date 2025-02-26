@@ -1,15 +1,15 @@
-import { ToDoFilter } from '@/api/service/toDo/types';
 import { Col, Input, Row, Select } from 'antd';
 import { FC, useState } from 'react';
-import { CreateButton, FilterButton } from '@/components/Todo/List/Buttons';
-import { DEFAULT_FILTERS } from '@/pages/Todo';
-import { getTodoStatusText, TodoStatus } from '@/api/service/toDo/enum';
+
 import { generateOptions } from '@/utils';
+import { AddTagButton, FilterTagButton } from '@/components/Tag/List/Buttons';
+import { TagFilter } from '@/api/service/tag/types';
+import { DEFAULT_FILTERS_TAG } from '@/pages/Tag';
 import { ActivationState, getActivationStateText } from '@/api/core/types';
 
-type ToDoSearchBarProps = {
-  filters: ToDoFilter;
-  onApplyFilters: (updatedFilters: Partial<ToDoFilter>) => void;
+type TagSearchBarProps = {
+  filters: TagFilter;
+  onApplyFilters: (updatedFilters: Partial<TagFilter>) => void;
   handleNavigateAdd: () => void;
   shouldShowDropdown: boolean;
 };
@@ -18,25 +18,24 @@ const activationOptions = generateOptions(
   ActivationState,
   getActivationStateText,
 );
-const todoOptions = generateOptions(TodoStatus, getTodoStatusText);
-export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
+export const TagSearchBar: FC<TagSearchBarProps> = ({
   filters,
   onApplyFilters,
   handleNavigateAdd,
   shouldShowDropdown,
 }) => {
-  const [localFilters, setLocalFilters] = useState<ToDoFilter>(filters);
+  const [localFilters, setLocalFilters] = useState<TagFilter>(filters);
 
   // Atualiza os filtros locais com tipos corretos
-  const updateLocalFilters = <K extends keyof ToDoFilter>(
+  const updateLocalFilters = <K extends keyof TagFilter>(
     key: K,
-    value: ToDoFilter[K],
+    value: TagFilter[K],
   ) => {
     setLocalFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleClearFilters = () => {
-    const clearedFilters = DEFAULT_FILTERS;
+    const clearedFilters = DEFAULT_FILTERS_TAG;
     setLocalFilters(clearedFilters);
     onApplyFilters(clearedFilters);
   };
@@ -48,25 +47,15 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
   return (
     <>
       <Row gutter={[8, 8]} align="middle">
-        <Col xs={24} md={24}>
+        <Col xs={24} md={12}>
           <Input
-            placeholder="Buscar tarefas por título"
+            placeholder="Buscar tags por título"
             allowClear
             value={localFilters.name}
             onChange={(e) => updateLocalFilters('name', e.target.value.trim())}
           />
         </Col>
-        <Col xs={24} md={8}>
-          <Select
-            style={{ width: '100%' }}
-            placeholder="Filtrar por status"
-            value={localFilters.Status}
-            onChange={(value) =>
-              updateLocalFilters('Status', value as TodoStatus)
-            }
-            options={[...todoOptions]}
-          />
-        </Col>
+
         <Col xs={24} md={8}>
           <Select
             style={{ width: '100%' }}
@@ -80,8 +69,8 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
           />
         </Col>
 
-        <Col xs={24} md={8}>
-          <FilterButton
+        <Col xs={24} md={4}>
+          <FilterTagButton
             onClearFilters={handleClearFilters}
             text="Filtrar"
             onFilter={handleSearch}
@@ -91,7 +80,7 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
       </Row>
       <Row gutter={[8, 8]} style={{ marginTop: 8 }} justify={'end'}>
         <Col xs={24}>
-          <CreateButton text="Criar Nova Tarefa" onClick={handleNavigateAdd} />
+          <AddTagButton text="Criar nova tag" onClick={handleNavigateAdd} />
         </Col>
       </Row>
     </>

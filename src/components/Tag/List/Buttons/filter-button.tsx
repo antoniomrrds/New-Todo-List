@@ -11,7 +11,7 @@ type FilterButtonProps = {
   shouldShowDropdown: boolean;
 };
 
-export const FilterButton = ({
+export const FilterTagButton = ({
   text,
   onFilter,
   onClearFilters,

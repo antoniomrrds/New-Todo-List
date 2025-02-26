@@ -1,3 +1,5 @@
+import { ActivationState, PagedResponse } from '@/api/core/types';
+
 type TagBase = {
   name: string;
   description: string;
@@ -14,3 +16,12 @@ export type Tag = TagBase & {
   createdAtFormatted: string;
   updatedAtFormatted: string;
 };
+
+export type TagFilter = {
+  name: string;
+  PageSize: number;
+  Page: number;
+  Active: ActivationState;
+};
+
+export type FilteredTagResponse = PagedResponse<Tag>;

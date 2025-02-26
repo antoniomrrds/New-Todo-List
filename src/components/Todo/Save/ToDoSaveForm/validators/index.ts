@@ -9,7 +9,7 @@ import {
   isDateOrDayjs,
   isExpirationDateFuture,
 } from '@/utils';
-import { ActivationState } from '@/api/service/toDo/enum';
+import { ActivationState } from '@/api/core/types';
 export type expirationDate = string | Date | dayjs.Dayjs;
 
 export const todoValidationSchema = Yup.object({

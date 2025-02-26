@@ -15,8 +15,9 @@ import {
   getObjectFromLocalStorage,
   areObjectsEqual,
 } from '@/utils';
-import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
+import { TodoStatus } from '@/api/service/toDo/enum';
 import { FloatButton } from 'antd';
+import { ActivationState } from '@/api/core/types';
 
 export const DEFAULT_FILTERS: ToDoFilter = {
   name: '',

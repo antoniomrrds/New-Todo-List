@@ -5,5 +5,7 @@ export const StyledCenteredContainer = styled(StyledContainer)`
    align-items: center;
    display: flex;
   justify-content: center;
-  min-height: 60vh;
+  flex-grow: 1; 
+   margin: 0 auto;
+
 `;

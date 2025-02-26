@@ -1,4 +1,3 @@
-import { ActivationState } from '@/api/service/toDo/enum';
 import { ToDoDetails } from '@/api/service/toDo/types';
 
 import {
@@ -31,6 +30,7 @@ import {
 import { useSaveToDo } from '@/api/service/toDo/actions';
 import { FieldError } from '@/components/shared/Form';
 import { SelectProps } from 'antd/lib';
+import { ActivationState } from '@/api/core/types';
 
 type ToDoSaveFormProps = {
   toDoItem: ToDoDetails | null;

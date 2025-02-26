@@ -1,7 +1,7 @@
-import { PagedResponse } from '@/api/core/types';
+import { ActivationState, PagedResponse } from '@/api/core/types';
 import { Category } from '@/api/service/category/types';
 import { Tag } from '@/api/service/tag/types';
-import { ActivationState, TodoStatus } from '@/api/service/toDo/enum';
+import { TodoStatus } from '@/api/service/toDo/enum';
 
 // Tipo comum para a parte do "ToDo"
 export type TodoBase = {

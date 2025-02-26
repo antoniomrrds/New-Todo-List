@@ -7,7 +7,7 @@ type CreateButtonProps = {
   onClick: () => void;
 };
 
-export const CreateButton = ({ text, onClick }: CreateButtonProps) => (
+export const AddTagButton = ({ text, onClick }: CreateButtonProps) => (
   <DefaultButton
     text={text}
     onClick={onClick}

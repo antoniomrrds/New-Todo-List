@@ -3,11 +3,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { ToDoDetails } from '@/api/service/toDo/types';
 import dayjs from 'dayjs';
-import { ActivationState } from '@/api/service/toDo/enum';
 import {
   SaveToDoValidationType,
   todoValidationSchema,
 } from '@/components/Todo/Save/ToDoSaveForm/validators';
+import { ActivationState } from '@/api/core/types';
 
 type UseTodoFormProps = {
   toDoItem: ToDoDetails | null;
