@@ -27,16 +27,20 @@ export const DEFAULT_FILTERS_TAG: TagFilter = {
 export const TagPage = () => {
   const navigateTo = useNavigateToPath();
 
-  // Inicializa os filtros com os valores do localStorage
   const [filters, setFilters] = useState<TagFilter>(() =>
     getObjectFromLocalStorage('tagFilters', DEFAULT_FILTERS_TAG),
   );
 
   const hasCustomFilters = !areObjectsEqual(filters, DEFAULT_FILTERS_TAG);
 
-  // Faz a busca inicial na montagem da página
   const { dataTags, errorTags, isLoadingTags, refetch } =
     useQueryFilteredTags(filters);
+
+  if (errorTags) {
+    console.error('Erro ao buscar as tags', errorTags);
+  }
+
+  console.log('dataTags', dataTags);
 
   // Garantir que a busca inicial aconteça sempre
   useEffect(() => {

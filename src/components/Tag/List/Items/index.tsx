@@ -1,12 +1,13 @@
-import { App, Row } from 'antd';
+import { App, Row, Typography } from 'antd';
 import { FC } from 'react';
 import { useModal, useNavigateToPath } from '@/helpers';
 import { gold, greyDark } from '@ant-design/colors';
 import { useDeleteTodo } from '@/api/service/toDo/actions';
-import { ConfirmToDoDeleteDialog } from '@/components/Todo/Details/Modal';
 import * as I from '@/components/shared/Icons';
 import { Tag } from '@/api/service/tag/types';
 import * as S from './items-styles';
+import { ConfirmTagDeleteDialog } from '@/components/Tag/shared/Modal';
+const { Text } = Typography;
 
 // Tipagem das props
 type Props = {
@@ -45,12 +46,7 @@ export const Items: FC<Props> = ({ data }) => {
       title: 'Nome',
       dataIndex: 'name',
       key: 'name',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'active',
-      key: 'active',
-      render: (active: number) => (active ? 'Ativo' : 'Inativo'),
+      render: (name: string) => <Text delete>{name}</Text>,
     },
     {
       title: 'Criado em',
@@ -105,7 +101,7 @@ export const Items: FC<Props> = ({ data }) => {
         bordered={false}
         columns={columns}
         rowKey="id"
-        scroll={{ x: 'max-content' }} // Garante que o scroll aparece se necessário
+        scroll={{ x: 'max-content' }}
         pagination={false}
         dataSource={data}
         expandable={{
@@ -114,7 +110,7 @@ export const Items: FC<Props> = ({ data }) => {
           ),
         }}
       />
-      <ConfirmToDoDeleteDialog
+      <ConfirmTagDeleteDialog
         open={isModalOpen}
         onConfirm={confirmAndCloseModal}
         onCancel={closeModal}

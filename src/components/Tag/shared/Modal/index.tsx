@@ -8,7 +8,7 @@ type ConfirmToDoDeleteDialogProps = {
   onCancel: () => void;
   loading?: boolean;
 };
-export const ConfirmToDoDeleteDialog: FC<ConfirmToDoDeleteDialogProps> = ({
+export const ConfirmTagDeleteDialog: FC<ConfirmToDoDeleteDialogProps> = ({
   onCancel,
   onConfirm,
   open,
@@ -17,7 +17,7 @@ export const ConfirmToDoDeleteDialog: FC<ConfirmToDoDeleteDialogProps> = ({
   return (
     <S.ModalStyled
       centered
-      title={'Você tem certeza que deseja deletar esta tarefa?'}
+      title={'Você tem certeza que deseja Deletar esta tarefa?'}
       open={open}
       onOk={onConfirm}
       onCancel={onCancel}

@@ -30,7 +30,7 @@ export const ModalStyled = styled(Modal)`
   }
 `;
 
-export const Paragraph = styled.p`
+export const Paragraf = styled.p`
     display: flex;
     align-items: center;
     justify-content: center;
