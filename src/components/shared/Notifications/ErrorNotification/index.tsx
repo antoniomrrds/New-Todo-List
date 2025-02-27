@@ -5,7 +5,7 @@ import * as S from '@/components/shared/Notifications/notification-styles';
 import { WarningFilledStyled } from '@/components/shared/Icons';
 import { Alert, Badge } from 'antd';
 
-export const ErrorNotificationSignin = (
+export const ErrorNotification = (
   notification: NotificationInstance,
   message: string,
   errorMessages?: string[],

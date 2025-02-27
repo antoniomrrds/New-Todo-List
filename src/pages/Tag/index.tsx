@@ -36,12 +36,6 @@ export const TagPage = () => {
   const { dataTags, errorTags, isLoadingTags, refetch } =
     useQueryFilteredTags(filters);
 
-  if (errorTags) {
-    console.error('Erro ao buscar as tags', errorTags);
-  }
-
-  console.log('dataTags', dataTags);
-
   // Garantir que a busca inicial aconteça sempre
   useEffect(() => {
     refetch();
