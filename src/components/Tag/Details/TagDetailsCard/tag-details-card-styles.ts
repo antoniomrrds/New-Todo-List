@@ -35,6 +35,7 @@ export const HeaderSubtitle = styled.h2`
   line-height: ${({ theme }) => theme.typography.lineHeightDefault}!important;
   font-weight: ${({ theme }) => theme.typography.fontWeight[500]} !important;
   margin-top: ${({ theme }) => theme.spacing.xsmall}!important;
+  margin-bottom: ${({ theme }) => theme.spacing.xsmall}!important;
   color: ${colorStyles.successGreen600}!important;
 `;
 export const CardMain = styled.article`

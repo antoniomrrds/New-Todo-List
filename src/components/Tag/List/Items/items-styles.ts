@@ -1,5 +1,7 @@
 import { Tag } from '@/api/service/tag/types';
-import { Col, Table } from 'antd';
+import { size } from '@/styles/breakpoints';
+import { generateSpacingCss } from '@/styles/Theme';
+import { Card, Col, Table } from 'antd';
 import { TableProps } from 'antd/lib';
 import styled, { css } from 'styled-components';
 
@@ -22,6 +24,12 @@ export const ActionsItemContatiner = styled(Col)`
     :hover {
        background: ${({ theme }) => theme.colors.neutral.neutral100};
     }
+   @media (max-width: ${size.tabletXS}) {
+    :hover {
+       background: ${colorStyles.neutral800};
+    }
+   }
+
    `;
 
 export const TableStyled = styled(Table)<TableProps<Tag>>`
@@ -50,4 +58,40 @@ export const Paragraph = styled.p`
   font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;
   line-height: ${({ theme }) => theme.typography.lineHeightDefault}!important;
   font-weight: ${({ theme }) => theme.typography.fontWeight[400]} !important;
+`;
+
+export const CardsContainer = styled.section`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(${({ theme }) => theme.spacingFn(200)}, 1fr));
+  grid-gap:  ${generateSpacingCss(10)};
+  justify-content: flex-start;
+  margin: ${({ theme }) => theme.container.marginCenter};
+  width: ${({ theme }) => theme.container.fullWidthPercentage};
+  height: max-content;
+
+`;
+export const PaperCard = styled(Card)<{ $Color?: string }>`
+display: flex;
+font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;
+flex-direction: column;
+width: ${({ theme }) => theme.container.fullWidthPercentage};
+justify-content: space-between;
+color:${({ theme }) => theme.colors.neutral.neutral800};
+background: ${({ theme }) => theme.colors.neutral.neutral100};
+.ant-card-body  {
+  overflow: hidden !important;
+  border-radius: ${({ theme }) => theme.spacing.small}!important;
+  padding: ${({ theme }) => theme.spacing.zero};
+  border: ${({ theme }) => `${theme.borders.default} solid ${theme.colors.neutral.neutral100}`};
+  background: ${colorStyles.neutral100};
+}
+`;
+
+export const HeaderSubtitle = styled.h2`
+  padding: ${({ theme }) => theme.spacing.medium}!important;
+  font-size: ${({ theme }) => theme.typography.fontSizeSmall}!important;
+  font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;
+  line-height: ${({ theme }) => theme.typography.lineHeightDefault}!important;
+  font-weight: ${({ theme }) => theme.typography.fontWeight[500]} !important;
+  margin-top: ${({ theme }) => theme.spacing.xsmall}!important;
 `;

@@ -4,6 +4,7 @@ import { SpinCustom } from '@/components/shared/Spin';
 import { useQueryTagDetails } from '@/api/service/tag/actions';
 
 import { TagActivityCard } from '@/components/Tag/Details/TagDetailsCard';
+import { App } from 'antd';
 type DetailsModalTagDialogProps = {
   open: boolean;
   onConfirm: () => void;
@@ -18,10 +19,8 @@ export const DetailsModalTagDialog: FC<DetailsModalTagDialogProps> = ({
   loading = false,
   id,
 }) => {
-  const { errorTag, tagItem, isLoadingTags } = useQueryTagDetails(id);
-  if (errorTag) {
-    console.error(errorTag);
-  }
+  const { notification } = App.useApp();
+  const { tagItem, isLoadingTags } = useQueryTagDetails(id, notification);
 
   return (
     <S.ModalStyled

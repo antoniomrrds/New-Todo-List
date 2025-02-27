@@ -23,7 +23,10 @@ export const useSignIn = ({ goToTodoPage, notification }: SignInProps) => {
       },
       onError: (error: FormattedError) => {
         setIsAuthenticated(false);
-        HandleError(error, notification);
+        HandleError({
+          error,
+          notification,
+        });
       },
     },
   );

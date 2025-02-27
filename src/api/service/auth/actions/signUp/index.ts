@@ -23,7 +23,7 @@ export const useSignUp = ({ navigateToSignIn, notification }: SignUpProps) => {
         navigateToSignIn();
       },
       onError: (error: FormattedError) => {
-        HandleError(error, notification);
+        HandleError({ error, notification });
       },
     },
   );

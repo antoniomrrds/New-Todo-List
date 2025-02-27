@@ -8,6 +8,9 @@ import { Tag } from '@/api/service/tag/types';
 import * as S from './items-styles';
 import { ConfirmTagDeleteDialog } from '@/components/Tag/shared/Modal';
 import { DetailsModalTagDialog } from '@/components/Tag/Details/Modal';
+import { size } from '@/styles/breakpoints';
+import { useWindowWidth } from '@/utils';
+import { DefaultValues } from '@/api/core/types';
 const { Text } = Typography;
 
 // Tipagem das props
@@ -18,6 +21,11 @@ type Props = {
 export const Items: FC<Props> = ({ data }) => {
   const navigateTo = useNavigateToPath();
   const navigateToEdit = (id: number) => navigateTo(`${id}/edit`);
+
+  const sizeValue = useWindowWidth();
+  const isTabletXS = sizeValue <= parseInt(size.tabletXS.replace('px', ''));
+  console.log('isTabletXS', isTabletXS);
+
   const { notification } = App.useApp();
   const { deleteToDo, deleteToDoIsLoading } = useDeleteTodo({ notification });
 
@@ -104,32 +112,73 @@ export const Items: FC<Props> = ({ data }) => {
 
   return (
     <>
-      <S.TableStyled
-        bordered={false}
-        columns={columns}
-        rowKey="id"
-        scroll={{ x: 'max-content' }}
-        pagination={false}
-        dataSource={data}
-        expandable={{
-          expandedRowRender: (record: Tag) => (
-            <S.Paragraph>{record.description}</S.Paragraph>
-          ),
-        }}
-      />
+      {isTabletXS ? (
+        <S.CardsContainer>
+          {data.map((tag) => (
+            <S.PaperCard key={tag.id}>
+              <S.HeaderSubtitle>{tag.name}</S.HeaderSubtitle>
+              <Row justify={'center'} align={'middle'}>
+                <S.ActionsItemContatiner
+                  span={8}
+                  onClick={() => navigateToEdit(tag.id)}
+                >
+                  <S.ActionsItem>
+                    <I.EditOutlinedStyled $color={gold.primary} key="edit" />
+                  </S.ActionsItem>
+                </S.ActionsItemContatiner>
+                <S.ActionsItemContatiner
+                  span={8}
+                  onClick={() => showModal(tag.id)}
+                >
+                  <S.ActionsItem>
+                    <I.FaTrashAltStyled key="delete" />
+                  </S.ActionsItem>
+                </S.ActionsItemContatiner>
+                <S.ActionsItemContatiner
+                  span={8}
+                  onClick={() => showTagDetailsModal(tag.id)}
+                >
+                  <S.ActionsItem>
+                    <I.InfoCircleOutlinedStyled
+                      $color={greyDark.primary}
+                      key="info"
+                    />
+                  </S.ActionsItem>
+                </S.ActionsItemContatiner>
+              </Row>
+            </S.PaperCard>
+          ))}
+        </S.CardsContainer>
+      ) : (
+        <S.TableStyled
+          bordered={false}
+          columns={columns}
+          rowKey="id"
+          scroll={{ x: 'max-content' }}
+          pagination={false}
+          dataSource={data}
+          expandable={{
+            expandedRowRender: (record: Tag) => (
+              <S.Paragraph>{record.description}</S.Paragraph>
+            ),
+          }}
+        />
+      )}
       <ConfirmTagDeleteDialog
         open={isModalOpen}
         onConfirm={confirmAndCloseModal}
         onCancel={closeModal}
         loading={deleteToDoIsLoading}
       />
-      <DetailsModalTagDialog
-        open={tagDetailsIsModalOpen}
-        onConfirm={closeTagDetailsModal}
-        onCancel={closeTagDetailsModal}
-        loading={false}
-        id={tagToDetails ?? 0} // Usa 0 caso `tagToDetails` seja null
-      />
+      {tagToDetails !== null && (
+        <DetailsModalTagDialog
+          open={tagDetailsIsModalOpen}
+          onConfirm={closeTagDetailsModal}
+          onCancel={closeTagDetailsModal}
+          loading={false}
+          id={tagToDetails ?? DefaultValues.IdNullValue} // Usa 0 caso `tagToDetails` seja null
+        />
+      )}
     </>
   );
 };

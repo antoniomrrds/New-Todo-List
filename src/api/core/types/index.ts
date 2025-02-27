@@ -20,3 +20,6 @@ export const ActivationStateText = {
 
 export const getActivationStateText = (status: ActivationState) =>
   ActivationStateText[status];
+export enum DefaultValues {
+  IdNullValue = 0,
+}

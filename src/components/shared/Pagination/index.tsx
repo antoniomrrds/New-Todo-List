@@ -19,7 +19,6 @@ export const PaginationCustom = ({
     defaultCurrent={pageDefault}
     total={totalItems}
     hideOnSinglePage
-    responsive
     current={pageDefault}
     showPrevNextJumpers={true}
     pageSize={pageSize}

@@ -34,14 +34,14 @@ export const TagActivityCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
         </Col>
       </Row>
       <Row>
-        <Col span={12}>
+        <Col xs={24} md={12}>
           <Flex align="center" gap={2}>
             <FaRegCalendarAlt color={theme.colors.neutral.neutral200} />
             <S.HeaderSubtitle>Cadastrado:</S.HeaderSubtitle>
           </Flex>
           <S.TextCustom>{tagItem?.createdAtFormatted}</S.TextCustom>
         </Col>
-        <Col span={12}>
+        <Col xs={24} md={12}>
           <Flex align="center" gap={2}>
             <FaCalendarCheck color={theme.colors.neutral.neutral200} />
             <S.HeaderSubtitle>Atualizado</S.HeaderSubtitle>

@@ -9,6 +9,7 @@ const colorsStyles = {
 };
 export const PaginationStyled = styled(Pagination)<PaginationProps>`
     padding: ${({ theme }) => theme.spacing.medium};
+    width: ${({ theme }) => theme.container.fullWidthPercentage} !important;
     .ant-pagination-item  {
       overflow: hidden;
       border:${({ theme }) => theme.borders.small}  solid  ${colorsStyles.successGreen600}!important;
