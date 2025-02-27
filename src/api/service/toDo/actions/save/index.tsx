@@ -1,13 +1,8 @@
-import { FormattedError } from '@/api/error/types';
 import { todoApi } from '@/api/service/toDo';
 import { CreateToDo, UpdateToDo } from '@/api/service/toDo/types';
 import { useMutation } from 'react-query';
 
-import { ErrorCodes } from '@/api/error/error-codes';
-import {
-  ErrorNotification,
-  SuccessNotification,
-} from '@/components/shared/Notifications';
+import { SuccessNotification } from '@/components/shared/Notifications';
 import { NotificationInstance } from 'antd/es/notification/interface';
 import { SaveToDoValidationType } from '@/components/Todo/Save/ToDoSaveForm/validators';
 
@@ -48,14 +43,6 @@ export const useSaveToDo = ({ notification, goToTodoPage }: SaveTodoProps) => {
           typeCreateOrUpdate: 'id' in variables ? 'atualizada' : 'criada',
         });
       },
-      onError: (error: FormattedError, variables) => {
-        processErrorAction({
-          notification,
-          error,
-          goToTodoPage,
-          typeCreateOrUpdate: 'id' in variables ? 'atualizar' : 'criar',
-        });
-      },
     },
   );
 
@@ -82,35 +69,4 @@ const processSuccessfulAction = ({
     `Tarefa ${typeCreateOrUpdate} com sucesso`,
   );
   goToTodoPage();
-};
-
-type processErrorActionProps = {
-  notification: NotificationInstance;
-  error: FormattedError;
-  goToTodoPage: () => void;
-  typeCreateOrUpdate: string;
-};
-
-const processErrorAction = ({
-  notification,
-  error,
-  goToTodoPage,
-  typeCreateOrUpdate,
-}: processErrorActionProps) => {
-  const { errors, status, message } = error;
-  if (status === ErrorCodes.BAD_REQUEST) {
-    ErrorNotification(
-      notification,
-      `Error ao ${typeCreateOrUpdate} tarefa`,
-      message,
-      errors,
-    );
-  } else {
-    ErrorNotification(
-      notification,
-      `Erro ao ${typeCreateOrUpdate} tarefa`,
-      message,
-    );
-    goToTodoPage();
-  }
 };

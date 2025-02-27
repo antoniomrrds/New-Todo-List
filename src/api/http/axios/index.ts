@@ -1,4 +1,4 @@
-import { ErrorCodes } from '@/api/error/error-codes';
+import { HttpStatusCode } from '@/api/http/http-status';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -30,7 +30,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === ErrorCodes.UNAUTHORIZED) {
+    if (error.response?.status === HttpStatusCode.UNAUTHORIZED) {
       Cookies.remove('sessionData');
       Cookies.remove('token');
       window.location.href = '/sign-in';

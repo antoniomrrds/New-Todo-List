@@ -1,7 +1,6 @@
-import { Empty } from 'antd';
+import { Alert, Empty } from 'antd';
 import { AxiosError } from 'axios';
 import React from 'react';
-import ErrorCard from '@/components/Error/ErrorCard';
 import { SpinCustom } from '@/components/shared/Spin';
 import { Tag } from '@/api/service/tag/types';
 import { Items } from '@/components/Tag/List/Items';
@@ -25,7 +24,12 @@ const LoadingComponent = () => (
 
 const ErrorComponent = ({ message }: { message: string }) => (
   <S.GridCenteredContainer>
-    <ErrorCard message={message} />
+    <Alert
+      message="Erro ao carregar as tarefas"
+      description={message}
+      type="error"
+      showIcon
+    />
   </S.GridCenteredContainer>
 );
 

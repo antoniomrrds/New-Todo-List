@@ -1,37 +1,32 @@
 import { AxiosError } from 'axios';
-import { ApiErrorResponse, FormattedError } from '@/api/error/types';
-import { handleBadRequestError } from '@/api/error/handle-errors';
-import { ErrorCodes } from '@/api/error/error-codes';
 import {
   NETWORK_ERROR_MESSAGES_CUSTOM,
   STATUS_ERROR_MESSAGES,
-} from '@/api/error/status-error-messages';
+} from '@/api/core/error/status-error-messages';
+import { HttpStatusCode } from '@/api/http/http-status';
+import { handleBadRequestError } from '@/api/core';
 
 // Função para tratar os erros da API
-export const handleApiError = (
-  error: AxiosError<ApiErrorResponse>,
-  customMessage?: string,
-): FormattedError => {
+export const handleApiError = (error: AxiosError, customMessage?: string) => {
   let errorMessage =
     customMessage || NETWORK_ERROR_MESSAGES_CUSTOM.defaultError;
-  let errorDetails: string[] = [];
+  const messageErrors: string[] = [];
 
   // Verificando se a resposta foi recebida
   if (error.response) {
-    const { status, data } = error.response;
-    const errorCode = status as ErrorCodes;
+    const status = error.response.status as HttpStatusCode;
+    const errorCode = status;
 
     // Usando o enum para obter a mensagem correspondente ao código de erro
     errorMessage =
       STATUS_ERROR_MESSAGES[errorCode] ||
       NETWORK_ERROR_MESSAGES_CUSTOM.defaultError;
-    // Caso o erro seja 400 (Bad Request), podemos tratar erros detalhados
-    if (errorCode === ErrorCodes.BAD_REQUEST && data?.errors) {
-      errorMessage = data.message || errorMessage;
-      errorDetails = handleBadRequestError(data, errorDetails);
+
+    // Verificando o status diretamente
+    if (status === HttpStatusCode.BAD_REQUEST) {
+      handleBadRequestError(error?.response?.data || {}, messageErrors);
     }
   }
-
   // Caso haja problemas na requisição mas não tenha resposta do servidor (erro de rede)
   else if (error.request) {
     errorMessage = NETWORK_ERROR_MESSAGES_CUSTOM.networkError; // Usando a mensagem de erro de rede
@@ -41,7 +36,7 @@ export const handleApiError = (
   return {
     originalError: error,
     message: errorMessage,
-    errors: errorDetails,
-    status: error.response?.status,
+    status: error.response?.status || HttpStatusCode.SERVER_ERROR,
+    messageErrors: messageErrors || [],
   };
 };

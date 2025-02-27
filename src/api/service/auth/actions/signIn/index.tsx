@@ -1,11 +1,12 @@
 import { useMutation } from 'react-query';
 import { authApi, SignIn } from '@/api/service/auth';
-import { ErrorNotification } from '@/components/shared/Notifications';
-import { ErrorCodes } from '@/api/error/error-codes';
 import { NotificationInstance } from 'antd/es/notification/interface';
-import { FormattedError } from '@/api/error/types';
 import { SignInValidationType } from '@/components/Auth/SignIn/Validation';
 import { useAuth } from '@/context/auth';
+import { FormattedError } from '@/api/core/error/types';
+import { ErrorNotificationSignin } from '@/components/Auth/notification/ErrorNotification';
+import { HttpStatusCode } from '@/api/http/http-status';
+
 type SignInProps = {
   notification: NotificationInstance;
   goToTodoPage: () => void;
@@ -21,18 +22,20 @@ export const useSignIn = ({ goToTodoPage, notification }: SignInProps) => {
         loadData();
         goToTodoPage();
       },
-      onError: (error: FormattedError) => {
+      onError: ({
+        message,
+        status,
+        messageErrors,
+        originalError,
+      }: FormattedError) => {
         setIsAuthenticated(false);
-        const { errors, status, message } = error;
-        if (status === ErrorCodes.BAD_REQUEST) {
-          ErrorNotification(
-            notification,
-            `Error ao Logar o usuário`,
-            message,
-            errors,
-          );
+
+        if (status === HttpStatusCode.BAD_REQUEST) {
+          const data = originalError.response?.data;
+          const messageError = data?.message || message;
+          ErrorNotificationSignin(notification, messageError, messageErrors);
         } else {
-          ErrorNotification(notification, 'Error ao logar o usuário', message);
+          ErrorNotificationSignin(notification, message);
         }
       },
     },

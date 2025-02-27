@@ -24,7 +24,6 @@ import { TodoActionButtons } from '@/components/Todo/Save/ActionButtonGroup';
 import { SpinCustom } from '@/components/shared/Spin';
 import {
   useCategoriesAndTags,
-  useErrorHandling,
   useTodoForm,
 } from '@/components/Todo/Save/ToDoSaveForm/hooks';
 import { useSaveToDo } from '@/api/service/toDo/actions';
@@ -64,17 +63,9 @@ export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
   const {
     categories,
     tags,
-    errorCategories,
-    errorTags,
+
     isLoadingCategoriesAndTags,
   } = useCategoriesAndTags();
-
-  useErrorHandling({
-    errorCategories,
-    errorTags,
-    notification,
-    goToTodoPage,
-  });
 
   const handleCancel = () => {
     reset();

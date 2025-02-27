@@ -2,28 +2,28 @@ import { NotificationInstance } from 'antd/es/notification/interface';
 
 import * as S from '@/components/shared/Notifications/notification-styles';
 
-import { Typography } from 'antd';
-const { Title } = Typography;
-
-import { ErrorContent } from '@/components/shared/Notifications/ErrorNotification/components';
 import { WarningFilledStyled } from '@/components/shared/Icons';
+import { Alert, Badge } from 'antd';
 
-export const ErrorNotification = (
+export const ErrorNotificationSignin = (
   notification: NotificationInstance,
   message: string,
-  description: string,
-  details: string[] = [],
+  errorMessages?: string[],
   pauseOnHover: boolean = true,
-  duration = 5,
+  duration = 4,
 ) => {
   // notification.destroy();
   notification.error({
-    message: (
-      <Title type="danger" level={5}>
-        {message}
-      </Title>
-    ),
-    description: <ErrorContent description={description} details={details} />,
+    message,
+    description:
+      errorMessages &&
+      errorMessages?.map((msg, index) => (
+        <Alert
+          message={<Badge status="error" text={msg} />}
+          type="error"
+          key={index}
+        />
+      )),
     icon: <WarningFilledStyled />,
     closeIcon: <S.CloseCircleFilledStyled $colorVariant="error" />,
     className: 'ant-notification-notice-error',

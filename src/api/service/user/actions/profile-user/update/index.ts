@@ -1,11 +1,6 @@
-import { ErrorCodes } from '@/api/error/error-codes';
-import { FormattedError } from '@/api/error/types';
 import { UpdateUserProfile } from '@/api/service/user/types';
 import { UserApi } from '@/api/service/user/user-api';
-import {
-  ErrorNotification,
-  SuccessNotification,
-} from '@/components/shared/Notifications';
+import { SuccessNotification } from '@/components/shared/Notifications';
 import { useAuth } from '@/context/auth';
 import { NotificationInstance } from 'antd/es/notification/interface';
 import { useMutation } from 'react-query';
@@ -44,19 +39,6 @@ export const userUpdateUser = ({ notification }: UserUpdateProps) => {
           'Usuário atualizado com sucesso',
           'Os dados do usuário foram atualizados com sucesso',
         );
-      },
-      onError: (error: FormattedError) => {
-        const { errors, status, message } = error;
-        if (status === ErrorCodes.BAD_REQUEST) {
-          ErrorNotification(
-            notification,
-            `Erro ao atualizar usuário`,
-            message,
-            errors,
-          );
-        } else {
-          ErrorNotification(notification, `Erro ao atualizar usuário`, message);
-        }
       },
     },
   );
