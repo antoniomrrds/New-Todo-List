@@ -1,11 +1,11 @@
 import { Empty } from 'antd';
 import { AxiosError } from 'axios';
 import React from 'react';
-import * as S from '@/components/Todo/List/todo-list-container.styles';
 import ErrorCard from '@/components/Error/ErrorCard';
 import { SpinCustom } from '@/components/shared/Spin';
 import { Tag } from '@/api/service/tag/types';
 import { Items } from '@/components/Tag/List/Items';
+import * as S from './tag-list-container-styles';
 
 type TagList = {
   tags: Tag[];
@@ -14,13 +14,13 @@ type TagList = {
 };
 
 const LoadingComponent = () => (
-  <S.GridCenteredContainer>
+  <S.GridCenteredLoading>
     <SpinCustom
       text="Carregando tarefas..."
       loading={true}
       hasAbsolutePosition={false}
     />
-  </S.GridCenteredContainer>
+  </S.GridCenteredLoading>
 );
 
 const ErrorComponent = ({ message }: { message: string }) => (
@@ -42,12 +42,12 @@ export const TagListContainer: React.FC<TagList> = ({
     if (error) return <ErrorComponent message={error.message} />;
     if (tags.length > 0) return <Items data={tags} />;
     return (
-      <S.GridCenteredContainer>
-        <Empty
+      <S.GridCenteredLoading>
+        <S.EmptyStyled
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description={noFilteredTasksMessage}
         />
-      </S.GridCenteredContainer>
+      </S.GridCenteredLoading>
     );
   };
 

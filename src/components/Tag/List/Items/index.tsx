@@ -107,7 +107,7 @@ export const Items: FC<Props> = ({ data }) => {
         rowKey="id"
         scroll={{ x: 'max-content' }} // Garante que o scroll aparece se necessário
         pagination={false}
-        dataSource={data?.length < 0 ? [] : data}
+        dataSource={data}
         expandable={{
           expandedRowRender: (record: Tag) => (
             <S.Paragraph>{record.description}</S.Paragraph>

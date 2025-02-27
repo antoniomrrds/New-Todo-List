@@ -23,7 +23,7 @@ export const TagApi = {
   },
   doFilter: async (filter: TagFilter): Promise<FilteredTagResponse> => {
     const response = await handleRequest(
-      axiosInstance.post<FilteredTagResponse>('/tag/dofilter', filter),
+      axiosInstance.post<FilteredTagResponse>('/tag/do-filter', filter),
     );
     return response.data;
   },

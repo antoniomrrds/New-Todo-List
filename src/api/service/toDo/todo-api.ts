@@ -17,7 +17,7 @@ export const todoApi = {
 
   doFilter: async (filter: ToDoFilter): Promise<FilteredToDoResponse> => {
     const response = await handleRequest(
-      axiosInstance.post<FilteredToDoResponse>('/todo/dofilter', filter),
+      axiosInstance.post<FilteredToDoResponse>('/todo/do-filter', filter),
     );
     return response.data;
   },

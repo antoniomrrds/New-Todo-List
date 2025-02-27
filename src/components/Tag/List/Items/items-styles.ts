@@ -26,13 +26,10 @@ export const ActionsItemContatiner = styled(Col)`
 
 export const TableStyled = styled(Table)<TableProps<Tag>>`
   font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;
-  border: 1px solid ${colorStyles.neutral200};
   border-radius: ${({ theme }) => theme.borders.large};
-
-  /* Garante que a tabela pode expandir além do container */
-  width: 100%;
   overflow-x: auto;
-
+  max-height: max-content;
+  border: 1px solid ${colorStyles.neutral200};
   .ant-table-wrapper {
     overflow-x: auto; /* Permite rolagem */
   }

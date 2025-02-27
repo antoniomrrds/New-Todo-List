@@ -1,5 +1,4 @@
 import { ActivationState } from '@/api/core/types';
-import { useQueryFilteredTags } from '@/api/service/tag/actions';
 import { TagFilter } from '@/api/service/tag/types';
 import { AppHeader } from '@/components/Header';
 import { TagSearchBar } from '@/components/Tag/List/SearchBar';
@@ -16,6 +15,7 @@ import { AxiosError } from 'axios';
 import { PaginationCustom } from '@/components/shared/Pagination';
 import { FloatButton } from 'antd';
 import AppFooter from '@/components/Footer';
+import { useQueryFilteredTags } from '@/api/service/tag/actions';
 
 export const DEFAULT_FILTERS_TAG: TagFilter = {
   name: '',
@@ -26,27 +26,31 @@ export const DEFAULT_FILTERS_TAG: TagFilter = {
 
 export const TagPage = () => {
   const navigateTo = useNavigateToPath();
+
+  // Inicializa os filtros com os valores do localStorage
   const [filters, setFilters] = useState<TagFilter>(() =>
     getObjectFromLocalStorage('tagFilters', DEFAULT_FILTERS_TAG),
   );
 
   const hasCustomFilters = !areObjectsEqual(filters, DEFAULT_FILTERS_TAG);
 
-  const { dataTags, errorTags, isLoadingTags } = useQueryFilteredTags(filters);
+  // Faz a busca inicial na montagem da página
+  const { dataTags, errorTags, isLoadingTags, refetch } =
+    useQueryFilteredTags(filters);
+
+  // Garantir que a busca inicial aconteça sempre
   useEffect(() => {
-    const savedFilters = getObjectFromLocalStorage(
-      'tagFilters',
-      DEFAULT_FILTERS_TAG,
-    );
-    if (!areObjectsEqual(filters, savedFilters)) {
-      setFilters(savedFilters);
-    }
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    saveObjectToLocalStorage('tagFilters', filters);
+    refetch(); // Refaz a busca sempre que os filtros mudarem
   }, [filters]);
 
   const updateFilters = (updatedFilters: Partial<TagFilter>) => {
     const newFilters = { ...filters, ...updatedFilters };
     setFilters(newFilters);
-    saveObjectToLocalStorage('tagFilters', newFilters);
   };
 
   return (
@@ -68,14 +72,18 @@ export const TagPage = () => {
           isLoading={isLoadingTags}
           tags={dataTags?.items || []}
         />
+
         <FloatButton.BackTop type="primary" tooltip="↑ Voltar ao topo" />
+
+        {dataTags && (
+          <PaginationCustom
+            pageDefault={filters.Page}
+            pageSize={dataTags?.pageSize}
+            totalItems={dataTags?.totalItems}
+            onChange={(page) => updateFilters({ Page: page })}
+          />
+        )}
       </S.ContentStyled>
-      <PaginationCustom
-        pageDefault={filters.Page}
-        pageSize={dataTags?.pageSize}
-        totalItems={dataTags?.totalItems}
-        onChange={(page) => updateFilters({ Page: page })}
-      />
       <AppFooter />
     </S.LayoutStyled>
   );
