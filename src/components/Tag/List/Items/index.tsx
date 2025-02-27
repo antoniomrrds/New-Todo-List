@@ -7,6 +7,7 @@ import * as I from '@/components/shared/Icons';
 import { Tag } from '@/api/service/tag/types';
 import * as S from './items-styles';
 import { ConfirmTagDeleteDialog } from '@/components/Tag/shared/Modal';
+import { DetailsModalTagDialog } from '@/components/Tag/Details/Modal';
 const { Text } = Typography;
 
 // Tipagem das props
@@ -17,7 +18,6 @@ type Props = {
 export const Items: FC<Props> = ({ data }) => {
   const navigateTo = useNavigateToPath();
   const navigateToEdit = (id: number) => navigateTo(`${id}/edit`);
-  const navigateToDetails = (id: number) => navigateTo(`${id}`);
   const { notification } = App.useApp();
   const { deleteToDo, deleteToDoIsLoading } = useDeleteTodo({ notification });
 
@@ -35,6 +35,13 @@ export const Items: FC<Props> = ({ data }) => {
       });
     }
   };
+
+  const {
+    isModalOpen: tagDetailsIsModalOpen,
+    selectedItem: tagToDetails,
+    showModal: showTagDetailsModal,
+    closeModal: closeTagDetailsModal,
+  } = useModal<number>();
 
   const columns = [
     {
@@ -81,7 +88,7 @@ export const Items: FC<Props> = ({ data }) => {
           </S.ActionsItemContatiner>
           <S.ActionsItemContatiner
             span={8}
-            onClick={() => navigateToDetails(record.id)}
+            onClick={() => showTagDetailsModal(record.id)}
           >
             <S.ActionsItem>
               <I.InfoCircleOutlinedStyled
@@ -115,6 +122,13 @@ export const Items: FC<Props> = ({ data }) => {
         onConfirm={confirmAndCloseModal}
         onCancel={closeModal}
         loading={deleteToDoIsLoading}
+      />
+      <DetailsModalTagDialog
+        open={tagDetailsIsModalOpen}
+        onConfirm={closeTagDetailsModal}
+        onCancel={closeTagDetailsModal}
+        loading={false}
+        id={tagToDetails ?? 0} // Usa 0 caso `tagToDetails` seja null
       />
     </>
   );

@@ -8,6 +8,10 @@ import {
 } from '@/api/service/tag/types';
 
 export const TagApi = {
+  details: async (id: number) => {
+    const response = await handleRequest(axiosInstance.get<Tag>(`/tag/${id}`));
+    return response.data;
+  },
   getAll: async () => {
     const response = await handleRequest(axiosInstance.get<Tag[]>('/tag'));
     return response.data;

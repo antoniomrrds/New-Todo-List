@@ -41,7 +41,7 @@ export const SignIn: React.FC = () => {
     mode: 'onChange',
     defaultValues: {
       email: 'antoniomarcos.amrrds@gmail.com',
-      password: 'reis231asda0',
+      password: 'reis2310',
     },
   });
 

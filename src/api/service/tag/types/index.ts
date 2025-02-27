@@ -3,7 +3,7 @@ import { ActivationState, PagedResponse } from '@/api/core/types';
 type TagBase = {
   name: string;
   description: string;
-  active: number;
+  active: ActivationState;
 };
 
 export type CreateTag = TagBase;
