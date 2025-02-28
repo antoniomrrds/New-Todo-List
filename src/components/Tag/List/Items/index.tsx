@@ -2,16 +2,16 @@ import { App, Row, Typography } from 'antd';
 import { FC } from 'react';
 import { useModal } from '@/helpers';
 import { gold, greyDark } from '@ant-design/colors';
-import { useDeleteTodo } from '@/api/service/toDo/actions';
 import * as I from '@/components/shared/Icons';
 import { Tag } from '@/api/service/tag/types';
 import * as S from './items-styles';
-import { ConfirmTagDeleteDialog } from '@/components/Tag/shared/Modal';
+import { ConfirmTagDeleteDialog } from '@/components/Tag/delete/Modal';
 import { DetailsModalTagDialog } from '@/components/Tag/Details/Modal';
 import { size } from '@/styles/breakpoints';
 import { useWindowWidth } from '@/utils';
 import { DefaultValues } from '@/api/core/types';
 import { SaveModalTagDialog } from '@/components/Tag/Save/Modal';
+import { useDeleteTag } from '@/api/service/tag/actions';
 const { Text } = Typography;
 
 // Tipagem das props
@@ -24,7 +24,7 @@ export const Items: FC<Props> = ({ data }) => {
   const isTabletXS = sizeValue <= parseInt(size.tabletXS.replace('px', ''));
 
   const { notification } = App.useApp();
-  const { deleteToDo, deleteToDoIsLoading } = useDeleteTodo({ notification });
+  const { deleteTag, deleteTagIsLoading } = useDeleteTag({ notification });
 
   const {
     isModalOpen,
@@ -35,7 +35,7 @@ export const Items: FC<Props> = ({ data }) => {
 
   const confirmAndCloseModal = () => {
     if (tagToDelete !== null) {
-      deleteToDo(tagToDelete, {
+      deleteTag(tagToDelete, {
         onSuccess: closeModal,
       });
     }
@@ -174,7 +174,7 @@ export const Items: FC<Props> = ({ data }) => {
         open={isModalOpen}
         onConfirm={confirmAndCloseModal}
         onCancel={closeModal}
-        loading={deleteToDoIsLoading}
+        loading={deleteTagIsLoading}
       />
       {tagToDetails !== null && (
         <DetailsModalTagDialog

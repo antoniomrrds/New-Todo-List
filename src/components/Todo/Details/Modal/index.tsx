@@ -17,7 +17,12 @@ export const ConfirmToDoDeleteDialog: FC<ConfirmToDoDeleteDialogProps> = ({
   return (
     <S.ModalStyled
       centered
-      title={'Você tem certeza que deseja deletar esta tarefa?'}
+      title={
+        <>
+          Você tem certeza que <S.TextCustom>Deletar</S.TextCustom>
+          esta Tarefa ?
+        </>
+      }
       open={open}
       onOk={onConfirm}
       onCancel={onCancel}

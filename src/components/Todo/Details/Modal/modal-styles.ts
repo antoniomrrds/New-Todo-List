@@ -5,6 +5,7 @@ const colorStyles = {
   successGreen600: css`${({ theme }) => theme.colors.success.successGreen600}`,
   neutral800: css`${({ theme }) => theme.colors.neutral.neutral800}`,
   errorRed500: css`${({ theme }) => theme.colors.error.errorRed500}`,
+  neutral200: css`${({ theme }) => theme.colors.neutral.neutral200}`,
 };
 
 export const ModalStyled = styled(Modal)`
@@ -40,3 +41,16 @@ export const Paragraph = styled.p`
     font-weight: ${({ theme }) => theme.typography.fontWeight[500]}!important;
     font-style: ${({ theme }) => theme.typography.fontStyle.italic}!important;
    `;
+
+export const TextCustom = styled.span<{
+  $color?: string;
+}>`
+    font-size: ${({ theme }) => theme.typography.fontSizeMedium}!important;
+    font-family: ${({ theme }) => theme.typography.fontFamily.poppins} !important;
+  color: ${({ $color }) => $color || colorStyles.neutral200}!important;
+  font-weight: ${({ theme }) => theme.typography.fontWeight[700]} !important;
+  font-style: ${({ theme }) => theme.typography.fontStyle.italic}!important;
+  margin-inline-end: ${({ theme }) => theme.spacing.xsmall}!important;
+  margin-inline-start: ${({ theme }) => theme.spacing.xsmall}!important;
+
+`;
