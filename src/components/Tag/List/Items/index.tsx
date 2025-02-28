@@ -11,6 +11,7 @@ import { DetailsModalTagDialog } from '@/components/Tag/Details/Modal';
 import { size } from '@/styles/breakpoints';
 import { useWindowWidth } from '@/utils';
 import { DefaultValues } from '@/api/core/types';
+import { SaveModalTagDialog } from '@/components/Tag/Save/Modal';
 const { Text } = Typography;
 
 // Tipagem das props
@@ -51,6 +52,13 @@ export const Items: FC<Props> = ({ data }) => {
     closeModal: closeTagDetailsModal,
   } = useModal<number>();
 
+  const {
+    isModalOpen: isSaveModalOpen,
+    selectedItem: tagToSave,
+    showModal: showSaveModal,
+    closeModal: closeSaveModal,
+  } = useModal<number>();
+
   const columns = [
     {
       title: 'ID',
@@ -80,7 +88,7 @@ export const Items: FC<Props> = ({ data }) => {
         <Row justify={'center'} align={'middle'}>
           <S.ActionsItemContatiner
             span={8}
-            onClick={() => navigateToEdit(record.id)}
+            onClick={() => showSaveModal(record.id)}
           >
             <S.ActionsItem>
               <I.EditOutlinedStyled $color={gold.primary} key="edit" />
@@ -120,7 +128,7 @@ export const Items: FC<Props> = ({ data }) => {
               <Row justify={'center'} align={'middle'}>
                 <S.ActionsItemContatiner
                   span={8}
-                  onClick={() => navigateToEdit(tag.id)}
+                  onClick={() => showSaveModal(tag.id)}
                 >
                   <S.ActionsItem>
                     <I.EditOutlinedStyled $color={gold.primary} key="edit" />
@@ -177,6 +185,15 @@ export const Items: FC<Props> = ({ data }) => {
           onCancel={closeTagDetailsModal}
           loading={false}
           id={tagToDetails ?? DefaultValues.IdNullValue} // Usa 0 caso `tagToDetails` seja null
+        />
+      )}
+      {tagToSave !== null && (
+        <SaveModalTagDialog
+          open={isSaveModalOpen}
+          onConfirm={closeSaveModal}
+          onCancel={closeSaveModal}
+          loading={false}
+          id={tagToSave ?? DefaultValues.IdNullValue} // Usa 0 caso `tagToSave` seja null
         />
       )}
     </>

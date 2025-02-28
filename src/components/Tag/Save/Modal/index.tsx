@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import * as S from '@/components/Tag/Details/Modal/details-modal-styles';
+import * as S from '@/components/Tag/Save/Modal/save-modal-styles';
 import { SpinCustom } from '@/components/shared/Spin';
 import { useQueryTagDetails } from '@/api/service/tag/actions';
 
-import { TagActivityCard } from '@/components/Tag/Details/Modal/TagDetailsCard';
 import { App } from 'antd';
+import { TagFormCard } from '@/components/Tag/Save/Modal/TagSaveCard';
 type DetailsModalTagDialogProps = {
   open: boolean;
   onConfirm: () => void;
@@ -13,7 +13,7 @@ type DetailsModalTagDialogProps = {
   id: number;
 };
 
-export const DetailsModalTagDialog: FC<DetailsModalTagDialogProps> = ({
+export const SaveModalTagDialog: FC<DetailsModalTagDialogProps> = ({
   onCancel,
   open,
   loading = false,
@@ -25,8 +25,8 @@ export const DetailsModalTagDialog: FC<DetailsModalTagDialogProps> = ({
   return (
     <S.ModalStyled
       centered
-      open={open}
-      title="Detalhes da Tag"
+      open={true}
+      title={`${tagItem?.id ? 'Editar' : 'Adicionar'} Tarefa`}
       onCancel={onCancel}
       loading={isLoadingTags}
       closeIcon={<S.CloseCircleFilledStyled />}
@@ -41,7 +41,7 @@ export const DetailsModalTagDialog: FC<DetailsModalTagDialogProps> = ({
       keyboard={false} // 🔹 Impede fechar ao pressionar "Esc"
     >
       <SpinCustom loading={loading} text="Carregando dados...">
-        <TagActivityCard tagItem={tagItem} />
+        <TagFormCard tagItem={tagItem} />
       </SpinCustom>
     </S.ModalStyled>
   );
