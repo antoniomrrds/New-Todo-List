@@ -21,7 +21,6 @@ export const TagApi = {
     return await handleRequest(axiosInstance.post('/tag', tag));
   },
   update: async (tag: UpdateTag) => {
-    console.log('tag', tag);
     return await handleRequest(axiosInstance.put(`/tag/${tag.id}`, tag));
   },
   delete: async (id: number) => {

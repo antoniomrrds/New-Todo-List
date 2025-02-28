@@ -13,7 +13,7 @@ import { useSaveTag } from '@/api/service/tag/actions';
 import { NotificationInstance } from 'antd/es/notification/interface';
 
 type ToDoActivityCardProps = {
-  tagItem?: Tag;
+  tagItem?: Tag | null;
   notification: NotificationInstance;
   loading?: boolean;
   onCancel: () => void;
@@ -27,7 +27,7 @@ export const TagFormCard: FC<ToDoActivityCardProps> = ({
   onCancel,
   refetch,
 }) => {
-  const { control, errors, handleSubmit } = useTagForm({
+  const { control, errors, handleSubmit, reset } = useTagForm({
     tagItem,
   });
 
@@ -35,6 +35,7 @@ export const TagFormCard: FC<ToDoActivityCardProps> = ({
     notification,
     onClose: onCancel,
     refetch,
+    reset,
   });
 
   const handleCancel = () => onCancel();

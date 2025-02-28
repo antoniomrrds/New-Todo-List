@@ -4,8 +4,8 @@ export const useModal = <T = number>() => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<T | null>(null);
 
-  const showModal = (item: T) => {
-    setSelectedItem(item);
+  const showModal = (item?: T) => {
+    setSelectedItem(item || null);
     setIsModalOpen(true);
   };
 

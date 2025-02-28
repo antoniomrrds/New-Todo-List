@@ -5,12 +5,17 @@ import { generateOptions } from '@/utils';
 import { AddTagButton, FilterTagButton } from '@/components/Tag/List/Buttons';
 import { TagFilter } from '@/api/service/tag/types';
 import { DEFAULT_FILTERS_TAG } from '@/pages/Tag';
-import { ActivationState, getActivationStateText } from '@/api/core/types';
+import {
+  ActivationState,
+  DefaultValues,
+  getActivationStateText,
+} from '@/api/core/types';
+import { useModal } from '@/helpers';
+import { SaveModalTagDialog } from '@/components/Tag/Save/Modal';
 
 type TagSearchBarProps = {
   filters: TagFilter;
   onApplyFilters: (updatedFilters: Partial<TagFilter>) => void;
-  handleNavigateAdd: () => void;
   shouldShowDropdown: boolean;
 };
 
@@ -21,7 +26,6 @@ const activationOptions = generateOptions(
 export const TagSearchBar: FC<TagSearchBarProps> = ({
   filters,
   onApplyFilters,
-  handleNavigateAdd,
   shouldShowDropdown,
 }) => {
   const [localFilters, setLocalFilters] = useState<TagFilter>(filters);
@@ -43,6 +47,13 @@ export const TagSearchBar: FC<TagSearchBarProps> = ({
   const handleSearch = () => {
     onApplyFilters(localFilters);
   };
+
+  const {
+    isModalOpen: isSaveModalOpen,
+    selectedItem: tagToSave,
+    showModal: showSaveModal,
+    closeModal: closeSaveModal,
+  } = useModal<number>();
 
   return (
     <>
@@ -80,9 +91,14 @@ export const TagSearchBar: FC<TagSearchBarProps> = ({
       </Row>
       <Row gutter={[8, 8]} style={{ marginTop: 8 }} justify={'end'}>
         <Col xs={24}>
-          <AddTagButton text="Criar nova tag" onClick={handleNavigateAdd} />
+          <AddTagButton text="Criar nova tag" onClick={() => showSaveModal()} />
         </Col>
       </Row>
+      <SaveModalTagDialog
+        open={isSaveModalOpen}
+        onCancel={closeSaveModal}
+        tagId={tagToSave ?? DefaultValues.IdNullValue} // Usa 0 caso `tagToSave` seja null
+      />
     </>
   );
 };

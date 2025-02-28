@@ -11,24 +11,41 @@ type SaveTagProps = {
   notification: NotificationInstance;
   onClose: () => void;
   refetch: () => void;
+  reset: () => void;
 };
 export const useSaveTag = ({
   notification,
   onClose,
   refetch,
+  reset,
 }: SaveTagProps) => {
   const queryClient = useQueryClient();
 
+  const mapFormDataSaveTag = (
+    data: SaveTagValidationType,
+  ): CreateTag | UpdateTag => {
+    const baseData = {
+      active: data.isActive,
+      name: data.name,
+      description: data.description,
+    };
+
+    return data.id
+      ? ({ ...baseData, id: data.id } as UpdateTag)
+      : (baseData as CreateTag);
+  };
+
   const mutation = useMutation(
-    (data: CreateTag | UpdateTag) =>
-      'id' in data ? TagApi.update(data) : TagApi.create(data),
+    (data: CreateTag | UpdateTag) => {
+      return 'id' in data ? TagApi.update(data) : TagApi.create(data);
+    },
     {
       onSuccess: (_, variables) => {
         processSuccessfulAction({
           notification,
           typeCreateOrUpdate: 'id' in variables ? 'atualizada' : 'criada',
         });
-
+        reset();
         onClose();
 
         // 🔥 Invalida todas as queries relacionadas às tags
@@ -57,12 +74,7 @@ export const useSaveTag = ({
   );
 
   const handleFormSubmit = (data: SaveTagValidationType) => {
-    mutation.mutate({
-      id: data.id,
-      name: data.name,
-      description: data.description,
-      active: data.isActive,
-    } as CreateTag | UpdateTag);
+    mutation.mutate(mapFormDataSaveTag(data));
   };
 
   return { isSaving: mutation.isLoading, handleFormSubmit };

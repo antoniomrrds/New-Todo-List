@@ -189,7 +189,7 @@ export const Items: FC<Props> = ({ data }) => {
         <SaveModalTagDialog
           open={isSaveModalOpen}
           onCancel={closeSaveModal}
-          id={tagToSave ?? DefaultValues.IdNullValue} // Usa 0 caso `tagToSave` seja null
+          tagId={tagToSave ?? DefaultValues.IdNullValue} // Usa 0 caso `tagToSave` seja null
         />
       )}
     </>

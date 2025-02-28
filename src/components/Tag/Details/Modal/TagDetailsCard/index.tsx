@@ -11,9 +11,7 @@ import { ActivationState, getActivationStateText } from '@/api/core/types';
 type ToDoActivityCardProps = {
   tagItem?: Tag;
 };
-const act = getActivationStateText();
 
-console.log(act);
 export const TagActivityCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
   return (
     <S.CardMain>

@@ -2,7 +2,6 @@ import { ActivationState } from '@/api/core/types';
 import { TagFilter } from '@/api/service/tag/types';
 import { AppHeader } from '@/components/Header';
 import { TagSearchBar } from '@/components/Tag/List/SearchBar';
-import { useNavigateToPath } from '@/helpers';
 import {
   areObjectsEqual,
   getObjectFromLocalStorage,
@@ -25,8 +24,6 @@ export const DEFAULT_FILTERS_TAG: TagFilter = {
 };
 
 export const TagPage = () => {
-  const navigateTo = useNavigateToPath();
-
   const [filters, setFilters] = useState<TagFilter>(() =>
     getObjectFromLocalStorage('tagFilters', DEFAULT_FILTERS_TAG),
   );
@@ -60,7 +57,6 @@ export const TagPage = () => {
           onApplyFilters={(updatedFilters) =>
             updateFilters({ ...updatedFilters, Page: 1 })
           }
-          handleNavigateAdd={() => navigateTo('add')}
           shouldShowDropdown={hasCustomFilters}
         />
       </S.ContainerStyled>

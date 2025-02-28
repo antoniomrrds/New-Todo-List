@@ -8,19 +8,20 @@ import { TagFormCard } from '@/components/Tag/Save/Modal/TagSaveCard';
 type SaveModalTagDialogProps = {
   open: boolean;
   onCancel: () => void;
-  id: number;
+  tagId: number;
 };
 
 export const SaveModalTagDialog: FC<SaveModalTagDialogProps> = ({
   onCancel,
   open,
-  id,
+  tagId: id,
 }) => {
   const { notification } = App.useApp();
-  const { tagItem, isLoadingTags, refetch } = useQueryTagDetails(
-    id,
-    notification,
-  );
+  const isEditing = !!id; // Se tem ID válido, é edição
+
+  const { tagItem, isLoadingTags, refetch } = isEditing
+    ? useQueryTagDetails(id, notification)
+    : { tagItem: null, isLoadingTags: false, refetch: () => {} };
 
   return (
     <S.ModalStyled
