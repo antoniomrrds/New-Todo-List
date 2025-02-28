@@ -5,27 +5,27 @@ import { useQueryTagDetails } from '@/api/service/tag/actions';
 
 import { App } from 'antd';
 import { TagFormCard } from '@/components/Tag/Save/Modal/TagSaveCard';
-type DetailsModalTagDialogProps = {
+type SaveModalTagDialogProps = {
   open: boolean;
-  onConfirm: () => void;
   onCancel: () => void;
-  loading?: boolean;
   id: number;
 };
 
-export const SaveModalTagDialog: FC<DetailsModalTagDialogProps> = ({
+export const SaveModalTagDialog: FC<SaveModalTagDialogProps> = ({
   onCancel,
   open,
-  loading = false,
   id,
 }) => {
   const { notification } = App.useApp();
-  const { tagItem, isLoadingTags } = useQueryTagDetails(id, notification);
+  const { tagItem, isLoadingTags, refetch } = useQueryTagDetails(
+    id,
+    notification,
+  );
 
   return (
     <S.ModalStyled
       centered
-      open={true}
+      open={open}
       title={`${tagItem?.id ? 'Editar' : 'Adicionar'} Tarefa`}
       onCancel={onCancel}
       loading={isLoadingTags}
@@ -40,8 +40,14 @@ export const SaveModalTagDialog: FC<DetailsModalTagDialogProps> = ({
       maskClosable={false} // 🔹 Impede fechar ao clicar fora
       keyboard={false} // 🔹 Impede fechar ao pressionar "Esc"
     >
-      <SpinCustom loading={loading} text="Carregando dados...">
-        <TagFormCard tagItem={tagItem} />
+      <SpinCustom loading={isLoadingTags} text="Carregando dados...">
+        <TagFormCard
+          tagItem={tagItem}
+          notification={notification}
+          loading={isLoadingTags}
+          onCancel={onCancel}
+          refetch={refetch}
+        />
       </SpinCustom>
     </S.ModalStyled>
   );

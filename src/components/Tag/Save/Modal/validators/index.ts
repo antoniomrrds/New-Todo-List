@@ -24,14 +24,6 @@ export const tagValidationSchema = Yup.object({
     )
     .required('O campo Ativo é obrigatório')
     .default(ActivationState.Active),
-
-  isCompleted: Yup.number()
-    .oneOf(
-      getEnumValuesAsNumbers(ActivationState),
-      'O campo Concluído deve ser 0 (Incompleto) ou 1 (Completo)',
-    )
-    .required('O campo Concluído é obrigatório')
-    .default(ActivationState.Inactive),
 });
 
 export type SaveTagValidationType = Yup.InferType<typeof tagValidationSchema>;

@@ -14,17 +14,18 @@ export const useQueryTagDetails = (
     data: tagItem,
     isLoading: isLoadingTags,
     error: errorTag,
+    refetch, // Permite chamar manualmente a atualização
   } = useQuery<Tag, FormattedError>({
     queryKey: ['tagDetails', id],
     queryFn: () => TagApi.details(id),
-    refetchOnWindowFocus: false, //- Indica se deve refazer a busca ao focar na janela.
-    // keepPreviousData: true, // Indica se deve manter os dados anteriores enquanto novos dados são carregados.
+    refetchOnWindowFocus: false,
   });
+
   useEffect(() => {
     if (errorTag) {
       HandleError({ error: errorTag, notification });
     }
   }, [errorTag, notification]);
 
-  return { tagItem, isLoadingTags, errorTag };
+  return { tagItem, isLoadingTags, errorTag, refetch };
 };

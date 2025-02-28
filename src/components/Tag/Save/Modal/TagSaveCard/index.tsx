@@ -3,38 +3,47 @@ import { FC } from 'react';
 import { Tag } from '@/api/service/tag/types';
 import * as S from './tag-save-card-styles';
 import { SpinCustom } from '@/components/shared/Spin';
-import {
-  SaveTagValidationType,
-  tagValidationSchema,
-} from '@/components/Tag/Save/Modal/validators';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { FieldError } from '@/components/shared/Form';
 import { ActivationState } from '@/api/core/types';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { TagActionButtons } from '@/components/Tag/Save/Modal/ActionButtonGroup';
+import { useTagForm } from '@/components/Tag/Save/Modal/hooks';
+import { useSaveTag } from '@/api/service/tag/actions';
+import { NotificationInstance } from 'antd/es/notification/interface';
 
 type ToDoActivityCardProps = {
   tagItem?: Tag;
+  notification: NotificationInstance;
+  loading?: boolean;
+  onCancel: () => void;
+  refetch: () => void;
 };
 
-export const TagFormCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-    watch,
-  } = useForm<SaveTagValidationType>({
-    resolver: yupResolver(tagValidationSchema),
-    mode: 'onChange',
+export const TagFormCard: FC<ToDoActivityCardProps> = ({
+  tagItem,
+  notification,
+  loading = false,
+  onCancel,
+  refetch,
+}) => {
+  const { control, errors, handleSubmit } = useTagForm({
+    tagItem,
   });
 
+  const { handleFormSubmit, isSaving } = useSaveTag({
+    notification,
+    onClose: onCancel,
+    refetch,
+  });
+
+  const handleCancel = () => onCancel();
+
   return (
-    <SpinCustom loading={false} text="Salvando os dados...">
-      <Skeleton active loading={false}>
+    <SpinCustom loading={isSaving} text="Salvando os dados...">
+      <Skeleton active loading={loading}>
         <S.CardMain>
-          <Form layout="vertical">
+          <Form layout="vertical" onFinish={handleSubmit(handleFormSubmit)}>
             <Row gutter={[8, 8]} align={'top'}>
               <Col xs={24} sm={20}>
                 <S.FormItem
@@ -57,7 +66,7 @@ export const TagFormCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
                       <Input
                         {...field}
                         id="name" // ID do Input corresponde ao LabelForm
-                        placeholder="Digite o nome da tarefa"
+                        placeholder="Digite o nome da tag"
                         showCount
                         allowClear={true}
                         maxLength={100}
@@ -70,7 +79,7 @@ export const TagFormCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
                 <S.FormItem
                   validateStatus={errors.isActive ? 'error' : 'success'}
                   label="Ativo"
-                  tooltip="Selecione para ativar a tarefa"
+                  tooltip="Selecione para ativar a tag"
                   hasFeedback
                   name={'isActive'}
                 >
@@ -118,7 +127,7 @@ export const TagFormCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
                     <Input.TextArea
                       {...field}
                       id="description" // ID do Input corresponde ao LabelForm
-                      placeholder="Digite a descrição da tarefa"
+                      placeholder="Digite a descrição da tag"
                       showCount
                       allowClear={true}
                       maxLength={500}
@@ -128,45 +137,12 @@ export const TagFormCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
                 }}
               />
             </S.FormItem>
-            <Row gutter={[8, 8]}>
-              <Col xs={24} sm={12}>
-                <S.FormItem
-                  validateStatus={errors.isCompleted ? 'error' : 'success'}
-                  label="Esta concluído?"
-                  tooltip="Selecione para marcar a tarefa como concluída"
-                  hasFeedback
-                  name={'isCompleted'}
-                >
-                  <Controller
-                    name="isCompleted"
-                    control={control}
-                    render={({ field }) => (
-                      <Switch
-                        ref={field.ref}
-                        id="isCompleted" // ID do Switch corresponde ao LabelForm
-                        defaultChecked={field.value === ActivationState.Active}
-                        checked={field.value === ActivationState.Active}
-                        checkedChildren={<CheckOutlined />}
-                        unCheckedChildren={<CloseOutlined />}
-                        onChange={(checked: boolean) =>
-                          field.onChange(
-                            checked
-                              ? ActivationState.Active
-                              : ActivationState.Inactive,
-                          )
-                        }
-                      />
-                    )}
-                  />
-                </S.FormItem>
-              </Col>
-            </Row>
 
             <S.FormItem>
               <TagActionButtons
-                onCancel={() => reset()}
+                onCancel={handleCancel}
                 isLoading={false}
-                idUser={tagItem?.id}
+                idTag={tagItem?.id}
               />
             </S.FormItem>
           </Form>

@@ -8,6 +8,10 @@ type TagBase = {
 
 export type CreateTag = TagBase;
 
+export type UpdateTag = TagBase & {
+  id: number;
+};
+
 export type Tag = TagBase & {
   id: number;
   createdAt: string;

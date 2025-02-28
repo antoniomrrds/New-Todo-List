@@ -1,6 +1,6 @@
 import { App, Row, Typography } from 'antd';
 import { FC } from 'react';
-import { useModal, useNavigateToPath } from '@/helpers';
+import { useModal } from '@/helpers';
 import { gold, greyDark } from '@ant-design/colors';
 import { useDeleteTodo } from '@/api/service/toDo/actions';
 import * as I from '@/components/shared/Icons';
@@ -20,12 +20,8 @@ type Props = {
 };
 
 export const Items: FC<Props> = ({ data }) => {
-  const navigateTo = useNavigateToPath();
-  const navigateToEdit = (id: number) => navigateTo(`${id}/edit`);
-
   const sizeValue = useWindowWidth();
   const isTabletXS = sizeValue <= parseInt(size.tabletXS.replace('px', ''));
-  console.log('isTabletXS', isTabletXS);
 
   const { notification } = App.useApp();
   const { deleteToDo, deleteToDoIsLoading } = useDeleteTodo({ notification });
@@ -190,9 +186,7 @@ export const Items: FC<Props> = ({ data }) => {
       {tagToSave !== null && (
         <SaveModalTagDialog
           open={isSaveModalOpen}
-          onConfirm={closeSaveModal}
           onCancel={closeSaveModal}
-          loading={false}
           id={tagToSave ?? DefaultValues.IdNullValue} // Usa 0 caso `tagToSave` seja null
         />
       )}
