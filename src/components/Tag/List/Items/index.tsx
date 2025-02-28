@@ -65,7 +65,9 @@ export const Items: FC<Props> = ({ data }) => {
       title: 'Nome',
       dataIndex: 'name',
       key: 'name',
-      render: (name: string) => <Text delete>{name}</Text>,
+      render: (name: string, record: Tag) => (
+        <Text delete={!record.active}>{name}</Text>
+      ),
     },
     {
       title: 'Criado em',

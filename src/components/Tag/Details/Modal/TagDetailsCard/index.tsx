@@ -6,25 +6,37 @@ import { FaIdBadge } from 'react-icons/fa'; // para usar quando for atualizado p
 import { Tag } from '@/api/service/tag/types';
 import * as S from './tag-details-card-styles';
 import { theme } from '@/styles/Theme';
+import { ActivationState, getActivationStateText } from '@/api/core/types';
 
 type ToDoActivityCardProps = {
   tagItem?: Tag;
 };
+const act = getActivationStateText();
 
+console.log(act);
 export const TagActivityCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
   return (
     <S.CardMain>
       <Row>
-        <Col span={12}>
+        <Col span={4}>
           <Flex align="center" gap={2}>
             <FaIdBadge color={theme.colors.neutral.neutral200} />
             <S.HeaderSubtitle>ID: </S.HeaderSubtitle>
           </Flex>
           <S.TextCustom>{tagItem?.id}</S.TextCustom>
         </Col>
-        <Col span={12}>
+        <Col span={16}>
           <S.HeaderSubtitle>Nome</S.HeaderSubtitle>
           <S.TextCustom>{tagItem?.name}</S.TextCustom>
+        </Col>
+        <Col span={4}>
+          <S.HeaderSubtitle>Status</S.HeaderSubtitle>
+          <S.TextCustom
+            isActivated={tagItem?.active === ActivationState.Active}
+            isDeactivated={tagItem?.active === ActivationState.Inactive}
+          >
+            {getActivationStateText(tagItem?.active)}
+          </S.TextCustom>
         </Col>
       </Row>
       <Row>

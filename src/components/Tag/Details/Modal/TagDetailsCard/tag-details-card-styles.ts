@@ -11,6 +11,8 @@ const colorStyles = {
 
 export const TextCustom = styled.span<{
   $color?: string;
+  isActivated?: boolean;
+  isDeactivated?: boolean;
 }>`
   font-size: ${({ theme }) => theme.typography.fontSizeSmall} !important;
   font-family: ${({ theme }) => theme.typography.fontFamily.poppins} !important;
@@ -21,12 +23,28 @@ export const TextCustom = styled.span<{
   text-overflow: ellipsis !important;
   padding: ${({ theme }) => theme.spacingFn(7)}!important;
   background-color: ${colorStyles.neutral200}!important;
-  max-width: ${({ theme }) => theme.container.fullWidthPercentage}; /* Certifique-se de que o elemento tenha um limite de largura */
+  max-width: ${({ theme }) => theme.container.fullWidthPercentage};
   color: ${({ $color }) => $color || colorStyles.neutral800}!important;
-  width: 100%;
+  width: ${({ theme }) => theme.container.fullWidthPercentage};
   border: ${({ theme }) => theme.borders.small} solid ${colorStyles.neutral800};
   border-radius: ${({ theme }) => theme.borders.large}!important;
 
+  ${({ isActivated }) =>
+    isActivated &&
+    css`
+      color: ${colorStyles.neutral200}!important;
+      background-color: ${colorStyles.successGreen600} !important;
+      text-align: center;
+      ${boxShadow}
+    `}
+  ${({ isDeactivated }) =>
+    isDeactivated &&
+    css`
+      color: ${colorStyles.neutral200}!important;
+      background-color: ${colorStyles.errorRed500} !important;
+      text-align: center;
+      ${boxShadow}
+    `}
 `;
 
 export const HeaderSubtitle = styled.h2`

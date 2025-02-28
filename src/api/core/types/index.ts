@@ -18,8 +18,9 @@ export const ActivationStateText = {
   [ActivationState.Unfiltered]: 'Todos os (Ativos e Inativos)',
 };
 
-export const getActivationStateText = (status: ActivationState) =>
-  ActivationStateText[status];
+export const getActivationStateText = (
+  status: ActivationState = ActivationState.Active,
+) => ActivationStateText[status];
 export enum DefaultValues {
   IdNullValue = 0,
 }
