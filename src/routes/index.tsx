@@ -1,6 +1,5 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { HomePage } from '@/pages/Home';
-import { AppHeader } from '@/components/Header';
 import { NotFoundPage } from '@/pages/NotFound';
 import { TodoHomePage } from '@/pages/Todo';
 import { TodoDetailsPage } from '@/pages/Todo/Details';
@@ -14,6 +13,7 @@ import { ProfileSettings } from '@/components/Profile/ProfileSettings';
 import { ProfileChangePassword } from '@/components/Profile/ChangePassword';
 import { Roles } from '@/api/service/auth';
 import { TagPage } from '@/pages/Tag';
+import { CategoryPage } from '@/pages/Category';
 
 export const router = createBrowserRouter([
   {
@@ -56,12 +56,11 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: '/learn',
+    path: '/category',
     element: (
-      <>
-        <AppHeader />
-        <div>Learn Page</div>
-      </>
+      <PrivateRoute allowedRoles={[Roles.Admin]}>
+        <CategoryPage />
+      </PrivateRoute>
     ),
   },
   {

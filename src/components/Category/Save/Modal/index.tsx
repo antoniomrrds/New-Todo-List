@@ -1,35 +1,34 @@
 import { FC } from 'react';
-import * as S from '@/components/Tag/Save/Modal/save-modal-styles';
 import { SpinCustom } from '@/components/shared/Spin';
-import { useQueryTagDetails } from '@/api/service/tag/actions';
-
+import * as S from './save-modal-styles';
 import { App } from 'antd';
-import { TagFormCard } from '@/components/Tag/Save/Modal/TagSaveCard';
-type SaveModalTagDialogProps = {
+import { CategoryFormCard } from '@/components/Category/Save/Modal/CategorySaveCard';
+import { useQueryCategoryDetails } from '@/api/service/category/actions';
+type SaveModalCategoryDialogProps = {
   open: boolean;
   onCancel: () => void;
-  tagId: number;
+  categoryId: number;
 };
 
-export const SaveModalTagDialog: FC<SaveModalTagDialogProps> = ({
+export const SaveModalCategoryDialog: FC<SaveModalCategoryDialogProps> = ({
   onCancel,
   open,
-  tagId: id,
+  categoryId: id,
 }) => {
   const { notification } = App.useApp();
   const isEditing = !!id; // Se tem ID válido, é edição
 
-  const { tagItem, isLoadingTags, refetch } = isEditing
-    ? useQueryTagDetails(id, notification)
-    : { tagItem: null, isLoadingTags: false, refetch: () => {} };
+  const { isLoadingCategories, categoryItem, refetch } = isEditing
+    ? useQueryCategoryDetails(id, notification)
+    : { categoryItem: null, isLoadingCategories: false, refetch: () => {} };
 
   return (
     <S.ModalStyled
       centered
       open={open}
-      title={`${tagItem?.id ? 'Editar' : 'Adicionar'} Tag`}
+      title={`${categoryItem?.id ? 'Editar' : 'Adicionar'} categoria`}
       onCancel={onCancel}
-      loading={isLoadingTags}
+      loading={isLoadingCategories}
       closeIcon={<S.CloseCircleFilledStyled />}
       styles={{
         mask: {
@@ -41,11 +40,11 @@ export const SaveModalTagDialog: FC<SaveModalTagDialogProps> = ({
       maskClosable={false} // 🔹 Impede fechar ao clicar fora
       keyboard={false} // 🔹 Impede fechar ao pressionar "Esc"
     >
-      <SpinCustom loading={isLoadingTags} text="Carregando dados...">
-        <TagFormCard
-          tagItem={tagItem}
+      <SpinCustom loading={isLoadingCategories} text="Carregando dados...">
+        <CategoryFormCard
+          categoryItem={categoryItem}
           notification={notification}
-          loading={isLoadingTags}
+          loading={isLoadingCategories}
           onCancel={onCancel}
           refetch={refetch}
         />

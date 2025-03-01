@@ -60,12 +60,8 @@ export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
     allowClear: true,
   };
 
-  const {
-    categories,
-    tags,
-
-    isLoadingCategoriesAndTags,
-  } = useCategoriesAndTags();
+  const { categories, tags, isLoadingCategoriesAndTags } =
+    useCategoriesAndTags();
 
   const handleCancel = () => {
     reset();

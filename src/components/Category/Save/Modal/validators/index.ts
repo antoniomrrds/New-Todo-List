@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { getEnumValuesAsNumbers } from '@/utils';
 import { ActivationState } from '@/api/core/types';
 
-export const tagValidationSchema = Yup.object({
+export const categoryValidationSchema = Yup.object({
   id: Yup.number().nullable().optional(),
   name: Yup.string()
     .trim()
@@ -24,4 +24,6 @@ export const tagValidationSchema = Yup.object({
     .default(ActivationState.Active),
 });
 
-export type SaveTagValidationType = Yup.InferType<typeof tagValidationSchema>;
+export type CategorySaveValidationType = Yup.InferType<
+  typeof categoryValidationSchema
+>;

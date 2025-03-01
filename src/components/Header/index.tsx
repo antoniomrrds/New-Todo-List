@@ -1,11 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-  HomeOutlined,
-  AppstoreAddOutlined,
-  BookOutlined,
-  UserOutlined,
-  LogoutOutlined,
-} from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import logo from '@/assets/images/logo/checklist.png';
 import * as S from '@/components/Header/AppHeader.styles';
 import { size } from '@/styles/breakpoints';
@@ -20,7 +14,7 @@ import { Roles } from '@/api/service/auth';
 
 type MenuItem = {
   key: string;
-  icon: JSX.Element;
+  icon?: JSX.Element;
   label: string;
   link: string;
   allowedRoles?: Roles[];
@@ -35,15 +29,19 @@ const items: MenuItem[] = [
   },
   {
     key: 'todo',
-    icon: <AppstoreAddOutlined />,
     label: 'todo',
     link: '/todo',
   },
   {
     key: 'tag',
-    icon: <BookOutlined />,
     label: 'Tag',
     link: '/tag',
+    allowedRoles: [Roles.Admin],
+  },
+  {
+    key: 'category',
+    label: 'Category',
+    link: '/category',
     allowedRoles: [Roles.Admin],
   },
 ];
