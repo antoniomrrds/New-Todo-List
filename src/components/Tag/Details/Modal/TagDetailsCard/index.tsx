@@ -16,18 +16,18 @@ export const TagActivityCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
   return (
     <S.CardMain>
       <Row>
-        <Col span={4}>
+        <Col xs={24} md={4}>
           <Flex align="center" gap={2}>
             <FaIdBadge color={theme.colors.neutral.neutral200} />
             <S.HeaderSubtitle>ID: </S.HeaderSubtitle>
           </Flex>
           <S.TextCustom>{tagItem?.id}</S.TextCustom>
         </Col>
-        <Col span={16}>
+        <Col xs={24} md={16}>
           <S.HeaderSubtitle>Nome</S.HeaderSubtitle>
           <S.TextCustom>{tagItem?.name}</S.TextCustom>
         </Col>
-        <Col span={4}>
+        <Col xs={24} md={4}>
           <S.HeaderSubtitle>Status</S.HeaderSubtitle>
           <S.TextCustom
             isActivated={tagItem?.active === ActivationState.Active}

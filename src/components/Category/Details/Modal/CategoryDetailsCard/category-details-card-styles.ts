@@ -8,39 +8,39 @@ const colorStyles = {
   neutral200: css`${({ theme }) => theme.colors.neutral.neutral200}`,
   errorRed500: css`${({ theme }) => theme.colors.error.errorRed500}`,
 };
-
 export const TextCustom = styled.span<{
   $color?: string;
-  isActivated?: boolean;
-  isDeactivated?: boolean;
+  $isActivated?: boolean;
+  $isDeactivated?: boolean;
 }>`
   font-size: ${({ theme }) => theme.typography.fontSizeSmall} !important;
   font-family: ${({ theme }) => theme.typography.fontFamily.poppins} !important;
   line-height: ${({ theme }) => theme.typography.lineHeightDefault} !important;
   font-weight: normal !important;
-  display: inline-block; /* Ou 'block' dependendo do seu layout */
+  display: inline-block;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  padding: ${({ theme }) => theme.spacingFn(7)}!important;
-  background-color: ${colorStyles.neutral200}!important;
+  padding: ${({ theme }) => theme.spacingFn(7)} !important;
+  background-color: ${colorStyles.neutral200} !important;
   max-width: ${({ theme }) => theme.container.fullWidthPercentage};
-  color: ${({ $color }) => $color || colorStyles.neutral800}!important;
+  color: ${({ $color }) => $color || colorStyles.neutral800} !important;
   width: ${({ theme }) => theme.container.fullWidthPercentage};
   border: ${({ theme }) => theme.borders.small} solid ${colorStyles.neutral800};
-  border-radius: ${({ theme }) => theme.borders.large}!important;
+  border-radius: ${({ theme }) => theme.borders.large} !important;
 
-  ${({ isActivated }) =>
-    isActivated &&
+  ${({ $isActivated }) =>
+    $isActivated &&
     css`
-      color: ${colorStyles.neutral200}!important;
+      color: ${colorStyles.neutral200} !important;
       background-color: ${colorStyles.successGreen600} !important;
       text-align: center;
       ${boxShadow}
     `}
-  ${({ isDeactivated }) =>
-    isDeactivated &&
+
+  ${({ $isDeactivated }) =>
+    $isDeactivated &&
     css`
-      color: ${colorStyles.neutral200}!important;
+      color: ${colorStyles.neutral200} !important;
       background-color: ${colorStyles.errorRed500} !important;
       text-align: center;
       ${boxShadow}

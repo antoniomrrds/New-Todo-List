@@ -18,22 +18,22 @@ export const CategoryActivityCard: FC<CategoryActivityCardProps> = ({
   return (
     <S.CardMain>
       <Row>
-        <Col span={4}>
+        <Col xs={24} md={4}>
           <Flex align="center" gap={2}>
             <FaIdBadge color={theme.colors.neutral.neutral200} />
             <S.HeaderSubtitle>ID: </S.HeaderSubtitle>
           </Flex>
           <S.TextCustom>{categoryItem?.id}</S.TextCustom>
         </Col>
-        <Col span={16}>
+        <Col xs={24} md={16}>
           <S.HeaderSubtitle>Nome</S.HeaderSubtitle>
           <S.TextCustom>{categoryItem?.name}</S.TextCustom>
         </Col>
-        <Col span={4}>
+        <Col xs={24} md={4}>
           <S.HeaderSubtitle>Status</S.HeaderSubtitle>
           <S.TextCustom
-            isActivated={categoryItem?.active === ActivationState.Active}
-            isDeactivated={categoryItem?.active === ActivationState.Inactive}
+            $isActivated={categoryItem?.active === ActivationState.Active}
+            $isDeactivated={categoryItem?.active === ActivationState.Inactive}
           >
             {getActivationStateText(categoryItem?.active)}
           </S.TextCustom>
