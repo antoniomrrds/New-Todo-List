@@ -133,4 +133,5 @@ export const StyledContainer = styled.section`
   margin: ${({ theme }) => theme.container.marginCenter};
   width: ${({ theme }) => theme.container.fullWidthPercentage};
   padding: ${({ theme }) => theme.spacing.xsmall} !important;
+  
 `;

@@ -28,4 +28,5 @@ export const ContentStyled = styled.main`
   align-items: center;
 
 
+
   `;

@@ -30,6 +30,7 @@ flex-direction: column;
 justify-content: space-between;
 color:${({ theme }) => theme.colors.neutral.neutral100};
 background: ${({ theme }) => theme.colors.neutral.neutral100};
+height: max-content;
 .ant-card-body  {
   overflow: hidden !important;
   border-radius: ${({ theme }) => theme.spacing.small}!important;
@@ -67,8 +68,10 @@ export const CreatorName = styled.div`
 
 export const CardsContainer = styled.section`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(${({ theme }) => theme.spacingFn(250)}, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(${generateSpacingCss(250)}, 1fr));
   grid-gap:  ${generateSpacingCss(10)};
   justify-content: flex-start;
   margin: ${({ theme }) => theme.container.marginCenter};
+  width: ${({ theme }) => theme.container.fullWidthPercentage};
+  height: max-content;
 `;

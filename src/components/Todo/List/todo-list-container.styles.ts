@@ -6,12 +6,10 @@ const colorStyle = {
   successGreen600: css`${({ theme }) => theme.colors.success.successGreen600}`,
 };
 export const GridCenteredLoading = styled(StyledContainer)`
-
   flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-
 `;
 
 export const GridCenteredContainer = styled(StyledContainer)`
