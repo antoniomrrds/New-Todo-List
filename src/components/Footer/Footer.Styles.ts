@@ -19,10 +19,5 @@ export const Footer = styled.footer`
   font-weight: bold;
   font-family: ${({ theme }) => theme.typography.fontFamily.poppins};
   font-size: ${({ theme }) => theme.typography.fontSizeMedium};
-    &:hover {
-      color: ${colorStyles.neutral800};
-      background-color: ${({ theme }) => theme.colors.neutral.neutral200};
-      border-top: ${({ theme }) => theme.spacingFn(2)} solid ${colorStyles.successGreen600};
 
-    }
 `;

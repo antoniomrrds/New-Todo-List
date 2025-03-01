@@ -1,7 +1,5 @@
 import AppFooter from '@/components/Footer';
 import { AppHeader } from '@/components/Header';
-import { StyledContainer, StyledLayout } from '@/styles/global-styles';
-import { Content } from 'antd/es/layout/layout';
 import TodoListContainer from '@/components/Todo/List';
 import { useEffect, useState } from 'react';
 import { useQueryFilteredTodos } from '@/api/service/toDo/actions';
@@ -18,6 +16,7 @@ import {
 import { TodoStatus } from '@/api/service/toDo/enum';
 import { FloatButton } from 'antd';
 import { ActivationState } from '@/api/core/types';
+import * as S from './todo-page-styles';
 
 export const DEFAULT_FILTERS: ToDoFilter = {
   name: '',
@@ -59,9 +58,9 @@ export const TodoHomePage = () => {
   };
 
   return (
-    <StyledLayout>
+    <S.LayoutStyled>
       <AppHeader />
-      <StyledContainer>
+      <S.ContainerStyled>
         <ToDoSearchBar
           handleNavigateAdd={() => navigateTo('add')}
           filters={filters}
@@ -70,23 +69,23 @@ export const TodoHomePage = () => {
           }
           shouldShowDropdown={hasCustomFilters}
         />
-      </StyledContainer>
-      <Content>
+      </S.ContainerStyled>
+      <S.ContentStyled>
         <TodoListContainer
           error={errorToDos as AxiosError}
           toDos={dataToDos?.items || []}
           isLoading={isLoadingToDos}
         />
-      </Content>
-      <FloatButton.BackTop type="primary" tooltip="↑ Voltar ao topo" />
+        <FloatButton.BackTop type="primary" tooltip="↑ Voltar ao topo" />
 
-      <PaginationCustom
-        pageDefault={filters.Page}
-        pageSize={dataToDos?.pageSize}
-        totalItems={dataToDos?.totalItems}
-        onChange={(page) => updateFilters({ Page: page })}
-      />
+        <PaginationCustom
+          pageDefault={filters.Page}
+          pageSize={dataToDos?.pageSize}
+          totalItems={dataToDos?.totalItems}
+          onChange={(page) => updateFilters({ Page: page })}
+        />
+      </S.ContentStyled>
       <AppFooter />
-    </StyledLayout>
+    </S.LayoutStyled>
   );
 };

@@ -4,7 +4,6 @@ import React from 'react';
 import { ToDo } from '@/api/service/toDo/types';
 import * as S from '@/components/Todo/List/todo-list-container.styles';
 import CardTasks from '@/components/Todo/List/CardTodo';
-import { StyledContainer } from '@/styles/global-styles';
 import { SpinCustom } from '@/components/shared/Spin';
 
 type ToDoList = {
@@ -14,13 +13,13 @@ type ToDoList = {
 };
 
 const LoadingComponent = () => (
-  <S.GridCenteredContainer>
+  <S.GridCenteredLoading>
     <SpinCustom
       text="Carregando tarefas..."
       loading={true}
       hasAbsolutePosition={false}
     />
-  </S.GridCenteredContainer>
+  </S.GridCenteredLoading>
 );
 
 const ErrorComponent = ({ message }: { message: string }) => (
@@ -52,7 +51,7 @@ const TodoListContainer: React.FC<ToDoList> = ({ toDos, isLoading, error }) => {
     );
   };
 
-  return <StyledContainer>{getContent()}</StyledContainer>;
+  return <S.GridCenteredContainer>{getContent()}</S.GridCenteredContainer>;
 };
 
 export default TodoListContainer;
