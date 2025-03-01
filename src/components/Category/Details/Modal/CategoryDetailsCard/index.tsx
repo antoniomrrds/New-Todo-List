@@ -3,16 +3,18 @@ import { FC } from 'react';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { FaCalendarCheck } from 'react-icons/fa6';
 import { FaIdBadge } from 'react-icons/fa'; // para usar quando for atualizado por um usuário
-import { Tag } from '@/api/service/tag/types';
-import * as S from './tag-details-card-styles';
+import * as S from './category-details-card-styles';
 import { theme } from '@/styles/Theme';
 import { ActivationState, getActivationStateText } from '@/api/core/types';
+import { Category } from '@/api/service/category/types';
 
-type ToDoActivityCardProps = {
-  tagItem?: Tag;
+type CategoryActivityCardProps = {
+  categoryItem?: Category;
 };
 
-export const TagActivityCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
+export const CategoryActivityCard: FC<CategoryActivityCardProps> = ({
+  categoryItem,
+}) => {
   return (
     <S.CardMain>
       <Row>
@@ -21,26 +23,26 @@ export const TagActivityCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
             <FaIdBadge color={theme.colors.neutral.neutral200} />
             <S.HeaderSubtitle>ID: </S.HeaderSubtitle>
           </Flex>
-          <S.TextCustom>{tagItem?.id}</S.TextCustom>
+          <S.TextCustom>{categoryItem?.id}</S.TextCustom>
         </Col>
         <Col span={16}>
           <S.HeaderSubtitle>Nome</S.HeaderSubtitle>
-          <S.TextCustom>{tagItem?.name}</S.TextCustom>
+          <S.TextCustom>{categoryItem?.name}</S.TextCustom>
         </Col>
         <Col span={4}>
           <S.HeaderSubtitle>Status</S.HeaderSubtitle>
           <S.TextCustom
-            isActivated={tagItem?.active === ActivationState.Active}
-            isDeactivated={tagItem?.active === ActivationState.Inactive}
+            isActivated={categoryItem?.active === ActivationState.Active}
+            isDeactivated={categoryItem?.active === ActivationState.Inactive}
           >
-            {getActivationStateText(tagItem?.active)}
+            {getActivationStateText(categoryItem?.active)}
           </S.TextCustom>
         </Col>
       </Row>
       <Row>
         <Col span={24}>
           <S.HeaderSubtitle>Descrição:</S.HeaderSubtitle>
-          <S.TextCustom>{tagItem?.description}</S.TextCustom>
+          <S.TextCustom>{categoryItem?.description}</S.TextCustom>
         </Col>
       </Row>
       <Row>
@@ -49,14 +51,14 @@ export const TagActivityCard: FC<ToDoActivityCardProps> = ({ tagItem }) => {
             <FaRegCalendarAlt color={theme.colors.neutral.neutral200} />
             <S.HeaderSubtitle>Cadastrado:</S.HeaderSubtitle>
           </Flex>
-          <S.TextCustom>{tagItem?.createdAtFormatted}</S.TextCustom>
+          <S.TextCustom>{categoryItem?.createdAtFormatted}</S.TextCustom>
         </Col>
         <Col xs={24} md={12}>
           <Flex align="center" gap={2}>
             <FaCalendarCheck color={theme.colors.neutral.neutral200} />
             <S.HeaderSubtitle>Atualizado</S.HeaderSubtitle>
           </Flex>
-          <S.TextCustom>{tagItem?.updatedAtFormatted}</S.TextCustom>
+          <S.TextCustom>{categoryItem?.updatedAtFormatted}</S.TextCustom>
         </Col>
       </Row>
     </S.CardMain>

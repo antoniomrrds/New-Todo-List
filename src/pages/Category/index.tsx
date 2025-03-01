@@ -6,7 +6,7 @@ import {
   saveObjectToLocalStorage,
 } from '@/utils';
 import { useEffect, useState } from 'react';
-import * as S from '@/pages/Tag/tag-page-styles';
+import * as S from './category-page-styles';
 import { AxiosError } from 'axios';
 import { PaginationCustom } from '@/components/shared/Pagination';
 import { FloatButton } from 'antd';

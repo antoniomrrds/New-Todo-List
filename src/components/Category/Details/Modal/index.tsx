@@ -1,34 +1,36 @@
 import { FC } from 'react';
-import * as S from '@/components/Tag/Details/Modal/details-modal-styles';
 import { SpinCustom } from '@/components/shared/Spin';
-import { useQueryTagDetails } from '@/api/service/tag/actions';
 
-import { TagActivityCard } from '@/components/Tag/Details/Modal/TagDetailsCard';
 import { App } from 'antd';
-type DetailsModalTagDialogProps = {
+import { useQueryCategoryDetails } from '@/api/service/category/actions';
+import { CategoryActivityCard } from '@/components/Category/Details/Modal/CategoryDetailsCard';
+import * as S from './details-modal-styles';
+type DetailsModalCategoryProps = {
   open: boolean;
-  onConfirm: () => void;
   onCancel: () => void;
   loading?: boolean;
   id: number;
 };
 
-export const DetailsModalTagDialog: FC<DetailsModalTagDialogProps> = ({
+export const DetailsModalCategoryDialog: FC<DetailsModalCategoryProps> = ({
   onCancel,
   open,
   loading = false,
   id,
 }) => {
   const { notification } = App.useApp();
-  const { tagItem, isLoadingTags } = useQueryTagDetails(id, notification);
+  const { categoryItem, isLoadingCategories } = useQueryCategoryDetails(
+    id,
+    notification,
+  );
 
   return (
     <S.ModalStyled
       centered
       open={open}
-      title="Detalhes da Tag"
+      title="Detalhes da Categoria"
       onCancel={onCancel}
-      loading={isLoadingTags}
+      loading={isLoadingCategories}
       closeIcon={<S.CloseCircleFilledStyled />}
       styles={{
         mask: {
@@ -41,7 +43,7 @@ export const DetailsModalTagDialog: FC<DetailsModalTagDialogProps> = ({
       keyboard={false} // 🔹 Impede fechar ao pressionar "Esc"
     >
       <SpinCustom loading={loading} text="Carregando dados...">
-        <TagActivityCard tagItem={tagItem} />
+        <CategoryActivityCard categoryItem={categoryItem} />
       </SpinCustom>
     </S.ModalStyled>
   );

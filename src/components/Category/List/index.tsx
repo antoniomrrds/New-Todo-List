@@ -4,6 +4,7 @@ import React from 'react';
 import { SpinCustom } from '@/components/shared/Spin';
 import * as S from './category-list-container-styles';
 import { Category } from '@/api/service/category/types';
+import { ItemsCategory } from '@/components/Category/List/Items';
 
 type CategoryListProps = {
   categories: Category[];
@@ -43,7 +44,7 @@ export const CategoryListContainer: React.FC<CategoryListProps> = ({
   const getContent = () => {
     if (isLoading) return <LoadingComponent />;
     if (error) return <ErrorComponent message={error.message} />;
-    if (categories.length > 0) return <Items data={categories} />;
+    if (categories.length > 0) return <ItemsCategory data={categories} />;
     return (
       <S.GridCenteredLoading>
         <S.EmptyStyled
