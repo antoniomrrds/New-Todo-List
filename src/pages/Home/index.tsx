@@ -7,14 +7,13 @@ import { FeaturesHome } from '@/components/Home/Features';
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-
+  min-height: 100dvh;
   background-color: ${({ theme }) => theme.colors.neutral.neutral800};
   position: relative;
 
 `;
 
-const ContentWrapper = styled.div`
+const MainContentContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -28,10 +27,10 @@ export const HomePage: React.FC = () => {
   return (
     <PageWrapper>
       <AppHeader />
-      <ContentWrapper>
+      <MainContentContainer>
         <HeroHome />
         <FeaturesHome />
-      </ContentWrapper>
+      </MainContentContainer>
       <AppFooter />
     </PageWrapper>
   );
