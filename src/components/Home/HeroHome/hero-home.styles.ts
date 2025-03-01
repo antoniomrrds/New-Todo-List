@@ -26,6 +26,7 @@ export const Container = styled.section`
     margin: ${({ theme }) => theme.container.marginCenter} auto;
     gap:  ${generateSpacingCss(20)};
     transition: all 0.3s ease;
+    flex-grow: 1;
   `;
 
 export const Title = styled.h1`

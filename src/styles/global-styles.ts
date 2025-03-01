@@ -132,6 +132,6 @@ export const StyledContainer = styled.section`
   max-width: ${({ theme }) => theme.container.maxWidth};
   margin: ${({ theme }) => theme.container.marginCenter};
   width: ${({ theme }) => theme.container.fullWidthPercentage};
-  padding: ${({ theme }) => theme.spacing.xsmall} !important;
-  
+  padding: ${({ theme }) => theme.spacing.small} !important;
+
 `;
