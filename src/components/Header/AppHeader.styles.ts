@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Avatar, Drawer as DrawerAntd, Menu, Button } from 'antd';
+import { Drawer as DrawerAntd, Menu, Button } from 'antd';
 import { size } from '@/styles/breakpoints';
 import { NavLink } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -70,6 +70,8 @@ export const CloseCircleFilledStyled = styled(CloseOutlined)`
 
 const logo = css`
   height: ${generateSpacingCss(40)};
+  ${boxShadow}
+
 `;
 
 export const Logo = styled.img`
@@ -83,6 +85,7 @@ export const Logo = styled.img`
   `;
 
 export const logoDrawer = styled.img`
+
   ${logo}
 `;
 
@@ -118,7 +121,6 @@ export const NavLiDrawer = styled.li`
 `;
 
 export const NavLinkDrawerStyled = styled(NavLink)`
-  transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
   text-transform: capitalize;
   padding: ${generateSpacingCss(7)} ${generateSpacingCss(10)};
   display: flex;
@@ -217,8 +219,28 @@ export const GiHamburgerMenuStyled = styled(GiHamburgerMenu)`
   font-size: ${({ theme }) => theme.typography.fontSizeXlarge};
 `;
 
-export const AvatarStyled = styled(Avatar)`
-order: 3;
+export const AvatarStyled = styled.img`
+
+${logo}
+
+`;
+
+export const ImageWrapper = styled.div`
+  width: ${generateSpacingCss(40)};
+  height: ${generateSpacingCss(40)};
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: ${colorStyles.successGreen600}; /* Mostra fundo */
+  border: ${({ theme }) => theme.borders.default} solid ${colorStyles.successGreen600}; /* Mostra borda */
+  ${boxShadow}
+  order: 3;
+`;
+
+export const ImageStyled = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export const StyledMenu = styled(Menu)`

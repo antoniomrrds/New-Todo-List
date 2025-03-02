@@ -1,5 +1,6 @@
 import { boxShadow, generateSpacingCss } from '@/styles/Theme';
-import { Button, Form } from 'antd';
+import { Button, Form, Tabs } from 'antd';
+import { Breakpoint } from 'antd/lib';
 import styled, { css } from 'styled-components';
 
 const colorStyles = {
@@ -13,7 +14,32 @@ const colorStyles = {
 export const CardMain = styled.section`
   width: ${({ theme }) => theme.container.fullWidthPercentage};
   max-height: max-content;
-  `;
+
+`;
+
+export const HeaderMain = styled.h1<{
+  $screens: Partial<Record<Breakpoint, boolean>>;
+  $isCentered?: boolean;
+  $fontSize?: number;
+}>`
+  font-size: ${({ $screens }) => ($screens.lg ? 21 : 17)}px !important;
+  font-weight: ${({ theme }) => theme.typography.fontWeight[700]} !important;
+  font-family: 'Poppins', sans-serif;
+  text-align: ${({ $isCentered }) => ($isCentered ? 'center' : 'left')};
+  color: ${({ theme }) => theme.colors.neutral.neutral800};
+  margin: ${({ theme }) => theme.spacing.zero} !important;
+  text-transform: capitalize;
+  color: ${({ theme }) => theme.colors.success.successGreen600}!important;
+  font-size: ${({ $fontSize }) => $fontSize}px !important;
+   word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+`;
 
 export const HeaderSubtitle = styled.h2`
   font-size: ${({ theme }) => theme.typography.fontSizeSmall}!important;
@@ -21,20 +47,6 @@ export const HeaderSubtitle = styled.h2`
   line-height: ${({ theme }) => theme.typography.lineHeightDefault}!important;
   font-weight: ${({ theme }) => theme.typography.fontWeight[500]} !important;
   margin-top: ${({ theme }) => theme.spacing.xsmall}!important;
-`;
-export const CardsContainer = styled.section`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: ${({ theme }) => theme.spacingFn(10)};
-  justify-content: start;
-  margin: ${({ theme }) => theme.container.marginCenter} !important;
-  width: ${({ theme }) => theme.container.fullWidthPercentage};
-`;
-
-export const FormStyled = styled(Form)`
-width: ${({ theme }) => theme.container.fullWidthPercentage} !important;
-color: ${colorStyles.successGreen600} !important;
-
 `;
 
 export const FormItem = styled(Form.Item)`
@@ -72,4 +84,8 @@ export const ButtonStyled = styled(Button)<{
     color: ${colorStyles.successGreen600} !important;
 
   }
+`;
+
+export const TabStyled = styled(Tabs)`
+   padding: ${({ theme }) => theme.spacing.medium}!important;
 `;

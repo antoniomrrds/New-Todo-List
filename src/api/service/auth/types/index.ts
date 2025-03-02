@@ -13,6 +13,7 @@ export type AuthUser = {
   Name: string;
   Email: string;
   Roles: Roles[];
+  UrlImage: string;
 };
 
 export enum Roles {

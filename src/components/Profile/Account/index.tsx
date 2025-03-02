@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
-import * as S from '@/components/Profile/ProfileDetails/profile-details-styles';
-import { Col, Grid, Input, Row, Form, App } from 'antd';
+import * as S from '@/components/Profile/Account/account-styles';
+import { Col, Input, Row, Form, App } from 'antd';
 import { DividerCustom } from '@/components/shared/Divider';
 import { FieldError } from '@/components/shared/Form';
 import { SpinCustom } from '@/components/shared/Spin';
@@ -9,14 +9,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   profileUserValidationSchema,
   ProfileUserValidationType,
-} from '@/components/Profile/ProfileDetails/Validation';
+} from '@/components/Profile/Account/Validation';
 import {
   useQueryUserWithoutPassword,
   userUpdateUser,
 } from '@/api/service/user';
-const { useBreakpoint } = Grid;
 
-export const ProfileDetails: FC = () => {
+export const Account: FC = () => {
   const { notification } = App.useApp();
 
   const { user, userDataError, isLoadingUser } = useQueryUserWithoutPassword();
@@ -46,8 +45,6 @@ export const ProfileDetails: FC = () => {
     }
   }, [user, reset]);
 
-  const screens = useBreakpoint();
-
   // Se houver erro ao carregar os dados do usuário, exibe uma mensagem de erro
   if (userDataError) {
     return (
@@ -68,16 +65,12 @@ export const ProfileDetails: FC = () => {
 
   return (
     <S.CardMain>
-      <S.HeaderMain $screens={screens}>Meus dados</S.HeaderMain>
-      <S.HeaderSubtitle>
-        Aqui você pode visualizar seus dados, alterar informações e ter mais
-        dados sobre seu acesso!
-      </S.HeaderSubtitle>
+      <S.HeaderSubtitle>Atualize suas informações pessoais</S.HeaderSubtitle>
       <DividerCustom margin={20} />
 
       <SpinCustom
-        loading={isLoadingUser}
-        text="Mudando a senha..."
+        loading={isUpdating}
+        text="Atualizando dados..."
         hasAbsolutePosition
       >
         <Form

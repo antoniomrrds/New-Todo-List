@@ -8,8 +8,8 @@ import { SignInPage } from '@/pages/Auth/SignIn';
 import { SignUpPage } from '@/pages/Auth/SignUp';
 import PrivateRoute from '@/routes/Private';
 import { ProfilePage } from '@/pages/Profile';
-import { ProfileDetails } from '@/components/Profile/ProfileDetails';
-import { ProfileSettings } from '@/components/Profile/ProfileSettings';
+import { Account } from '@/components/Profile/Account';
+import { ProfileSettings } from '@/components/Profile/Picture';
 import { ProfileChangePassword } from '@/components/Profile/ChangePassword';
 import { Roles } from '@/api/service/auth';
 import { TagPage } from '@/pages/Tag';
@@ -79,8 +79,8 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { index: true, element: <ProfileDetails /> }, // ✅ Define ProfileDetails como a página padrão
-      { path: 'settings', element: <ProfileSettings /> },
+      { index: true, element: <Account /> }, // ✅ Define ProfileDetails como a página padrão
+      { path: 'photos', element: <ProfileSettings /> },
       { path: 'change-password', element: <ProfileChangePassword /> },
     ],
   },

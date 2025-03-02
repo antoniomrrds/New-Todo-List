@@ -13,6 +13,5 @@ export const MainContainer = styled.main`
   max-width: ${({ theme }) => theme.container.maxWidth};
   margin: ${({ theme }) => theme.container.marginCenter};
   width: ${({ theme }) => theme.container.fullWidthPercentage};
-  min-width: ${({ theme }) => theme.container.minWidth};
 
 `;

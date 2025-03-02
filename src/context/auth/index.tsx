@@ -55,6 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         Name: user.Name,
         Email: user.Email,
         Roles: user.Roles,
+        UrlImage: user.UrlImage,
       }),
       10, // Garante que o cookie persista por 10 dias
     );

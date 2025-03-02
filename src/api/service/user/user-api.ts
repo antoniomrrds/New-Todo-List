@@ -1,6 +1,9 @@
 import { handleRequest } from '@/api/core';
 import { axiosInstance } from '@/api/http/axios';
-import { UpdateUserProfile } from '@/api/service/user/types';
+import {
+  UpdateUserProfile,
+  UserChangeImageRequestDTO,
+} from '@/api/service/user/types';
 
 export const UserApi = {
   getUser: async () => {
@@ -15,6 +18,18 @@ export const UserApi = {
   },
   update: async (data: UpdateUserProfile) => {
     const response = await handleRequest(axiosInstance.put('/user', data));
+    return response.data;
+  },
+  changeImage: async (data: UserChangeImageRequestDTO) => {
+    const response = await handleRequest(
+      axiosInstance.put('/user/change-image', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
+    );
+
+    console.log('response', response);
     return response.data;
   },
 };

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import * as S from '@/components/Profile/ChangePassword/change-password-styles';
-import { Col, Form, Grid, Input, Row, App } from 'antd';
+import { Col, Form, Input, Row, App } from 'antd';
 import { DividerCustom } from '@/components/shared/Divider';
 import { FieldError } from '@/components/shared/Form';
 import { Controller, useForm } from 'react-hook-form';
@@ -11,7 +11,6 @@ import {
 } from '@/components/Profile/ChangePassword/Validation';
 import { useChangePassword } from '@/api/service/user';
 import { SpinCustom } from '@/components/shared/Spin';
-const { useBreakpoint } = Grid;
 
 export const ProfileChangePassword: FC = () => {
   const { notification } = App.useApp();
@@ -30,11 +29,9 @@ export const ProfileChangePassword: FC = () => {
     notification,
     reset,
   });
-  const screens = useBreakpoint();
 
   return (
     <S.CardMain>
-      <S.HeaderMain $screens={screens}>Senha de acesso </S.HeaderMain>
       <S.HeaderSubtitle>
         Aqui você pode mudar a sua senha de acesso ao sistema.
       </S.HeaderSubtitle>

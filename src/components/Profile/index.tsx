@@ -1,74 +1,50 @@
 import { FC } from 'react';
 import * as S from '@/components/Profile/profile-styles';
-import Dev from '@/assets/images/login/dev-product.png';
-import { Grid, Row, Col, Image } from 'antd';
-import { useWindowWidth } from '@/utils/window-with';
-import { size } from '@/styles/breakpoints';
-import { DividerCustom } from '@/components/shared/Divider';
-import { Outlet } from 'react-router-dom';
+import { Grid } from 'antd';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useNavigateFunction } from '@/helpers';
+import { TabsProps } from 'antd/lib';
 const { useBreakpoint } = Grid;
 export const Profile: FC = () => {
   const screens = useBreakpoint();
-  const sizeValue = useWindowWidth();
-  const isTabletXS = sizeValue <= parseInt(size.tabletXS.replace('px', ''));
   const navigate = useNavigateFunction();
+  const location = useLocation(); // Obtém a rota atual
+  type TabRoute = {
+    [key: string]: string;
+  };
+  // Mapeando as rotas com as abas
+  const tabRoutes: TabRoute = {
+    1: '/profile',
+    2: '/profile/change-password',
+    3: '/profile/photos',
+  };
+
+  // Inverso para definir a Tab ativa com base na URL atual
+  const activeTab =
+    Object.keys(tabRoutes).find(
+      (key) => tabRoutes[key] === location.pathname,
+    ) || '1';
+
+  const onChange = (key: string) => {
+    navigate(tabRoutes[key]); // Navega para a rota correspondente
+  };
+
+  const items: TabsProps['items'] = [
+    { key: '1', label: 'Conta' },
+    { key: '2', label: 'Alterar Senha' },
+    { key: '3', label: 'Foto' },
+  ];
+
   return (
-    <Row gutter={[10, 10]}>
-      <Col flex={isTabletXS ? '' : '0 1 300px'} xs={24} sm={24} md={24}>
-        {isTabletXS == false && (
-          <Image
-            preview={false}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-            fallback={Dev}
-          />
-        )}
-        <S.CardMain>
-          <S.HeaderMain $isCentered $fontSize={17} $screens={screens}>
-            Antonio Marcos
-          </S.HeaderMain>
-          <DividerCustom margin={10} />
-          <Row gutter={[10, 10]}>
-            <Col span={24}>
-              {/* Botões de navegação */}
-              <S.ButtonStyled
-                type="link"
-                onClick={() => navigate('/profile')}
-                block
-              >
-                Meus Dados
-              </S.ButtonStyled>
-            </Col>
-            <Col span={24}>
-              <S.ButtonStyled
-                type="link"
-                onClick={() => navigate('/profile/change-password')}
-                block
-              >
-                Alterar Senha
-              </S.ButtonStyled>
-            </Col>
-            <Col span={24}>
-              <S.ButtonStyled
-                type="link"
-                onClick={() => navigate('/profile/settings')}
-                block
-              >
-                Configurações
-              </S.ButtonStyled>
-            </Col>
-          </Row>
-        </S.CardMain>
-      </Col>
-      <Col
-        flex={isTabletXS ? '' : '1 1 300px'}
-        xs={24}
-        sm={24}
-        md={24}
-        style={{ display: 'flex', width: '100%' }}
-      >
-        <Outlet /> {/* Renderiza a página correspondente */}
-      </Col>
-    </Row>
+    <S.CardMain>
+      <S.HeaderMain $screens={screens}>Configurações</S.HeaderMain>
+      <S.TabStyled
+        activeKey={activeTab}
+        onChange={onChange}
+        items={items}
+        type="card"
+      />
+      <Outlet />
+    </S.CardMain>
   );
 };

@@ -5,12 +5,13 @@ import * as S from '@/components/Header/AppHeader.styles';
 import { size } from '@/styles/breakpoints';
 import { useWindowWidth } from '@/utils/window-with';
 import { useNavigateFunction } from '@/helpers';
-import * as I from '@/components/shared/Icons';
-import { App, Dropdown, MenuProps } from 'antd';
+import { App, Dropdown, MenuProps, Skeleton } from 'antd';
 import { useAuth } from '@/context/auth';
 import { useSignOut } from '@/api/service/auth/actions';
 import { FaHouseUser } from 'react-icons/fa';
 import { Roles } from '@/api/service/auth';
+import { getCookie } from '@/utils';
+import Dev from '@/assets/images/login/dev-product.png';
 
 type MenuItem = {
   key: string;
@@ -63,15 +64,15 @@ export const AppHeader = () => {
   const { user, isAuthenticated } = useAuth();
   const { notification } = App.useApp();
 
+  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined); // Começa com a imagem padrão
+
   const { handleFormSubmit } = useSignOut({
     navigateToSignIn,
     notification,
   });
 
   useEffect(() => {
-    if (isTabletXS && visible) {
-      setVisible(false);
-    }
+    if (isTabletXS && visible) setVisible(false);
   }, [isTabletXS]);
 
   useEffect(() => {
@@ -81,6 +82,27 @@ export const AppHeader = () => {
     });
 
     setFilteredItems(filtered);
+  }, [user]);
+
+  useEffect(() => {
+    const sessionData = getCookie('sessionData');
+    if (sessionData) {
+      try {
+        const parsedData = JSON.parse(sessionData);
+
+        const newImage = new Image();
+        newImage.src = parsedData.UrlImage;
+        newImage.onload = () => {
+          setImageSrc(parsedData.UrlImage);
+        };
+        newImage.onerror = () => {
+          setImageSrc(Dev);
+        };
+        setImageSrc(parsedData.UrlImage);
+      } catch {
+        setImageSrc(Dev);
+      }
+    }
   }, [user]);
 
   const itemsProfile: MenuProps['items'] = [
@@ -136,12 +158,11 @@ export const AppHeader = () => {
             placement="topRight"
             rootClassName="ant-dropdown-menu-custom"
           >
-            <S.AvatarStyled
-              key={'avatar'}
-              src="https://yt3.ggpht.com/yti/ANjgQV_p8fC_-snKRNWvoBTngV4-3fHB6iWYisDUWEdrxCZ25II=s88-c-k-c0x00ffffff-no-rj"
-              size={42.23}
-              icon={<I.UserOutlinedStyled />}
-            />
+            <S.ImageWrapper>
+              <Skeleton loading={!imageSrc} active avatar>
+                <S.ImageStyled key={'avatar'} src={imageSrc} />
+              </Skeleton>
+            </S.ImageWrapper>
           </Dropdown>
         ) : (
           <S.ButtonSignInStyled
