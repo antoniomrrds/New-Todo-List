@@ -1,14 +1,18 @@
 import { todoApi } from '@/api/service/toDo';
 import { CreateToDo, UpdateToDo } from '@/api/service/toDo/types';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { SuccessNotification } from '@/components/shared/Notifications';
 import { NotificationInstance } from 'antd/es/notification/interface';
 import { SaveToDoValidationType } from '@/components/Todo/Save/ToDoSaveForm/validators';
+import { FormattedError } from '@/api/core/error/types';
+import { HandleError } from '@/components/shared/HandleError';
 
 type SaveTodoProps = {
   notification: NotificationInstance;
-  goToTodoPage: () => void;
+  onClose: () => void;
+  refetch: () => void;
+  reset: () => void;
 };
 
 const mapFormDataSaveToDo = (
@@ -29,7 +33,14 @@ const mapFormDataSaveToDo = (
     : (baseData as CreateToDo);
 };
 
-export const useSaveToDo = ({ notification, goToTodoPage }: SaveTodoProps) => {
+export const useSaveToDo = ({
+  notification,
+  onClose,
+  refetch,
+  reset,
+}: SaveTodoProps) => {
+  const queryClient = useQueryClient();
+
   const mutation = useMutation(
     (data: CreateToDo | UpdateToDo) =>
       'id' in data ? todoApi.update(data) : todoApi.create(data),
@@ -39,9 +50,30 @@ export const useSaveToDo = ({ notification, goToTodoPage }: SaveTodoProps) => {
         // const id = location.substring(location.lastIndexOf("/") + 1);
         processSuccessfulAction({
           notification,
-          goToTodoPage,
           typeCreateOrUpdate: 'id' in variables ? 'atualizada' : 'criada',
         });
+        reset();
+        onClose();
+
+        queryClient.invalidateQueries({
+          queryKey: ['filteredTodos'],
+          exact: false,
+        });
+
+        if ('id' in variables) {
+          queryClient.invalidateQueries({
+            queryKey: ['filteredTodos', variables.id],
+          });
+        }
+
+        refetch();
+      },
+      onError: (error: FormattedError) => {
+        HandleError({
+          error,
+          notification,
+        });
+        onClose();
       },
     },
   );
@@ -55,12 +87,10 @@ export const useSaveToDo = ({ notification, goToTodoPage }: SaveTodoProps) => {
 
 type processSuccessfulActionProps = {
   notification: NotificationInstance;
-  goToTodoPage: () => void;
   typeCreateOrUpdate: string;
 };
 const processSuccessfulAction = ({
   notification,
-  goToTodoPage,
   typeCreateOrUpdate,
 }: processSuccessfulActionProps) => {
   SuccessNotification(
@@ -68,5 +98,4 @@ const processSuccessfulAction = ({
     `Tarefa ${typeCreateOrUpdate}`,
     `Tarefa ${typeCreateOrUpdate} com sucesso`,
   );
-  goToTodoPage();
 };

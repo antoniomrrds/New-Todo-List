@@ -8,7 +8,7 @@ export const useQueryCategory = () => {
     data: categories = [],
     isLoading: isLoadingCategories,
     error: errorCategories,
-  } = useQuery<Category[], AxiosError>('tags', CategoryApi.getAll, {
+  } = useQuery<Category[], AxiosError>('category', CategoryApi.getAll, {
     refetchOnWindowFocus: false, //- Indica se deve refazer a busca ao focar na janela.
     // keepPreviousData: true, // Indica se deve manter os dados anteriores enquanto novos dados são carregados.
   });

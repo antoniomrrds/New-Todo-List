@@ -23,14 +23,14 @@ const LoadingComponent = () => (
 );
 
 const ErrorComponent = ({ message }: { message: string }) => (
-  <S.GridCenteredContainer>
+  <S.GridCenteredError>
     <Alert
-      message="Erro ao carregar as tarefas"
+      message="Erro ao carregar as tags"
       description={message}
       type="error"
       showIcon
     />
-  </S.GridCenteredContainer>
+  </S.GridCenteredError>
 );
 
 export const TagListContainer: React.FC<TagList> = ({

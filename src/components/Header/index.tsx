@@ -35,13 +35,13 @@ const items: MenuItem[] = [
   },
   {
     key: 'tag',
-    label: 'Tag',
+    label: 'tag',
     link: '/tag',
     allowedRoles: [Roles.Admin],
   },
   {
     key: 'category',
-    label: 'Category',
+    label: 'categoria',
     link: '/category',
     allowedRoles: [Roles.Admin],
   },
@@ -64,7 +64,7 @@ export const AppHeader = () => {
   const { user, isAuthenticated } = useAuth();
   const { notification } = App.useApp();
 
-  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined); // Começa com a imagem padrão
+  const [imageSrc, setImageSrc] = useState<string | undefined>(Dev); // Começa com a imagem padrão
 
   const { handleFormSubmit } = useSignOut({
     navigateToSignIn,
@@ -96,6 +96,7 @@ export const AppHeader = () => {
           setImageSrc(parsedData.UrlImage);
         };
         newImage.onerror = () => {
+          console.error('Erro ao carregar imagem');
           setImageSrc(Dev);
         };
         setImageSrc(parsedData.UrlImage);

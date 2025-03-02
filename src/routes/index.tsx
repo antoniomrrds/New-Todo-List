@@ -34,10 +34,6 @@ export const router = createBrowserRouter([
         element: <TodoHomePage />,
       },
       {
-        path: 'add',
-        element: <ToDoSavePage />,
-      },
-      {
         path: ':id',
         element: <TodoDetailsPage />,
       },

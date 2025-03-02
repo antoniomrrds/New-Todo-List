@@ -21,7 +21,7 @@ export const useSaveCategory = ({
 }: SaveCategoryProps) => {
   const queryClient = useQueryClient();
 
-  const mapFormDataSaveCatgory = (
+  const mapFormDataSaveCategory = (
     data: CategorySaveValidationType,
   ): CreateCategory | UpdateCategory => {
     const baseData = {
@@ -72,7 +72,7 @@ export const useSaveCategory = ({
   );
 
   const handleFormSubmit = (data: CategorySaveValidationType) => {
-    mutation.mutate(mapFormDataSaveCatgory(data));
+    mutation.mutate(mapFormDataSaveCategory(data));
   };
 
   return { isSaving: mutation.isLoading, handleFormSubmit };

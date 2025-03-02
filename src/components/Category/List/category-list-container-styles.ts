@@ -20,6 +20,13 @@ export const GridCenteredContainer = styled(StyledContainer)`
   margin: 0 auto;
 `;
 
+export const GridCenteredError = styled(StyledContainer)`
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const EmptyStyled = styled(Empty)`
   .ant-empty-description {
      color: ${colorStyle.successGreen600};

@@ -5,12 +5,17 @@ import { CreateButton, FilterButton } from '@/components/Todo/List/Buttons';
 import { DEFAULT_FILTERS } from '@/pages/Todo';
 import { getTodoStatusText, TodoStatus } from '@/api/service/toDo/enum';
 import { generateOptions } from '@/utils';
-import { ActivationState, getActivationStateText } from '@/api/core/types';
+import {
+  ActivationState,
+  DefaultValues,
+  getActivationStateText,
+} from '@/api/core/types';
+import { useModal } from '@/helpers';
+import { SaveModalToDoDialog } from '@/components/Todo/Save/Modal';
 
 type ToDoSearchBarProps = {
   filters: ToDoFilter;
   onApplyFilters: (updatedFilters: Partial<ToDoFilter>) => void;
-  handleNavigateAdd: () => void;
   shouldShowDropdown: boolean;
 };
 
@@ -22,7 +27,6 @@ const todoOptions = generateOptions(TodoStatus, getTodoStatusText);
 export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
   filters,
   onApplyFilters,
-  handleNavigateAdd,
   shouldShowDropdown,
 }) => {
   const [localFilters, setLocalFilters] = useState<ToDoFilter>(filters);
@@ -44,6 +48,13 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
   const handleSearch = () => {
     onApplyFilters(localFilters);
   };
+
+  const {
+    isModalOpen: isSaveModalOpen,
+    selectedItem: categoryToSave,
+    showModal: showSaveModal,
+    closeModal: closeSaveModal,
+  } = useModal<number>();
 
   return (
     <>
@@ -91,9 +102,17 @@ export const ToDoSearchBar: FC<ToDoSearchBarProps> = ({
       </Row>
       <Row gutter={[8, 8]} style={{ marginTop: 8 }} justify={'end'}>
         <Col xs={24}>
-          <CreateButton text="Criar Nova Tarefa" onClick={handleNavigateAdd} />
+          <CreateButton
+            text="Criar Nova Tarefa"
+            onClick={() => showSaveModal()}
+          />
         </Col>
       </Row>
+      <SaveModalToDoDialog
+        open={isSaveModalOpen}
+        onCancel={closeSaveModal}
+        categoryId={categoryToSave ?? DefaultValues.IdNullValue}
+      />
     </>
   );
 };

@@ -14,6 +14,13 @@ export const GridCenteredLoading = styled(StyledContainer)`
 
 `;
 
+export const GridCenteredError = styled(StyledContainer)`
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const GridCenteredContainer = styled(StyledContainer)`
   display:grid;
   flex-grow: 1;

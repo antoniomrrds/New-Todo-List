@@ -10,14 +10,10 @@ import {
 import { ActivationState } from '@/api/core/types';
 
 type UseTodoFormProps = {
-  toDoItem: ToDoDetails | null;
-  handleFormSubmit: (data: SaveToDoValidationType) => void;
+  toDoItem?: ToDoDetails | null;
 };
 
-export const useTodoForm = ({
-  handleFormSubmit,
-  toDoItem,
-}: UseTodoFormProps) => {
+export const useTodoForm = ({ toDoItem }: UseTodoFormProps) => {
   const defaultValuesForCreation = {
     isActive: ActivationState.Active,
     isCompleted: ActivationState.Inactive,
@@ -67,6 +63,5 @@ export const useTodoForm = ({
     errors,
     watch,
     isExpirationEnabled,
-    handleFormSubmit,
   };
 };

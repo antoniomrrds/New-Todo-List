@@ -20,6 +20,7 @@ type toDoDetailsParams = {
 export const TodoDetailsPage = () => {
   const { id } = useParams<toDoDetailsParams>();
   const todoId = parseIdOrDefault(id);
+  
   const { toDoItem, errorToDos, isLoadingToDos } = useQueryTodoDetails(todoId);
 
   const screens = useBreakpoint();
