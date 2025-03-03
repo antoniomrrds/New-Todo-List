@@ -6,7 +6,6 @@ import { useQueryFilteredTodos } from '@/api/service/toDo/actions';
 import { ToDoFilter } from '@/api/service/toDo/types';
 import { ToDoSearchBar } from '@/components/Todo/List/SearchBar';
 import { PaginationCustom } from '@/components/shared/Pagination';
-import { useNavigateToPath } from '@/helpers';
 import { AxiosError } from 'axios';
 import {
   saveObjectToLocalStorage,
@@ -27,8 +26,6 @@ export const DEFAULT_FILTERS: ToDoFilter = {
 };
 
 export const TodoHomePage = () => {
-  const navigateTo = useNavigateToPath();
-
   // 🔹 Sempre sincronizar filtros com o localStorage ao carregar
   const [filters, setFilters] = useState<ToDoFilter>(() =>
     getObjectFromLocalStorage('todoFilters', DEFAULT_FILTERS),
@@ -62,7 +59,6 @@ export const TodoHomePage = () => {
       <AppHeader />
       <S.ContainerStyled>
         <ToDoSearchBar
-          handleNavigateAdd={() => navigateTo('add')}
           filters={filters}
           onApplyFilters={(updatedFilters) =>
             updateFilters({ ...updatedFilters, Page: 1 })

@@ -2,7 +2,7 @@ import { MoreOutlined } from '@ant-design/icons';
 import { App, Button, Dropdown, MenuProps } from 'antd';
 import { gold } from '@ant-design/colors';
 import * as S from '@/components/Todo/Details/Buttons/buttons-styles';
-import { ConfirmToDoDeleteDialog } from '@/components/Todo/Details/Modal';
+import { ConfirmToDoDeleteDialog } from '@/components/Todo/Delete/Modal';
 import { useModal, useNavigateFunction } from '@/helpers';
 import * as I from '@/components/shared/Icons';
 import { useDeleteTodo } from '@/api/service/toDo/actions';

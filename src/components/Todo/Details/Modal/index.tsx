@@ -1,48 +1,43 @@
 import { FC } from 'react';
-import * as I from '@/components/shared/Icons';
-import * as S from '@/components/Todo/Details/Modal/modal-styles';
+import * as S from '@/components/Todo/Details/Modal/details-modal-styles';
 import { SpinCustom } from '@/components/shared/Spin';
-type ConfirmToDoDeleteDialogProps = {
+import { App } from 'antd';
+import { useQueryTodoDetails } from '@/api/service/toDo/actions';
+import { ToDoActivityCard } from '@/components/Todo/Details/Modal/ToDoDetailsCard';
+type DetailsModalToDoDialogProps = {
   open: boolean;
-  onConfirm: () => void;
   onCancel: () => void;
-  loading?: boolean;
+  id: number;
 };
-export const ConfirmToDoDeleteDialog: FC<ConfirmToDoDeleteDialogProps> = ({
+
+export const DetailsModalToDoDialog: FC<DetailsModalToDoDialogProps> = ({
   onCancel,
-  onConfirm,
   open,
-  loading = false,
+  id,
 }) => {
+  const { notification } = App.useApp();
+  const { toDoItem, isLoadingToDos } = useQueryTodoDetails(id, notification);
+
   return (
     <S.ModalStyled
       centered
-      title={
-        <>
-          Você tem certeza que <S.TextCustom>Deletar</S.TextCustom>
-          esta Tarefa ?
-        </>
-      }
       open={open}
-      onOk={onConfirm}
+      title="Detalhes da Tarefa"
       onCancel={onCancel}
-      closeIcon={null}
-      okButtonProps={{
-        danger: true,
-        loading,
+      loading={isLoadingToDos}
+      closeIcon={<S.CloseCircleFilledStyled />}
+      styles={{
+        mask: {
+          backdropFilter: 'blur(10px)',
+        },
       }}
+      footer={null}
       wrapClassName="custom-modal-wrap"
       maskClosable={false} // 🔹 Impede fechar ao clicar fora
       keyboard={false} // 🔹 Impede fechar ao pressionar "Esc"
     >
-      <SpinCustom
-        loading={loading}
-        text="Excluindo a tarefa, isso pode levar um minuto..."
-      >
-        <S.Paragraph>
-          <I.WarningFilledStyled />
-          Esta ação não pode ser desfeita.
-        </S.Paragraph>
+      <SpinCustom loading={isLoadingToDos} text="Carregando dados...">
+        <ToDoActivityCard toDoItem={toDoItem} />
       </SpinCustom>
     </S.ModalStyled>
   );

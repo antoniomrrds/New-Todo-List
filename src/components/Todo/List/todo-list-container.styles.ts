@@ -1,5 +1,5 @@
 import { StyledContainer } from '@/styles/global-styles';
-import { Alert, Empty } from 'antd';
+import { Empty } from 'antd';
 import styled, { css } from 'styled-components';
 
 const colorStyle = {
@@ -32,8 +32,3 @@ export const EmptyStyled = styled(Empty)`
      font-family: ${({ theme }) => theme.typography.fontFamily.poppins};
      font-size: ${({ theme }) => theme.typography.fontWeight[700]};
 }`;
-
-export const AlertStyled = styled(Alert)`
-height: max-content;
-width: fit-content;
-`;

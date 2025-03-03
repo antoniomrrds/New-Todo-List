@@ -1,4 +1,4 @@
-import { Empty } from 'antd';
+import { Alert, Empty } from 'antd';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { ToDo } from '@/api/service/toDo/types';
@@ -24,7 +24,7 @@ const LoadingComponent = () => (
 
 const ErrorComponent = ({ message }: { message: string }) => (
   <S.GridCenteredError>
-    <S.AlertStyled
+    <Alert
       message="Erro ao carregar as tarefas"
       description={message}
       type="error"
@@ -42,12 +42,12 @@ const TodoListContainer: React.FC<ToDoList> = ({ toDos, isLoading, error }) => {
     if (error) return <ErrorComponent message={error.message} />;
     if (toDos.length > 0) return <CardTasks data={toDos} />;
     return (
-      <S.GridCenteredContainer>
-        <Empty
+      <S.GridCenteredLoading>
+        <S.EmptyStyled
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description={noFilteredTasksMessage}
         />
-      </S.GridCenteredContainer>
+      </S.GridCenteredLoading>
     );
   };
 

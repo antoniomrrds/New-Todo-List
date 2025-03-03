@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import * as I from '@/components/shared/Icons';
-import * as S from '@/components/Tag/Delete/Modal/delete-styles';
+import * as S from '@/components/Todo/Delete/Modal/modal-styles';
 import { SpinCustom } from '@/components/shared/Spin';
-type ConfirmTagDeleteDialogProps = {
+type ConfirmToDoDeleteDialogProps = {
   open: boolean;
   onConfirm: () => void;
   onCancel: () => void;
   loading?: boolean;
 };
-export const ConfirmTagDeleteDialog: FC<ConfirmTagDeleteDialogProps> = ({
+export const ConfirmToDoDeleteDialog: FC<ConfirmToDoDeleteDialogProps> = ({
   onCancel,
   onConfirm,
   open,
@@ -20,7 +20,7 @@ export const ConfirmTagDeleteDialog: FC<ConfirmTagDeleteDialogProps> = ({
       title={
         <>
           Você tem certeza que <S.TextCustom>Deletar</S.TextCustom>
-          esta Tag ?
+          esta Tarefa ?
         </>
       }
       open={open}

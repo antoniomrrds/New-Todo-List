@@ -3,29 +3,43 @@ import { FC } from 'react';
 import * as S from './Card.styles';
 import { ToDo } from '@/api/service/toDo/types';
 import { obtainTodoStatusDetails } from '@/components/Todo/List/CardTodo/ToDoStatusBadge';
-import { useModal, useNavigateToPath } from '@/helpers';
+import { useModal } from '@/helpers';
 import * as I from '@/components/shared/Icons';
 import { gold, greyDark } from '@ant-design/colors';
 import { BadgeStatus } from '@/components/Todo/List/CardTodo/BadgeStatus';
 import { useDeleteTodo } from '@/api/service/toDo/actions';
-import { ConfirmToDoDeleteDialog } from '@/components/Todo/Details/Modal';
+import { ConfirmToDoDeleteDialog } from '@/components/Todo/Delete/Modal';
+import { SaveModalToDoDialog } from '@/components/Todo/Save/Modal';
+import { DefaultValues } from '@/api/core/types';
+import { DetailsModalToDoDialog } from '@/components/Todo/Details/Modal';
 
 type Props = {
   data: ToDo[];
 };
 
 const CardTasks: FC<Props> = ({ data }) => {
-  const navigateTo = useNavigateToPath();
-  const navigateToEdit = (id: number) => navigateTo(`${id}/edit`);
-  const navigateToDetails = (id: number) => navigateTo(`${id}`);
   const { notification } = App.useApp();
   const { deleteToDo, deleteToDoIsLoading } = useDeleteTodo({ notification });
 
   const {
     isModalOpen,
     selectedItem: todoToDelete,
-    showModal,
+    showModal: showModalDelete,
     closeModal,
+  } = useModal<number>();
+
+  const {
+    isModalOpen: isSaveModalOpen,
+    selectedItem: toDoToSave,
+    showModal: showSaveModal,
+    closeModal: closeSaveModal,
+  } = useModal<number>();
+
+  const {
+    isModalOpen: toDoDetailsIsModalOpen,
+    selectedItem: toDoToDetails,
+    showModal: showToDoDetailsModal,
+    closeModal: closeToDoDetailsModal,
   } = useModal<number>();
 
   const confirmAndCloseModal = () => {
@@ -55,7 +69,7 @@ const CardTasks: FC<Props> = ({ data }) => {
             <Row justify={'center'} align={'middle'}>
               <S.ActionsItemContatiner
                 span={8}
-                onClick={() => navigateToEdit(todoItem.id)}
+                onClick={() => showSaveModal(todoItem?.id)}
               >
                 <S.ActionsItem>
                   <I.EditOutlinedStyled $color={gold.primary} key="edit" />
@@ -63,7 +77,7 @@ const CardTasks: FC<Props> = ({ data }) => {
               </S.ActionsItemContatiner>
               <S.ActionsItemContatiner
                 span={8}
-                onClick={() => showModal(todoItem.id)}
+                onClick={() => showModalDelete(todoItem.id)}
               >
                 <S.ActionsItem>
                   <I.FaTrashAltStyled key="delete" />
@@ -71,7 +85,7 @@ const CardTasks: FC<Props> = ({ data }) => {
               </S.ActionsItemContatiner>
               <S.ActionsItemContatiner
                 span={8}
-                onClick={() => navigateToDetails(todoItem.id)}
+                onClick={() => showToDoDetailsModal(todoItem.id)}
               >
                 <S.ActionsItem>
                   <I.InfoCircleOutlinedStyled
@@ -90,6 +104,20 @@ const CardTasks: FC<Props> = ({ data }) => {
         onCancel={closeModal}
         loading={deleteToDoIsLoading}
       />
+      {toDoToDetails !== null && (
+        <DetailsModalToDoDialog
+          open={toDoDetailsIsModalOpen}
+          onCancel={closeToDoDetailsModal}
+          id={toDoToDetails ?? DefaultValues.IdNullValue}
+        />
+      )}
+      {toDoToSave !== null && (
+        <SaveModalToDoDialog
+          open={isSaveModalOpen}
+          onCancel={closeSaveModal}
+          categoryId={toDoToSave ?? DefaultValues.IdNullValue}
+        />
+      )}
     </S.CardsContainer>
   );
 };

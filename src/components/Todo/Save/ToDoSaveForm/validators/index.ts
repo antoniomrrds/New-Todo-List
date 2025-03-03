@@ -2,7 +2,6 @@ import * as Yup from 'yup';
 import dayjs from 'dayjs';
 
 import {
-  cleanDescription,
   formatDateTime,
   formatExpirationDateTime,
   getEnumValuesAsNumbers,
@@ -24,13 +23,7 @@ export const todoValidationSchema = Yup.object({
   description: Yup.string()
     .trim()
     .required('A descrição é obrigatória!')
-    .min(5, 'A descrição deve ter pelo menos 5 caracteres!')
-    .test(
-      'min-cleaned-description',
-      'A descrição deve ter pelo menos 5 caracteres.',
-      (value) => cleanDescription(value || '').length > 4,
-    ),
-
+    .min(5, 'A descrição deve ter pelo menos 5 caracteres!'),
   isActive: Yup.number()
     .oneOf(
       getEnumValuesAsNumbers(ActivationState),

@@ -2,8 +2,6 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { HomePage } from '@/pages/Home';
 import { NotFoundPage } from '@/pages/NotFound';
 import { TodoHomePage } from '@/pages/Todo';
-import { TodoDetailsPage } from '@/pages/Todo/Details';
-import { ToDoSavePage } from '@/pages/Todo/Save';
 import { SignInPage } from '@/pages/Auth/SignIn';
 import { SignUpPage } from '@/pages/Auth/SignUp';
 import PrivateRoute from '@/routes/Private';
@@ -32,14 +30,6 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <TodoHomePage />,
-      },
-      {
-        path: ':id',
-        element: <TodoDetailsPage />,
-      },
-      {
-        path: ':id/edit',
-        element: <ToDoSavePage />,
       },
     ],
   },

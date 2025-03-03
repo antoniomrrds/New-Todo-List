@@ -16,7 +16,6 @@ import { Controller } from 'react-hook-form';
 
 import * as S from '@/components/Todo/Save/ToDoSaveForm/todo-save-form-styles';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import ReactQuill from 'react-quill-new';
 import '@/styles/react-quill.css';
 import dayjs from 'dayjs';
 import { TodoActionButtons } from '@/components/Todo/Save/ActionButtonGroup';
@@ -157,10 +156,14 @@ export const ToDoSaveForm: FC<ToDoSaveFormProps> = ({
                 control={control}
                 render={({ field }) => {
                   return (
-                    <ReactQuill
+                    <Input.TextArea
                       {...field}
-                      placeholder="Digite a descrição aqui"
-                      style={{ width: '100%' }}
+                      id="description" // ID do Input corresponde ao LabelForm
+                      placeholder="Digite a descrição da categoria"
+                      showCount
+                      allowClear={true}
+                      maxLength={500}
+                      autoSize={{ minRows: 3, maxRows: 5 }}
                     />
                   );
                 }}

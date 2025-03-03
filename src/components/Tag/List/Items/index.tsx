@@ -5,7 +5,7 @@ import { gold, greyDark } from '@ant-design/colors';
 import * as I from '@/components/shared/Icons';
 import { Tag } from '@/api/service/tag/types';
 import * as S from './items-styles';
-import { ConfirmTagDeleteDialog } from '@/components/Tag/delete/Modal';
+import { ConfirmTagDeleteDialog } from '@/components/Tag/Delete/Modal';
 import { DetailsModalTagDialog } from '@/components/Tag/Details/Modal';
 import { size } from '@/styles/breakpoints';
 import { useWindowWidth } from '@/utils';
