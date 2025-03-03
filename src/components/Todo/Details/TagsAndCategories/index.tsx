@@ -1,57 +1,65 @@
 import { ToDoDetails } from '@/api/service/toDo/types';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import * as S from '@/components/Todo/Details/TagsAndCategories/tags-and-categories-card-styles';
-import { cyan, purple } from '@ant-design/colors';
+
 import { Category } from '@/api/service/category/types';
 import { Tag } from '@/api/service/tag/types';
+
 type ToDoMainCardProps = {
   toDoItem?: ToDoDetails;
 };
 
-export const TagsAndCategoriesCard: FC<ToDoMainCardProps> = ({ toDoItem }) => {
-  const [isCategoriesEmpty, setCategoriesEmpty] = useState(false);
-  useEffect(() => {
-    const isCategoriesEmpty = toDoItem?.categories.length === 0;
-    if (isCategoriesEmpty) {
-      setCategoriesEmpty(true);
-    }
-  }, [setCategoriesEmpty, toDoItem?.categories]);
-  const todoAndCategories = [
-    ...(toDoItem?.categories || []).map((item: Category) => ({
-      ...item,
-      type: 'category',
-    })),
-    ...(toDoItem?.tags || []).map((item: Tag) => ({ ...item, type: 'tag' })),
-  ];
-
+const Tags = ({ toDoItem }: { toDoItem?: ToDoDetails }) => {
   return (
-    <S.CardMain>
-      <S.CardsContainer>
-        {/* Se não houver tags nem categorias, mostrar aviso */}
-        {toDoItem?.tags.length === 0 &&
-          toDoItem?.categories.length === 0 &&
-          null}
-
-        {/* Combina as categorias e tags em um único array */}
-        {todoAndCategories.map((item, index) => {
-          const uniqueId = `${item.type}-${item.id}-${item.createdAt}`; // Usando apenas item.type e item.id como chave única
-          return (
-            <S.TagStyled
-              key={uniqueId} // Garante que cada chave seja única
-              title={item.name}
-              color={
-                isCategoriesEmpty
-                  ? purple.primary
-                  : index % 2 === 0
-                    ? cyan.primary
-                    : purple.primary
-              }
-            >
-              {item.name}
-            </S.TagStyled>
-          );
-        })}
-      </S.CardsContainer>
-    </S.CardMain>
+    <S.CardsContainer>
+      <S.HeaderSubtitle>Tags</S.HeaderSubtitle>
+      {toDoItem?.tags && toDoItem?.tags.length > 0 ? (
+        toDoItem.tags.map((tag: Tag) => (
+          <S.TagStyled key={tag.id}>{tag.name}</S.TagStyled>
+        ))
+      ) : (
+        <S.HeaderSubtitle>Não há tags</S.HeaderSubtitle>
+      )}
+    </S.CardsContainer>
   );
+};
+
+const Categories = ({ toDoItem }: { toDoItem?: ToDoDetails }) => {
+  return (
+    <S.CardsContainer>
+      <S.HeaderSubtitle>Categorias</S.HeaderSubtitle>
+      {toDoItem?.categories && toDoItem?.categories.length > 0 ? (
+        toDoItem.categories.map((category: Category) => (
+          <S.TagStyled key={category.id}>{category.name}</S.TagStyled>
+        ))
+      ) : (
+        <S.HeaderSubtitle>Não há categorias</S.HeaderSubtitle>
+      )}
+    </S.CardsContainer>
+  );
+};
+
+const getContent = (toDoItem?: ToDoDetails) => {
+  return (
+    <>
+      {/* Exibe as tags se existirem */}
+      {toDoItem?.tags && toDoItem?.tags.length > 0 && (
+        <Tags toDoItem={toDoItem} />
+      )}
+
+      {/* Exibe as categorias se existirem */}
+      {toDoItem?.categories && toDoItem?.categories.length > 0 && (
+        <Categories toDoItem={toDoItem} />
+      )}
+
+      {/* Se não houver tags ou categorias */}
+      {!toDoItem?.tags?.length && !toDoItem?.categories?.length && (
+        <S.HeaderSubtitle>Não há tags ou categorias</S.HeaderSubtitle>
+      )}
+    </>
+  );
+};
+
+export const TagsAndCategoriesCard: FC<ToDoMainCardProps> = ({ toDoItem }) => {
+  return <S.CardMain>{getContent(toDoItem)}</S.CardMain>;
 };
