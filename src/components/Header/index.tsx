@@ -96,7 +96,6 @@ export const AppHeader = () => {
           setImageSrc(parsedData.UrlImage);
         };
         newImage.onerror = () => {
-          console.error('Erro ao carregar imagem');
           setImageSrc(Dev);
         };
         setImageSrc(parsedData.UrlImage);

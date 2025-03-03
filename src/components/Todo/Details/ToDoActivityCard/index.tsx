@@ -14,7 +14,7 @@ import { FaIdBadge } from 'react-icons/fa'; // para usar quando for atualizado p
 import { purple } from '@ant-design/colors';
 
 type ToDoActivityCardProps = {
-  toDoItem: ToDoDetails;
+  toDoItem?: ToDoDetails;
 };
 
 export const ToDoActivityCard: FC<ToDoActivityCardProps> = ({ toDoItem }) => {
@@ -26,7 +26,7 @@ export const ToDoActivityCard: FC<ToDoActivityCardProps> = ({ toDoItem }) => {
           <FaRegCalendarAlt />
           <S.TextCustom>Cadastrado:</S.TextCustom>
         </Flex>
-        <S.TextCustom>{toDoItem.createdAtFormatted}</S.TextCustom>
+        <S.TextCustom>{toDoItem?.createdAtFormatted}</S.TextCustom>
       </S.FlexContentItem>
 
       <S.FlexContentItem align="center" justify="space-between">
@@ -44,14 +44,14 @@ export const ToDoActivityCard: FC<ToDoActivityCardProps> = ({ toDoItem }) => {
           <FaCalendarCheck />
           <S.TextCustom>Atualizado Em:</S.TextCustom>
         </Flex>
-        <S.TextCustom>{toDoItem.updatedAtFormatted}</S.TextCustom>
+        <S.TextCustom>{toDoItem?.updatedAtFormatted}</S.TextCustom>
       </S.FlexContentItem>
       <S.FlexContentItem align="center" justify="space-between">
         <Flex align="center" gap={2}>
           <FaCalendarDay /> Expira Em:
         </Flex>
         <S.TextCustom $color={color}>
-          {toDoItem.expirationDateFormatted || (
+          {toDoItem?.expirationDateFormatted || (
             <FaInfinity style={{ fontSize: '1em', color: purple.primary }} />
           )}
         </S.TextCustom>
@@ -61,8 +61,8 @@ export const ToDoActivityCard: FC<ToDoActivityCardProps> = ({ toDoItem }) => {
           <FaIdBadge />
           <S.TextCustom>Cadastrado Por:</S.TextCustom>
         </Flex>
-        <Tooltip title={toDoItem.name}>
-          <S.TextCustom $marginRight>{toDoItem.name}</S.TextCustom>
+        <Tooltip title={toDoItem?.name}>
+          <S.TextCustom $marginRight>{toDoItem?.name}</S.TextCustom>
         </Tooltip>
       </S.FlexContentItem>
     </S.ActivityCard>

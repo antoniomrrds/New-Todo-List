@@ -6,13 +6,13 @@ import { DefaultValues } from '@/api/core/types';
 type SubmitButtonProps = {
   block?: boolean;
   isLoading: boolean;
-  idTag?: number;
+  idUser?: number;
 };
 
 export const SubmitButton = ({
   block = false,
   isLoading,
-  idTag = DefaultValues.IdNullValue,
+  idUser: idTag = DefaultValues.IdNullValue,
 }: SubmitButtonProps) => (
   <ConfigProvider theme={S.themeAntdConfigButtonSuccess}>
     <ButtonAntd

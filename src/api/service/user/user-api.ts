@@ -29,7 +29,6 @@ export const UserApi = {
       }),
     );
 
-    console.log('response', response);
     return response.data;
   },
 };

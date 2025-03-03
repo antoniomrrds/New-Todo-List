@@ -1,17 +1,15 @@
-import { Avatar, Row, App } from 'antd';
+import { App } from 'antd';
 import { FC } from 'react';
 import * as S from './Card.styles';
 import { ToDo } from '@/api/service/toDo/types';
 import { obtainTodoStatusDetails } from '@/components/Todo/List/CardTodo/ToDoStatusBadge';
 import { useModal } from '@/helpers';
-import * as I from '@/components/shared/Icons';
-import { gold, greyDark } from '@ant-design/colors';
 import { BadgeStatus } from '@/components/Todo/List/CardTodo/BadgeStatus';
 import { useDeleteTodo } from '@/api/service/toDo/actions';
 import { ConfirmToDoDeleteDialog } from '@/components/Todo/Delete/Modal';
-import { SaveModalToDoDialog } from '@/components/Todo/Save/Modal';
 import { DefaultValues } from '@/api/core/types';
 import { DetailsModalToDoDialog } from '@/components/Todo/Details/Modal';
+import Dev from '@/assets/images/login/dev-product.png';
 
 type Props = {
   data: ToDo[];
@@ -26,13 +24,6 @@ const CardTasks: FC<Props> = ({ data }) => {
     selectedItem: todoToDelete,
     showModal: showModalDelete,
     closeModal,
-  } = useModal<number>();
-
-  const {
-    isModalOpen: isSaveModalOpen,
-    selectedItem: toDoToSave,
-    showModal: showSaveModal,
-    closeModal: closeSaveModal,
   } = useModal<number>();
 
   const {
@@ -53,49 +44,32 @@ const CardTasks: FC<Props> = ({ data }) => {
     <S.CardsContainer>
       {data.map((todoItem) => {
         const { color } = obtainTodoStatusDetails(todoItem);
-        return (
-          <S.PaperCard $Color={color} key={todoItem.id} bordered={false}>
-            <BadgeStatus task={todoItem} />
-            <S.CardMeta title={todoItem.name} />
-            <S.CreatorName>
-              <Avatar
-                style={{ backgroundColor: color }}
-                alt="Criador"
-                icon={<I.UserOutlinedStyled key={'user-card-item'} />}
-              />
 
-              <span className="creator-name">{todoItem?.userName} </span>
-            </S.CreatorName>
-            <Row justify={'center'} align={'middle'}>
-              <S.ActionsItemContatiner
-                span={8}
-                onClick={() => showSaveModal(todoItem?.id)}
-              >
-                <S.ActionsItem>
-                  <I.EditOutlinedStyled $color={gold.primary} key="edit" />
-                </S.ActionsItem>
-              </S.ActionsItemContatiner>
-              <S.ActionsItemContatiner
-                span={8}
-                onClick={() => showModalDelete(todoItem.id)}
-              >
-                <S.ActionsItem>
-                  <I.FaTrashAltStyled key="delete" />
-                </S.ActionsItem>
-              </S.ActionsItemContatiner>
-              <S.ActionsItemContatiner
-                span={8}
-                onClick={() => showToDoDetailsModal(todoItem.id)}
-              >
-                <S.ActionsItem>
-                  <I.InfoCircleOutlinedStyled
-                    $color={greyDark.primary}
-                    key="info"
+        return (
+          <S.CardTaskMain
+            key={todoItem.id}
+            onClick={() => showToDoDetailsModal(todoItem.id)}
+          >
+            <S.CardTaskFlex>
+              <S.ImageWrapper>
+                <S.ImageStyled src={todoItem?.urlImage || Dev} alt="Criador" />
+              </S.ImageWrapper>
+              <S.CreatorTaskFlex>{todoItem?.name}</S.CreatorTaskFlex>
+              <S.CreatorTaskName $color={color}>
+                {todoItem.userName}
+              </S.CreatorTaskName>
+              <S.ActionsContainer>
+                <S.SpanStyled>
+                  <S.FaTrashAltStyled
+                    key="delete"
+                    onClick={() => showModalDelete(todoItem.id)}
                   />
-                </S.ActionsItem>
-              </S.ActionsItemContatiner>
-            </Row>
-          </S.PaperCard>
+                </S.SpanStyled>
+              </S.ActionsContainer>
+            </S.CardTaskFlex>
+
+            <BadgeStatus task={todoItem} />
+          </S.CardTaskMain>
         );
       })}
       <ConfirmToDoDeleteDialog
@@ -109,13 +83,6 @@ const CardTasks: FC<Props> = ({ data }) => {
           open={toDoDetailsIsModalOpen}
           onCancel={closeToDoDetailsModal}
           id={toDoToDetails ?? DefaultValues.IdNullValue}
-        />
-      )}
-      {toDoToSave !== null && (
-        <SaveModalToDoDialog
-          open={isSaveModalOpen}
-          onCancel={closeSaveModal}
-          categoryId={toDoToSave ?? DefaultValues.IdNullValue}
         />
       )}
     </S.CardsContainer>

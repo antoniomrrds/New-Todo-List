@@ -18,10 +18,10 @@ type ToDoStatusBadgeProps = {
 };
 
 export const obtainTodoStatusDetails = (
-  todoItem: ToDo,
+  todoItem?: ToDo,
   iconMargin: number = 8,
 ) => {
-  switch (todoItem.status) {
+  switch (todoItem?.status) {
     case TodoStatus.Completed:
       return {
         text: TodoStatusText[TodoStatus.Completed],

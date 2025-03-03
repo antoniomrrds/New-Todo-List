@@ -1,70 +1,16 @@
-import { generateSpacingCss } from '@/styles/Theme';
-import { Card, Col } from 'antd';
-import styled from 'styled-components';
+import { boxShadow, generateSpacingCss } from '@/styles/Theme';
+import styled, { css } from 'styled-components';
+import * as I from '@/components/shared/Icons';
 
-export const ActionsItem = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: ${({ theme }) => theme.spacingFn(10)};
-  cursor: pointer;
-  border-top:  ${({ theme }) => `${theme.borders.small} solid ${theme.colors.success.successGreen500}`};
- `;
-
-export const ActionsItemContatiner = styled(Col)`
-    :hover {
-       background: ${({ theme }) => theme.colors.neutral.neutral100};
-    }
-   `;
-export const CardMeta = styled(Card.Meta)`
-.ant-card-meta-title{
-  font-size: ${({ theme }) => theme.typography.fontSizeSmall};
-  padding: ${({ theme }) => `${theme.spacingFn(7)} ${theme.spacingFn(10)}`} ;
-  color:${({ theme }) => theme.colors.success.successGreen500};
-}
-`;
-
-export const PaperCard = styled(Card)<{ $Color?: string }>`
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-color:${({ theme }) => theme.colors.neutral.neutral100};
-background: ${({ theme }) => theme.colors.neutral.neutral100};
-height: max-content;
-.ant-card-body  {
-  overflow: hidden !important;
-  border-radius: ${({ theme }) => theme.spacing.small}!important;
-  padding: ${({ theme }) => theme.spacing.zero};
-  border: ${({ theme }) => `${theme.borders.default} solid ${theme.colors.neutral.neutral100}`};
-  background: ${({ theme }) => theme.colors.neutral.neutral800};
-}
-`;
-
-export const CreatorName = styled.div`
- font-family: ${({ theme }) => theme.typography.fontFamily.poppins};
-  display: flex;
-  align-items: center;
-  padding:  ${({ theme }) => `${theme.spacingFn(7)} ${theme.spacingFn(7)}`};
-  background: ${({ theme }) => theme.colors.neutral.neutral200};
-  margin-top:  ${({ theme }) => theme.spacing.small};
-
-  img {
-    border-radius: 50%;
-    width: ${({ theme }) => theme.spacingFn(24)};
-    height: ${({ theme }) => theme.spacingFn(24)};
-    margin-right:  ${({ theme }) => theme.spacing.small};
-  }
-
-  .creator-name {
-    color: ${({ theme }) => theme.colors.neutral.neutral800};
-    white-space: nowrap;
-    font-weight: ${({ theme }) => theme.typography.fontWeight[600]};
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 60%;
-    margin-left:  ${({ theme }) => theme.spacing.small};
-  }
-`;
+const colorStyles = {
+  successGreen600: css`${({ theme }) => theme.colors.success.successGreen600}`,
+  neutral800: css`${({ theme }) => theme.colors.neutral.neutral800}`,
+  neutral100: css`${({ theme }) => theme.colors.neutral.neutral100}`,
+  neutral200: css`${({ theme }) => theme.colors.neutral.neutral200}`,
+  neutral300: css`${({ theme }) => theme.colors.neutral.neutral300}`,
+  errorRed500: css`${({ theme }) => theme.colors.error.errorRed500}`,
+  errorRed600: css`${({ theme }) => theme.colors.error.errorRed600}`,
+};
 
 export const CardsContainer = styled.section`
   display: grid;
@@ -74,4 +20,104 @@ export const CardsContainer = styled.section`
   margin: ${({ theme }) => theme.container.marginCenter};
   width: ${({ theme }) => theme.container.fullWidthPercentage};
   height: max-content;
+`;
+/* CardTaskMain */
+export const CardTaskMain = styled.article`
+  background-color: ${colorStyles.neutral200};
+  border: ${({ theme }) => theme.borders.small} solid ${colorStyles.successGreen600};
+
+  max-width: ${({ theme }) => theme.container.fullWidthPercentage};
+  overflow: hidden;
+  height: fit-content;
+  padding: ${generateSpacingCss(16)} ${generateSpacingCss(24)};
+  border-radius: ${generateSpacingCss(12)};
+`;
+
+export const CardTaskFlex = styled.div`
+ display: grid;
+  grid-template-columns: ${generateSpacingCss(90)} 1fr;
+  gap: ${generateSpacingCss(10)};
+  position: relative !important;
+ overflow: hidden;
+ margin-bottom: ${generateSpacingCss(10)};
+`;
+
+export const ImageWrapper = styled.div`
+  width: ${generateSpacingCss(90)};
+  height: ${generateSpacingCss(90)};
+  overflow: hidden;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  background-color: ${colorStyles.neutral300}; /* Mostra fundo */
+   ${boxShadow}
+
+`;
+
+export const ImageStyled = styled.img`
+
+  width: ${({ theme }) => theme.container.fullWidthPercentage};
+  height: ${({ theme }) => theme.container.fullHeightPercentage};
+  object-fit: cover;
+`;
+export const CreatorTaskFlex = styled.div`
+  font-family: ${({ theme }) => theme.typography.fontFamily.poppins};
+  padding: ${generateSpacingCss(8)};
+  text-transform: capitalize;
+  color: ${colorStyles.neutral800}!important;
+  font-style: italic;
+  font-weight: ${({ theme }) => theme.typography.fontWeight[600]};
+  /* background-color: antiquewhite;*/
+  display: block;
+  display: -webkit-box;
+  height: ${generateSpacingCss(50)};
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  padding: ${generateSpacingCss(8)};
+
+  `;
+
+export const ActionsContainer = styled.div`
+position: absolute;
+right: 0;
+top: 0;
+display: flex;
+gap: ${generateSpacingCss(10)};
+`;
+
+export const FaTrashAltStyled = styled(I.FaTrashAltStyled)`
+   color: ${colorStyles.neutral100};
+   width: ${({ theme }) => theme.container.fullWidthPercentage};
+  height: ${({ theme }) => theme.container.fullHeightPercentage};
+  object-fit: cover;
+
+`;
+export const SpanStyled = styled.span`
+  width: ${generateSpacingCss(32)};
+  height: ${generateSpacingCss(32)};
+  padding: ${generateSpacingCss(8)};
+  background: ${colorStyles.errorRed500};
+  border-radius: 50%;
+  overflow: hidden;
+ &:hover {
+    background: ${colorStyles.errorRed600};
+  }
+`;
+
+export const CreatorTaskName = styled.p<{
+  $color?: string;
+}>`
+    font-family: ${({ theme }) => theme.typography.fontFamily.poppins};
+    color: ${({ $color }) => $color || colorStyles.neutral800};
+    white-space: nowrap;
+    font-weight: ${({ theme }) => theme.typography.fontWeight[600]};
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: capitalize;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left:  ${({ theme }) => theme.spacing.small};
 `;

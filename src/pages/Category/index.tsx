@@ -47,7 +47,6 @@ export const CategoryPage = () => {
     const newFilters = { ...filters, ...updatedFilters };
     setFilters(newFilters);
   };
-  console.log('dataCategory', dataCategory);
 
   return (
     <S.LayoutStyled>

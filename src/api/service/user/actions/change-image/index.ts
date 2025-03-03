@@ -11,7 +11,6 @@ export const useChangeImage = () => {
     (data: UserChangeImageRequestDTO) => UserApi.changeImage(data),
     {
       onSuccess: (data) => {
-        console.log('data', data);
         // Atualiza os dados do usuário no contexto global
         if (user) {
           const updatedUser = { ...user, urlImage: data.urlImage };

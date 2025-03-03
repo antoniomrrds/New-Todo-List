@@ -1,45 +1,36 @@
 import { ToDoDetails } from '@/api/service/toDo/types';
 import { FC, useEffect, useState } from 'react';
-import ReactQuill from 'react-quill-new';
-import * as S from '@/components/Todo/Details/ToDoMainCard/to-do-main-card-styles';
-import { TodoDetailsDropdown } from '@/components/Todo/Details/Buttons';
-import { DividerCustom } from '@/components/shared/Divider';
-import { Breakpoint } from 'antd';
+import * as S from '@/components/Todo/Details/TagsAndCategories/tags-and-categories-card-styles';
 import { cyan, purple } from '@ant-design/colors';
+import { Category } from '@/api/service/category/types';
+import { Tag } from '@/api/service/tag/types';
 type ToDoMainCardProps = {
-  toDoItem: ToDoDetails;
-  screens: Partial<Record<Breakpoint, boolean>>;
-  todoId: number;
+  toDoItem?: ToDoDetails;
 };
 
-export const ToDoMainCard: FC<ToDoMainCardProps> = ({
-  toDoItem,
-  screens,
-  todoId,
-}) => {
+export const TagsAndCategoriesCard: FC<ToDoMainCardProps> = ({ toDoItem }) => {
   const [isCategoriesEmpty, setCategoriesEmpty] = useState(false);
   useEffect(() => {
-    const isCategoriesEmpty = toDoItem.categories.length === 0;
+    const isCategoriesEmpty = toDoItem?.categories.length === 0;
     if (isCategoriesEmpty) {
       setCategoriesEmpty(true);
     }
-  }, [setCategoriesEmpty, toDoItem.categories]);
+  }, [setCategoriesEmpty, toDoItem?.categories]);
   const todoAndCategories = [
-    ...toDoItem.categories.map((item) => ({ ...item, type: 'category' })),
-    ...toDoItem.tags.map((item) => ({ ...item, type: 'tag' })),
+    ...(toDoItem?.categories || []).map((item: Category) => ({
+      ...item,
+      type: 'category',
+    })),
+    ...(toDoItem?.tags || []).map((item: Tag) => ({ ...item, type: 'tag' })),
   ];
 
   return (
     <S.CardMain>
-      <S.HeaderMain $screens={screens}>
-        {toDoItem.name}
-        <TodoDetailsDropdown todoId={todoId} />
-      </S.HeaderMain>
-      <DividerCustom margin={5} />
-
       <S.CardsContainer>
         {/* Se não houver tags nem categorias, mostrar aviso */}
-        {toDoItem.tags.length === 0 && toDoItem.categories.length === 0 && null}
+        {toDoItem?.tags.length === 0 &&
+          toDoItem?.categories.length === 0 &&
+          null}
 
         {/* Combina as categorias e tags em um único array */}
         {todoAndCategories.map((item, index) => {
@@ -61,13 +52,6 @@ export const ToDoMainCard: FC<ToDoMainCardProps> = ({
           );
         })}
       </S.CardsContainer>
-      <S.HeaderSubtitle>Descrição</S.HeaderSubtitle>
-      <ReactQuill
-        value={toDoItem.description}
-        readOnly
-        theme="bubble"
-        modules={{ toolbar: false }}
-      />
     </S.CardMain>
   );
 };

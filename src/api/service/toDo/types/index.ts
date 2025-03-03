@@ -43,6 +43,8 @@ export type ToDo = TodoBase & {
   idUser: number;
   userName: string;
   userEmail: string;
+  idImage: string;
+  urlImage: string;
   status: TodoStatus;
   createdAt: string;
   updatedAt: string;

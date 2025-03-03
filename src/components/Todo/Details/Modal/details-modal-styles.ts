@@ -15,6 +15,7 @@ const colorStyles = {
 export const ModalStyled = styled(Modal)`
   font-family: ${({ theme }) => theme.typography.fontFamily.poppins}!important;
 
+    width: ${({ theme }) => theme.container.maxWidth}!important;
   .ant-modal-title {
     font-size:17px !important;
   font-weight: ${({ theme }) => theme.typography.fontWeight[700]} !important;

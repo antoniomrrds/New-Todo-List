@@ -219,12 +219,6 @@ export const GiHamburgerMenuStyled = styled(GiHamburgerMenu)`
   font-size: ${({ theme }) => theme.typography.fontSizeXlarge};
 `;
 
-export const AvatarStyled = styled.img`
-
-${logo}
-
-`;
-
 export const ImageWrapper = styled.div`
   width: ${generateSpacingCss(40)};
   height: ${generateSpacingCss(40)};
