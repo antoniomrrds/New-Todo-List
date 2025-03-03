@@ -1,5 +1,5 @@
 import { useMutation } from 'react-query';
-import { authApi } from '@/api/service/auth';
+import { AuthApi } from '@/api/service/auth';
 import { useAuth } from '@/context/auth';
 import { FormattedError } from '@/api/core/error/types';
 import { NotificationInstance } from 'antd/es/notification/interface';
@@ -13,7 +13,7 @@ type SignInProps = {
 export const useSignOut = ({ navigateToSignIn, notification }: SignInProps) => {
   const { logout } = useAuth();
 
-  const mutation = useMutation(() => authApi.signOut(), {
+  const mutation = useMutation(() => AuthApi.signOut(), {
     onSuccess: () => {
       logout();
       navigateToSignIn();

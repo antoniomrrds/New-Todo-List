@@ -1,5 +1,5 @@
 import { useMutation } from 'react-query';
-import { authApi, SignIn } from '@/api/service/auth';
+import { AuthApi, SignIn } from '@/api/service/auth';
 import { NotificationInstance } from 'antd/es/notification/interface';
 import { SignInValidationType } from '@/components/Auth/SignIn/Validation';
 import { useAuth } from '@/context/auth';
@@ -14,7 +14,7 @@ type SignInProps = {
 export const useSignIn = ({ goToTodoPage, notification }: SignInProps) => {
   const { setIsAuthenticated, loadData } = useAuth();
   const mutation = useMutation(
-    (signUpData: SignIn) => authApi.signIn(signUpData),
+    (signUpData: SignIn) => AuthApi.signIn(signUpData),
     {
       onSuccess: () => {
         setIsAuthenticated(true);
