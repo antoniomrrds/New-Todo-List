@@ -1,10 +1,23 @@
+import { FormattedError } from '@/api/core/error/types';
 import { UserApi } from '@/api/service/user';
 import { UserChangeImageRequestDTO } from '@/api/service/user/types';
 import { useAuth } from '@/context/auth';
 import { setCookie } from '@/utils';
+import { NotificationInstance } from 'antd/es/notification/interface';
 import { useMutation } from 'react-query';
+import { HttpStatusCode } from '@/api/http/http-status';
+import { ErrorNotification } from '@/components/shared/Notifications/ErrorNotification';
+// import { getBase64 } from '@/utils/transform-image';
 
-export const useChangeImage = () => {
+type ChangeImageProps = {
+  notification: NotificationInstance;
+  setImageSrc: (src: string) => void;
+};
+
+export const useChangeImage = ({
+  notification,
+  setImageSrc,
+}: ChangeImageProps) => {
   const { setUser, user } = useAuth(); // Obtém a função setUser e os dados do usuário atual
 
   const mutation = useMutation(
@@ -26,6 +39,23 @@ export const useChangeImage = () => {
             }),
             10, // Garante que o cookie persista por 10 dias
           );
+          // const base64 = await getBase64(file);
+
+          setImageSrc(data.UrlImage);
+        }
+      },
+      onError: (error: FormattedError) => {
+        const { originalError, message, status, messageErrors } = error;
+        if (status === HttpStatusCode.BAD_REQUEST) {
+          const data = originalError.response?.data;
+          const messageError = data?.message || message;
+          ErrorNotification(notification, messageError, messageErrors);
+        } else if (status === HttpStatusCode.NOT_FOUND) {
+          // const data = originalError.response?.data;
+          const messageError = 'Erro ao processar a imagem.';
+          ErrorNotification(notification, messageError);
+        } else {
+          ErrorNotification(notification, message);
         }
       },
     },

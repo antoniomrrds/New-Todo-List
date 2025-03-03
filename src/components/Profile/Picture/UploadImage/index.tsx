@@ -7,20 +7,13 @@ import { useChangeImage } from '@/api/service/user/actions';
 import { getCookie } from '@/utils';
 import { useAuth } from '@/context/auth';
 
-// Função para converter arquivo para Base64
-const getBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-};
-
 export const ImageUpload: React.FC = () => {
-  const { message } = App.useApp();
+  const { notification, message } = App.useApp();
   const [imageSrc, setImageSrc] = useState(Dev);
-  const { isSaving, handleFormSubmit } = useChangeImage();
+  const { isSaving, handleFormSubmit } = useChangeImage({
+    notification,
+    setImageSrc,
+  });
   const { user } = useAuth();
 
   useEffect(() => {
@@ -28,7 +21,14 @@ export const ImageUpload: React.FC = () => {
     if (sessionData) {
       try {
         const parsedData = JSON.parse(sessionData);
-        setImageSrc(parsedData.UrlImage || Dev);
+        const image = new Image();
+        image.src = parsedData.UrlImage;
+        image.onload = () => {
+          setImageSrc(parsedData.UrlImage);
+        };
+        image.onerror = () => {
+          setImageSrc(Dev);
+        };
       } catch {
         setImageSrc(Dev);
       }
@@ -45,24 +45,18 @@ export const ImageUpload: React.FC = () => {
         return false;
       }
 
-      try {
-        const base64 = await getBase64(file);
-        setImageSrc(base64); // Atualiza a visualização da imagem
+      // const base64 = await getBase64(file);
+      // setImageSrc(base64); // Atualiza a visualização da imagem
 
-        // Criar FormData para envio
-        const formData = new FormData();
-        formData.append('image', file);
-        // Chama a API para enviar a imagem
-        handleFormSubmit(formData);
-        message.success('Imagem enviada com sucesso!');
-      } catch {
-        message.error('Erro ao processar a imagem.');
-      }
+      // Criar FormData para envio
+      const formData = new FormData();
+      formData.append('image', file);
+      // Chama a API para enviar a imagem
+      handleFormSubmit(formData);
 
       return false; // Evita o upload automático
     },
   };
-
   return (
     <S.CardContainer>
       <S.ImageWrapper>
